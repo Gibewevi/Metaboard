@@ -5,8 +5,8 @@ function FormSignup(props) {
     return (
         <form className="flex flex-col gap-y-5">
             <div className="">
-                <label for="email"></label>
-                <input className="w-full h-[45px] p-3 focus:outline-none focus:ring-2 focus:ring-[#00cfe8]"
+                <label htmlFor="email"></label>
+                <input className="w-full h-[45px] p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00cfe8]"
                     type='email'
                     id="email"
                     name="email"
@@ -18,7 +18,7 @@ function FormSignup(props) {
                 {props.touched.email && props.errors.email && <span className="text-red-500">{props.errors.email}</span>}
             </div>
             <div>
-                <label for="password"></label>
+                <label htmlFor="password"></label>
                 <input className=" text-slate-800 w-full h-[45px] p-3 focus:outline-none focus:ring-2 focus:ring-[#00cfe8]"
                     type='password'
                     id="password"
@@ -31,13 +31,13 @@ function FormSignup(props) {
                 {props.touched.password && props.errors.password && <span className="text-red-500">{props.errors.password}</span>}
             </div>
             <div>
-                <label for="confirmPassword"></label>
+                <label htmlFor="confirmPassword"></label>
                 <input className=" text-slate-800 w-full h-[45px] p-3 focus:outline-none focus:ring-2 focus:ring-[#00cfe8]"
-                    type='confirmPassword'
+                    type='password'
                     id="confirmPassword"
                     name="confirmPassword"
                     onChange={props.handleChange}
-                    value={props.values.password}
+                    value={props.values.confirmPassword}
                     onBlur={props.handleBlur}
                     placeholder="Confirm your password"
                 ></input>
@@ -60,19 +60,24 @@ export default withFormik({
     }),
     validationSchema: Yup.object().shape({
         email: Yup.string()
-            .email('You did not enter a valid email.')
-            .required('email required.'),
+        .email("The email is not in the correct format")
+        .required("The email is required"),
         password: Yup.string()
-            .required('password required.'),
-        confirmPasswordpassword: Yup.string()
-            .required('password required.'),
+        .min(8, "The password must be at least 8 characters long")
+        .matches(/[A-Z]/, "The password must contain at least one uppercase letter")
+        .matches(/[a-z]/, "The password must contain at least one lowercase letter")
+        .matches(/[0-9]/, "The password must contain at least one digit")
+        .matches(/[@!&]/, "The password must contain at least one special character (@,!,&)")
+        .required('The password is required'),
+        confirmPassword : Yup.string()
+        .oneOf([Yup.ref('password')],"The password does not match")
+        .required('You must confirm your password')
     }),
     handleSubmit: (values, { props }) => {
-        const FormSignup = {
+        const account = {
             email: values.email,
             password: values.password,
-            confirmPassword: values.confirmPassword
         }
-        props.submit(FormSignup);
+        props.submit(account);
     }
 })(FormSignup);

@@ -5,8 +5,8 @@ function FormSignin(props) {
     return (
         <form className="flex flex-col gap-y-5">
             <div className="">
-                <label for="email"></label>
-                <input className="w-full h-[45px] p-3 focus:outline-none focus:ring-2 focus:ring-[#00cfe8]"
+                <label htmlFor="email"></label>
+                <input className="w-full h-[45px] p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#00cfe8]"
                     type='email'
                     id="email"
                     name="email"
@@ -18,7 +18,7 @@ function FormSignin(props) {
                 {props.touched.email && props.errors.email && <span className="text-red-500">{props.errors.email}</span>}
             </div>
             <div>
-                <label for="password"></label>
+                <label htmlFor="password"></label>
                 <input className=" text-slate-800 w-full h-[45px] p-3 focus:outline-none focus:ring-2 focus:ring-[#00cfe8]"
                     type='password'
                     id="password"
