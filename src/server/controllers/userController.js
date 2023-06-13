@@ -7,16 +7,33 @@ const hashPassword = async (password) => {
     return hashedPassword;
 }
 
+const userIsExist = async (email) => {
+    const emailExist = await userModel.verifyEmailIntoDataBase(account.email);
+    if (emailExist) {
+        return true;
+    }
+    return false;
+}
+
+const signin = async (account) => {
+    if (userIsExist(account.email)) {
+        //  récuperer le password hash
+        // vérifier les deux password
+        // renvoyer l'utilisateur sur le dashboard avec un token
+
+        // retourner une erreur d'authentification
+    }
+
+    // sinon retourner une erreur "user don't exist"
+}
+
 const insertUser = async (account) => {
     try {
-        const emailExisted = await userModel.verifyEmailIntoDataBase(account.email);
-        if (emailExisted) {
-            return; // Terminer l'exécution si l'email existe déjà
+        if (userIsExist(account.email)) {
+            return { error: "Email already exists." }; // Retourner un objet avec une propriété `error`
         }
-
         const passwordHash = await hashPassword(account.password);
         account.password = passwordHash;
-
         await userModel.insertUser(account);
     } catch (error) {
         console.error('Une erreur est survenue lors de la création de l\'utilisateur :', error);

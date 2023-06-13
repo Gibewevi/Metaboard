@@ -1,6 +1,6 @@
 import FormSignup from "@/components/login/FormSignup"
 import { useState, useEffect } from "react"
-import login from "@/components/services/login"
+import login from "@/components/services/Login";
 
 export default function SignUp(props) {
 
@@ -11,10 +11,19 @@ export default function SignUp(props) {
         }
         return user;
     }
+    const [mess, setMess] = useState();
 
-    const sendAccountToDataBase = (account) => {
+    const messEmailIsAlreadyExist = () => {
+        if(mess){
+            setMess(mess);
+        } else {
+            props.handleSetSigninPage();
+        }
+    }
+    const sendAccountToDataBase = async(account) => {
         newUser(account);
-        login.signup(account);
+        const mess = await login.signup(account);
+        messEmailIsAlreadyExist(mess);
     }
 
     return (
@@ -25,7 +34,7 @@ export default function SignUp(props) {
                     <span className="text-2xl">Adventure starts here<span className="text-[#00cfe8]">.</span></span>
                     <span>Make your trading easy and fun!</span>
                 </div>
-                <FormSignup submit={sendAccountToDataBase} handleSetSigninPage={props.handleSetSigninPage} />
+                <FormSignup submit={sendAccountToDataBase} handleSetSigninPage={props.handleSetSigninPage} mess={mess}/>
             </div>
         </div>
     )

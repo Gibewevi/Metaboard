@@ -1,5 +1,6 @@
 import { withFormik } from "formik";
 import * as Yup from 'yup';
+import login from "../services/Login";
 
 function FormSignup(props) {
     return (
@@ -44,6 +45,7 @@ function FormSignup(props) {
                 {props.touched.confirmPassword && props.errors.confirmPassword && <span className="text-red-500">{props.errors.confirmPassword}</span>}
             </div>
             <button type="submit" onClick={props.handleSubmit} className="bg-[#00cfe8] h-[45px] rounded-sm text-lg font-semibold hover:bg-white hover:text-[#00cfe8] transition-all duration-200 ease-in">Sign Up</button>
+            <span className="text-red-600 text-md">{props.mess}</span>
             <div className="flex flex-row gap-x-3">
                 <span>Already have an account?</span>
                 <span onClick={props.handleSetSigninPage} className="font-black text-[#00cfe8] cursor-pointer">Sign in.</span>

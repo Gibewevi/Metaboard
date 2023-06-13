@@ -21,6 +21,18 @@ const verifyEmailIntoDataBase = async (email) => {
     }
 }
 
+const getHashPassword = async () => {
+    let client;
+    try {
+        client = await pool.connect();
+        await client.query('BEGIN');
+        const req = 'SELECT '
+    } catch {
+
+    } finally {
+
+    }
+};
 
 const insertUser = async (account) => {
     let client;
