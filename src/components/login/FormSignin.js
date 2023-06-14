@@ -1,6 +1,6 @@
 import { withFormik } from "formik";
 import * as Yup from 'yup';
-import login from "../services/Login";
+import Link from "next/link";
 
 function FormSignin(props) {
     return (
@@ -34,7 +34,9 @@ function FormSignin(props) {
             <button type="submit" onClick={props.handleSubmit} className="bg-[#00cfe8] h-[45px] rounded-sm text-lg font-semibold hover:bg-white hover:text-[#00cfe8] transition-all duration-200 ease-in">Sign In</button>
             <div className="flex flex-row gap-x-3">
                 <span>New on our platform?</span>
-                <span onClick={props.handleSetSignupPage} className="font-black text-[#00cfe8] cursor-pointer">Sign up</span>
+                <Link href={'/signup'}>
+                    <span className="font-black text-[#00cfe8] cursor-pointer">Sign up</span>
+                </Link>
             </div>
         </form>
     )

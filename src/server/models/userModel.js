@@ -17,20 +17,29 @@ const verifyEmailIntoDataBase = async (email) => {
         console.error(error);
         return false; // Retourner false aussi en cas d'erreur
     } finally {
-        client?.release();
+        client.release();
     }
 }
 
-const getHashPassword = async () => {
+const getHashPasswordByEmail = async (email) => {
     let client;
     try {
         client = await pool.connect();
         await client.query('BEGIN');
-        const req = 'SELECT '
-    } catch {
+        const req = 'SELECT user_password FROM users WHERE user_email = $1';
+        const value = [email];
+        const res = await client.query(req, value);
 
+        if (res.rows.length > 0) {
+            return res.rows[0].user_password;
+        } else {
+            console.log("No user found with this email.");
+            return null;
+        }
+    } catch (error) {
+        console.error(error);
     } finally {
-
+        client.release();
     }
 };
 
@@ -55,5 +64,6 @@ const insertUser = async (account) => {
 
 export const userModel = {
     insertUser,
-    verifyEmailIntoDataBase
+    verifyEmailIntoDataBase,
+    getHashPasswordByEmail,
 };

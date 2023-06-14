@@ -1,7 +1,7 @@
 import { withFormik } from "formik";
 import * as Yup from 'yup';
 import login from "../services/Login";
-
+import Link from "next/link";
 function FormSignup(props) {
     return (
         <form className="flex flex-col gap-y-5">
@@ -48,7 +48,9 @@ function FormSignup(props) {
             <span className="text-red-600 text-md">{props.mess}</span>
             <div className="flex flex-row gap-x-3">
                 <span>Already have an account?</span>
+                <Link href="/signin">
                 <span onClick={props.handleSetSigninPage} className="font-black text-[#00cfe8] cursor-pointer">Sign in.</span>
+                </Link>
             </div>
         </form>
     )

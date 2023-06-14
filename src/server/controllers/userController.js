@@ -1,5 +1,8 @@
 import { userModel } from "../models/userModel";
 import bcrypt from 'bcrypt';
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const secretKey = process.env.SECRET_KEY;
 
 const hashPassword = async (password) => {
     const saltRounds = 10;
@@ -8,38 +11,55 @@ const hashPassword = async (password) => {
 }
 
 const userIsExist = async (email) => {
-    const emailExist = await userModel.verifyEmailIntoDataBase(account.email);
+    const emailExist = await userModel.verifyEmailIntoDataBase(email);
     if (emailExist) {
         return true;
     }
     return false;
 }
 
-const signin = async (account) => {
-    if (userIsExist(account.email)) {
-        //  récuperer le password hash
-        // vérifier les deux password
-        // renvoyer l'utilisateur sur le dashboard avec un token
+const util = require('util');
+const bcryptCompare = util.promisify(bcrypt.compare);
 
-        // retourner une erreur d'authentification
+const signin = async (userAccount) => {
+    if (await userIsExist(userAccount.email)) {
+      try {
+        const passwordHash = await userModel.getHashPasswordByEmail(userAccount.email);
+        const passwordMatch = await bcryptCompare(userAccount.password, passwordHash.trim());
+  
+        if (passwordMatch) {
+            const payload = {
+                email: userAccount.email,
+                // Autres informations utilisateur que vous souhaitez inclure
+              };
+              const token = jwt.sign(payload, secretKey, { expiresIn: '15d' }); 
+              return [true, token];
+        } else {
+      
+        }
+      } catch (error) {
+        return [false, error.message];
+      }
     }
+    return [false, 'Utilisateur introuvable.'];
+  };
 
-    // sinon retourner une erreur "user don't exist"
-}
 
 const insertUser = async (account) => {
     try {
-        if (userIsExist(account.email)) {
+        const EmailExist = await userIsExist(account.email);
+        if (EmailExist) {
             return { error: "Email already exists." }; // Retourner un objet avec une propriété `error`
         }
         const passwordHash = await hashPassword(account.password);
         account.password = passwordHash;
         await userModel.insertUser(account);
     } catch (error) {
-        console.error('Une erreur est survenue lors de la création de l\'utilisateur :', error);
+        console.error('An error occurred while creating the user:', error);
     }
 }
 
 export const userController = {
-    insertUser
+    insertUser,
+    signin
 }

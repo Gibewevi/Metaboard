@@ -32,9 +32,9 @@ export default function Sidebar() {
             onMouseLeave={unfoldIsNotHover}
             onMouseEnter={unfoldIsHover}
             className={`${unfold ? 
-                "grow h-full transition-all duration-200 ease-in w-[250px] bg-[#1A1D1F] p-5" 
+                "absolute left-0 grow h-full transition-all duration-200 ease-in w-[250px] bg-[#1A1D1F] p-5" 
                 :
-                "grow h-full transition-all duration-200 ease-in w-[90px] bg-[#1A1D1F] p-5" 
+                "absolute left-0 grow h-full transition-all duration-200 ease-in w-[90px] bg-[#1A1D1F] p-5" 
                }`}
         >
             <div className={`${unfold ? "list-none flex flex-col gap-y-4 justify-center mt-6" : "list-none flex flex-col gap-y-4 justify-center items-center mt-6"}`}>

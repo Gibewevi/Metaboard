@@ -1,7 +1,7 @@
 const API_URL = "http://localhost:3000";
 
-const signin = async (account) => {
-    console.log('login : ', account);
+const signin = async (account, setAccount) => {
+
     if (account != undefined) {
         try {
             const response = await fetch(`${API_URL}/api/signin`, {
@@ -11,11 +11,25 @@ const signin = async (account) => {
                 },
                 body: JSON.stringify(account)
             });
-        } catch {
 
+            const data = await response.json(); // Supposons que votre serveur renvoie un JSON avec le token
+            const token = data.token; // Ou une autre clé si le token est stocké dans une clé différente
+            if (token) {
+                const user = {
+                    email : data.email,
+                    valid : true
+                }
+                return user;
+            };
+            return false;
+        } catch (error) {
+            console.log(error);
+            return false;
         }
     }
 }
+
+
 
 const signup = async (account) => {
     if (account != undefined) {
@@ -30,7 +44,6 @@ const signup = async (account) => {
 
             if (!response.ok) {
                 const data = await response.json(); // Read response body and parse it as JSON
-                console.log('Signup failed:', data.message);
                 return data.message;
             } else {
                 console.log('Signup succeeded');

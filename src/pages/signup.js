@@ -13,8 +13,9 @@ export default function SignUp(props) {
     }
     const [mess, setMess] = useState();
 
-    const messEmailIsAlreadyExist = () => {
+    const messEmailIsAlreadyExist = (mess) => {
         if(mess){
+            console.log('mess : ', mess);
             setMess(mess);
         } else {
             props.handleSetSigninPage();
