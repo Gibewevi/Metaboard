@@ -1,13 +1,14 @@
-import '@/styles/globals.css'
-import Dashboard from '@/containers/Dashboard'
-import SignIn from '@/containers/signIn'
+import '@/styles/globals.css';
+import AuthProvider from '@/context/AuthProvider';
+import Dashboard from '@/containers/Dashboard';
 export default function App({ Component, pageProps }) {
+
   return (
-    // <SignIn>
-      
-    // </SignIn>
+    <AuthProvider>
       <Dashboard>
         <Component {...pageProps} />
       </Dashboard>
-  )
+    </AuthProvider>
+  );
 }
+
