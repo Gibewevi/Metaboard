@@ -1,18 +1,14 @@
 import FormSignin from "@/components/login/FormSignin";
 import login from "@/components/services/Login";
 import { parseCookies } from 'nookies';
-import { AuthContext } from "@/context/AuthProvider";
-import { useContext } from "react";
 import { useRouter } from "next/router";
 
 export default function SignIn() {
     const router = useRouter();
-    const {setAccount} = useContext(AuthContext);
 
     const signIn = async(account) => {
        const user = await login.signin(account);
        if(user.valid){
-        setAccount(user);
         router.push('/accounts');
        };
     };

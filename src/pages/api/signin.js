@@ -8,11 +8,13 @@ export default async function handler(req, res) {
   const [isSignedIn, token] = await userController.signin(userAccount);
   if (isSignedIn) {
     const cookie = {
-      httpOnly: true, // Le cookie ne peut pas être accédé par des scripts côté client
-      secure: false, // Permet l'utilisation en HTTP pour le développement sur localhost
-      sameSite: 'strict', // Restriction du partage du cookie entre les sites
-      path: '/', // Le cookie est accessible depuis toutes les URL du site
+      httpOnly: true,
+      secure: false,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // Durée de 7 jours en millisecondes
     };
+
     const cookieJWT = serialize('jwt', token, cookie);
     res.setHeader('Set-Cookie', cookieJWT);
     res.status(200).send({ token, email }); // Envoie le token dans le corps de la réponse

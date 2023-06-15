@@ -1,7 +1,5 @@
 import Header from "@/components/header/Header";
 import Sidebar from "@/components/dashboard/sidebar/Sidebar";
-import { AuthContext } from "@/context/AuthProvider";
-import { useContext, useEffect, useState } from "react";
 
 export default function Dashboard({ children }) {
 
