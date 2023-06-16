@@ -1,64 +1,63 @@
 import model from './model';
 import pool from './model';
 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+
 const verifyEmailIntoDataBase = async (email) => {
-    let client;
     try {
-        client = await pool.connect();
-        const req = 'SELECT user_email FROM users WHERE user_email = $1';
-        const values = [email];
-        const res = await client.query(req, values);
-        if (res.rows.length > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        const user = await prisma.users.findUnique({
+            where: {
+                user_email: email
+            },
+            select: {
+                user_email: true
+            }
+        });
+        return user !== null;  // si l'utilisateur existe, cela renvoie true, sinon false
     } catch (error) {
         console.error(error);
         return false; // Retourner false aussi en cas d'erreur
-    } finally {
-        client.release();
-    }
-}
-
-const getHashPasswordByEmail = async (email) => {
-    let client;
-    try {
-        client = await pool.connect();
-        await client.query('BEGIN');
-        const req = 'SELECT user_password FROM users WHERE user_email = $1';
-        const value = [email];
-        const res = await client.query(req, value);
-
-        if (res.rows.length > 0) {
-            return res.rows[0].user_password;
-        } else {
-            console.log("No user found with this email.");
-            return null;
-        }
-    } catch (error) {
-        console.error(error);
-    } finally {
-        client.release();
     }
 };
 
-const insertUser = async (account) => {
-    let client;
+
+const getHashPasswordByEmail = async (email) => {
     try {
-        client = await pool.connect();
-        await client.query('BEGIN');
-        const req = 'INSERT INTO users (user_email, user_password) VALUES($1, $2)';
-        const values = [
-            account.email,
-            account.password
-        ]
-        const res = await client.query(req, values);
-        await client.query('COMMIT');
+        const user = await prisma.users.findUnique({
+            where: {
+                user_email: email,
+            },
+            select: {
+                user_password: true,
+            },
+        });
+
+        if (!user) {
+            console.log("No user found with this email.");
+            return null;
+        }
+
+        return user.user_password;
     } catch (error) {
         console.error(error);
-    } finally {
-        client.release();
+    }
+};
+
+
+const insertUser = async (account) => {
+    try {
+        const newUser = await prisma.users.create({
+            data: {
+                user_email: account.email,
+                user_password: account.password,
+            },
+        });
+        return newUser;
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
 }
 

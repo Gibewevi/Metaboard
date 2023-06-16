@@ -4,6 +4,23 @@ import Account from "@/components/account/Account";
 export default function Accounts({ auth }) {
   console.log('auth : ', auth);
 
+  const testBDD = async () => {
+    const API_URL = "http://localhost:3000";
+    const response = await fetch(`${API_URL}/api/testbdd`, {
+      method: 'GET'
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message);  // Afficher le message
+    } else {
+      console.log('Erreur :', response.status);
+    }
+  }
+
+  testBDD();
+
+
   return (
     <div className="w-full h-10">
       <div className="max-w-7xl mx-auto">
@@ -11,13 +28,13 @@ export default function Accounts({ auth }) {
         <div className="flex flex-col gap-y-5 w-full p-4">
           <div className="flex justify-center items-center w-full h-[90px] border border-1 border-[#35E2F7] transition-all ease-in duration-800 rounded-md hover:border-2 hover:scale-105">
             <div className="flex flex-row items-center justify-center gap-x-2">
-              <img src={'CarbonAdd.svg'} className="w-[35px] z-10"/>
+              <img src={'CarbonAdd.svg'} className="w-[35px] z-10" />
               <span className="font-bold text-2xl z-10">New account</span>
             </div>
           </div>
-           <Account identifiant={222654} strategy={'Open Range Break-out'} balance={'251 234,45 $US'} pl={'51 234,45 $US'} plPercent={'25.62%'} orders={'125'}/>
-           <Account identifiant={222655} strategy={'Scalp M15'} balance={'202 851,16 $US'} pl={'2 851, 16 $US'} plPercent={'1.43%'} orders={'88'}/>
-           <Account identifiant={222656} strategy={'Chart pattern'} balance={'1,000,000 $US'} pl={'1,188,542.95 $US'} plPercent={'18.85%'} orders={'348'}/>
+          <Account identifiant={222654} strategy={'Open Range Break-out'} balance={'251 234,45 $US'} pl={'51 234,45 $US'} plPercent={'25.62%'} orders={'125'} />
+          <Account identifiant={222655} strategy={'Scalp M15'} balance={'202 851,16 $US'} pl={'2 851, 16 $US'} plPercent={'1.43%'} orders={'88'} />
+          <Account identifiant={222656} strategy={'Chart pattern'} balance={'1,000,000 $US'} pl={'1,188,542.95 $US'} plPercent={'18.85%'} orders={'348'} />
         </div>
       </div>
     </div>

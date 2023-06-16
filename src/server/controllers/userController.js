@@ -54,8 +54,9 @@ const insertUser = async (account) => {
         const passwordHash = await hashPassword(account.password);
         account.password = passwordHash;
         await userModel.insertUser(account);
+        return { message: "User created successfully" };
     } catch (error) {
-        console.error('An error occurred while creating the user:', error);
+        return { error };  // if there's an error, return it
     }
 }
 
