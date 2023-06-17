@@ -4,6 +4,21 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 
+
+const getUserIdFromEmail = async (email) => {
+    try {
+        const user_id = await userModel.getUserIdFromEmail(email);
+        return user_id;
+    } catch (error) {
+        console.error(error);
+        return {
+            message: "An error occurred while getting the user ID.",
+        };
+    }
+};
+
+
+
 const hashPassword = async (password) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -62,5 +77,6 @@ const insertUser = async (account) => {
 
 export const userController = {
     insertUser,
-    signin
+    signin,
+    getUserIdFromEmail
 }

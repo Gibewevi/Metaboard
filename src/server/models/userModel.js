@@ -4,6 +4,33 @@ import pool from './model';
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const getUserIdFromEmail = async (email) => {
+    try {
+        const user = await prisma.users.findUnique({
+            where: {
+                user_email: email,
+            },
+            select: {
+                user_id: true,
+            },
+        });
+
+        if (!user) {
+            return {
+                message: "User not found.",
+            };
+        }
+
+        return user.user_id;
+    } catch (error) {
+        console.error(error);
+        return {
+            message: "An error occurred while getting the user ID.",
+        };
+    }
+};
+
+
 
 const verifyEmailIntoDataBase = async (email) => {
     try {
@@ -65,4 +92,5 @@ export const userModel = {
     insertUser,
     verifyEmailIntoDataBase,
     getHashPasswordByEmail,
+    getUserIdFromEmail
 };

@@ -1,6 +1,5 @@
 import FormSignin from "@/components/login/FormSignin";
-import login from "@/components/services/Login";
-import { parseCookies } from 'nookies';
+import login from "@/services/Login";
 import { useRouter } from "next/router";
 
 export default function SignIn() {
