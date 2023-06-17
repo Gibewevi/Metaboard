@@ -36,7 +36,7 @@ export async function getServerSideProps(context) {
         console.log('tokenJWT :', tokenJWT)
         return {
           redirect: {
-            destination: '/dashboard',
+            destination: '/accounts',
             permanent: false,
           },
         };

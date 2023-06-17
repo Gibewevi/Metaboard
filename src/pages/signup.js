@@ -1,8 +1,10 @@
 import FormSignup from "@/components/login/FormSignup"
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useRouter } from 'next/router';
 import login from "@/components/services/Login";
 
 export default function SignUp(props) {
+    const router = useRouter();
 
     const newUser = (account) => {
         const user = {
@@ -18,7 +20,7 @@ export default function SignUp(props) {
             console.log('mess : ', mess);
             setMess(mess);
         } else {
-            props.handleSetSigninPage();
+            router.push('/signin');
         }
     }
     const sendAccountToDataBase = async(account) => {

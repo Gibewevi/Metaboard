@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
     // Extraire le JWT
     const token = authHeader && authHeader.split(' ')[1];
-    console.log('token : ', token);
+
     if (token) {
         try {
             const auth = jwt.verify(token, process.env.SECRET_KEY);
