@@ -1,1 +1,0 @@
-Creer un middleware capable de sécuriser les routes avec une authentification JWT et une redirection sur le client de la route pour signin.

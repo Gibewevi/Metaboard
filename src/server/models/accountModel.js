@@ -36,7 +36,10 @@ const insertAccount = async (account) => {
                 devise: account.devise,
                 initiale_balance: account.initiale_balance,
                 current_balance: account.initiale_balance,
-                shared: false
+                shared: false,
+                profit_and_loss: 0,
+                profit_and_loss_percent : 0,
+                orders : 0
             },
         });
 

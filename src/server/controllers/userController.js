@@ -39,13 +39,14 @@ const bcryptCompare = util.promisify(bcrypt.compare);
 const signin = async (userAccount) => {
     if (await userIsExist(userAccount.email)) {
       try {
+        const user_id = await getUserIdFromEmail(userAccount.email);
         const passwordHash = await userModel.getHashPasswordByEmail(userAccount.email);
         const passwordMatch = await bcryptCompare(userAccount.password, passwordHash.trim());
   
         if (passwordMatch) {
             const payload = {
+                user_id : user_id,
                 email: userAccount.email,
-                // Autres informations utilisateur que vous souhaitez inclure
               };
               const token = jwt.sign(payload, secretKey, { expiresIn: '15d' }); 
               return [true, token];
