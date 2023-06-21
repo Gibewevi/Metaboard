@@ -1,11 +1,17 @@
-import ContentHeader from "@/components/contentHeader/contentHeader";;
+import ContentHeader from "@/components/contentHeader/contentHeader";
 import NewOrderForm from "@/components/form/NewOrderForm";
 import { useState } from "react";
-export default function Orders(account_id) {
-    const [orderFormOpen, setOrderFormOpen] = useState(false);
+import orders from "@/services/Orders";
 
+export default function Orders({account_id}) {
+    const [orderFormOpen, setOrderFormOpen] = useState(false);
+    
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
+    };
+
+    const handleFormNewOrder = async (order) => {
+        await orders.sendOrderIntoDataBase(order);
     };
 
     return (
@@ -23,8 +29,8 @@ export default function Orders(account_id) {
                             <span>new order</span>
                         </button>
                     </div>
-                </div>  
-                <NewOrderForm isOpen={orderFormOpen} />
+                </div>
+                <NewOrderForm submit={handleFormNewOrder} isOpen={orderFormOpen} account_id={account_id}/>
 
 
 
@@ -40,12 +46,11 @@ export default function Orders(account_id) {
 
 export async function getServerSideProps(context) {
     const account_id = context.query.account_id;
-    // try {
 
-    // } catch {
-
-    // }
-    // récupération des données du compte
-    // récupération des trades du compte
-    return { props: { account_id } };
+    return {
+        props: {
+            account_id : account_id
+        }
+    };
 }
+

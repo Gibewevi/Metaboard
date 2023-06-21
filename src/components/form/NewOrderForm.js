@@ -9,43 +9,43 @@ function NewOrderForm(props) {
     const handleSelectChange = (event) => {
         props.setFieldValue("orderChoice", event.target.value);
         console.log(event.target.value);
-      };
-      
+    };
+
     return (
         <>
             {props.isOpen && (
                 <form className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[500px] flex flex-col gap-y-5 bg-[#1A1D1F] p-5">
                     <div className="grid grid-cols-2 gap-8 ">
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="base">Base :</label>
+                            <label htmlFor="base">Asset :</label>
                             <input
                                 className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
                                 type="text"
-                                id="base"
-                                name="base"
+                                id="asset"
+                                name="asset"
                                 onChange={props.handleChange}
-                                value={props.values.base}
+                                value={props.values.asset}
                                 onBlur={props.handleBlur}
-                                placeholder="BTC"
+                                placeholder="BTCUSDT"
                             />
-                            {props.touched.base && props.errors.base && (
-                                <span className="text-red-500">{props.errors.base}</span>
+                            {props.touched.asset && props.errors.asset && (
+                                <span className="text-red-500">{props.errors.asset}</span>
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="quote">Quote :</label>
+                            <label htmlFor="ClosedDate">Closed date :</label>
                             <input
-                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
-                                type="text"
-                                id="quote"
-                                name="quote"
+                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-neutral-600"
+                                type="date"
+                                id="closed_date"
+                                name="closed_date"
                                 onChange={props.handleChange}
-                                value={props.values.quote}
+                                value={props.values.closed_date}
                                 onBlur={props.handleBlur}
-                                placeholder="USDT"
+                                placeholder="19/06/2023"
                             />
-                            {props.touched.quote && props.errors.quote && (
-                                <span className="text-red-500">{props.errors.quote}</span>
+                            {props.touched.closed_date && props.errors.closed_date && (
+                                <span className="text-red-500">{props.errors.closed_date}</span>
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
@@ -81,22 +81,6 @@ function NewOrderForm(props) {
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="ClosedDate">Closed date :</label>
-                            <input
-                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-neutral-600"
-                                type="date"
-                                id="closed_date"
-                                name="closed_date"
-                                onChange={props.handleChange}
-                                value={props.values.closed_date}
-                                onBlur={props.handleBlur}
-                                placeholder="19/06/2023"
-                            />
-                            {props.touched.closed_date && props.errors.closed_date && (
-                                <span className="text-red-500">{props.errors.closed_date}</span>
-                            )}
-                        </div>
-                        <div className="flex flex-col gap-y-2">
                             <label htmlFor="stop_loss">Stop loss :</label>
                             <input
                                 className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
@@ -112,21 +96,21 @@ function NewOrderForm(props) {
                                 <span className="text-red-500">{props.errors.stop_loss}</span>
                             )}
                         </div>
-                        <div className="flex flex-row ">
-                            <div className="flex flex-row">
+                        <div className="flex flex-row items-center relative">
+                            <div className="flex flex-row absolute bottom-0">
                                 <select
                                     name="orderChoice"
                                     id="orderChoice"
-                                    className="h-[45px] bg-white text-black focus:outline-none border-t border-b border-r rounded-tl-md rounded-bl-md"
+                                    className="h-[45px] w-[80px] bg-white text-black focus:outline-none border-t border-b border-r rounded-tl-md rounded-bl-md"
                                     value={props.values.orderChoice} // utilisez props.values.orderChoice
                                     onChange={handleSelectChange}
                                 >
-                                    <option value="percent">% account</option>
-                                    <option value="fixed">fixed money</option>
+                                    <option value="percent" className="text-center">%</option>
+                                    <option value="fixed" className="text-center">fixed</option>
                                 </select>
                                 <div className="flex flex-col justify-center items-center">
                                     <input
-                                        className="h-[45px] w-[130px] p-3 bg-[#111315] border-[#111315] border-t border-b border-r rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md placeholder-neutral-600"
+                                        className="h-[45px] w-full p-3 bg-[#111315] border-[#111315] border-t border-b border-r rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md placeholder-neutral-600"
                                         type="number"
                                         id="amount"
                                         name="amount"
@@ -141,11 +125,10 @@ function NewOrderForm(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-full flex">
-                            <button type='submit' onClick={props.handleSubmit} className="ml-auto border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">add order</button>
-                        </div>
                     </div>
-
+                    <div className="w-full">
+                        <button type='submit' onClick={props.handleSubmit} className="mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">add order</button>
+                    </div>
                 </form>
             )}
         </>
@@ -155,8 +138,7 @@ function NewOrderForm(props) {
 
 export default withFormik({
     mapPropsToValues: () => ({
-        base: "",
-        quote: "",
+        asset: "",
         open: "",
         close: "",
         closed_date: "",
@@ -165,21 +147,22 @@ export default withFormik({
         orderChoice: "percent"
     }),
     validationSchema: Yup.object().shape({
-        base: Yup.string()
+        asset: Yup.string()
             .required('base required.'),
     }),
     handleSubmit: (values, { props }) => {
+        const account_id = props.account_id;
         const order = {
-            base: values.base,
-            quote: values.quote,
+            asset: values.asset,
             open: values.open,
             close: values.close,
             closed_date: values.closed_date,
             stop_loss: values.stop_loss,
             amount: values.amount,
-            orderChoice: values.orderChoice
+            orderChoice: values.orderChoice, 
+            account_id : account_id
         };
-        console.log('order : ', order);
+        props.submit(order);
     }
 })(NewOrderForm);
 
