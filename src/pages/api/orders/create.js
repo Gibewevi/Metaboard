@@ -2,24 +2,43 @@ import { accountController } from "@/server/controllers/accountController";
 import { orderController } from "@/server/controllers/orderController";
 
 export default async function handler(req, res) {
-    const order = req.body;
-    const account_id = parseInt(order.account_id);
-    // recupere le compte
-    const account = await accountController.getAccountFromAccountId(account_id);
-    const current_balance = account.current_balance;
-    // convertir amount en risk
-    const amount = await orderController.calculateRiskAmount(order, account);
-    //     // calculer la taille de position
-    const sizeOrder = orderController.calculatePositionSize(order, amount);
-    const pl = orderController.calculateTradeProfitLoss(order, sizeOrder);
-    const plPourcent = orderController.convertProfitLossToPercentage(pl, current_balance);
-    order.type = orderController.calculateTradePosition(order);
-    order.profit_pourcent = plPourcent;
-    const response = await orderController.insertTradeByAccountId(order);
-    // Ajouter le trade 
-    // mettre à jour le compte (current_balance, PNL, PNL%, orders)
+    try {
+        let order = req.body;
+        const account_id = parseInt(order.account_id);
+        const account = await getAccount(account_id);
+        const amount = await calculateRiskAmount(order, account);
+        order = await updateOrderDetails(order, account, amount);
+        await insertTrade(order);
+        await accountController.updateAccountBalanceFromOrder(account, order);
+    } catch (error) {
+        // Handle error
+    }
 }
 
+async function getAccount(account_id) {
+    const account = await accountController.getAccountFromAccountId(account_id);
+    return account;
+}
+
+async function calculateRiskAmount(order, account) {
+    const amount = await orderController.calculateRiskAmount(order, account);
+    return amount;
+}
+
+async function updateOrderDetails(order, account, riskAmount) {
+    const orderSize = orderController.calculateOrderSize(order, riskAmount);
+    const profitLoss = orderController.calculateTradeProfitLoss(order, orderSize);
+    const profitLossPercentage = orderController.convertProfitLossToPercentage(profitLoss, account.current_balance);
+    order.amount = riskAmount;
+    order.type = orderController.calculateTradePosition(order);
+    order.profit = profitLoss;
+    order.profit_percent = profitLossPercentage;
+    return order;
+}
+
+async function insertTrade(order) {
+    await orderController.insertTradeByAccountId(order);
+}
 
 
 

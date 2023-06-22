@@ -1,6 +1,11 @@
 import { orderModel } from "../models/orderModel";
 
-const insertTradeByAccountId = async(order) => {
+const getOrdersByAccountId = async (account_id) => {
+    const orders = await orderModel.getOrdersByAccountId(account_id);
+    return orders;
+};
+
+const insertTradeByAccountId = async (order) => {
     await orderModel.insertOrderByAccountId(order)
 };
 
@@ -21,13 +26,13 @@ const calculateRiskAmount = (order, account) => {
 const calculateTradePosition = (order) => {
     const stopLoss = order.stop_loss
     const entryPrice = order.open;
-    if(stopLoss<entryPrice){
+    if (stopLoss < entryPrice) {
         return 'long';
     };
     return 'short';
 }
 
-const calculatePositionSize = (order, amount) => {
+const calculateOrderSize = (order, amount) => {
     const riskAmount = amount;
     const entryPrice = order.open;
     const stopLossPrice = order.stop_loss;
@@ -54,9 +59,10 @@ const convertProfitLossToPercentage = (profitLoss, currentBalance) => {
 
 export const orderController = {
     calculateRiskAmount,
-    calculatePositionSize,
+    calculateOrderSize,
     calculateTradeProfitLoss,
     convertProfitLossToPercentage,
     calculateTradePosition,
-    insertTradeByAccountId
+    insertTradeByAccountId,
+    getOrdersByAccountId
 };

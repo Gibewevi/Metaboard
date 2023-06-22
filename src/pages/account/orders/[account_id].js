@@ -3,9 +3,8 @@ import NewOrderForm from "@/components/form/NewOrderForm";
 import { useState } from "react";
 import orders from "@/services/Orders";
 
-export default function Orders({account_id}) {
+export default function Orders({ account_id, orders }) {
     const [orderFormOpen, setOrderFormOpen] = useState(false);
-    
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
     };
@@ -30,7 +29,7 @@ export default function Orders({account_id}) {
                         </button>
                     </div>
                 </div>
-                <NewOrderForm submit={handleFormNewOrder} isOpen={orderFormOpen} account_id={account_id}/>
+                <NewOrderForm submit={handleFormNewOrder} isOpen={orderFormOpen} account_id={account_id} />
 
 
 
@@ -45,12 +44,30 @@ export default function Orders({account_id}) {
 }
 
 export async function getServerSideProps(context) {
-    const account_id = context.query.account_id;
-
-    return {
-        props: {
-            account_id : account_id
+    try {
+        const account_id = context.query.account_id;
+        const API_URL = 'http://localhost:3000';
+        const response = await fetch(`${API_URL}/api/account/orders?account_id=${account_id}`, {
+            method: 'GET'
+        });
+        if (!response.ok) {
+            throw new Error('Une erreur s\'est produite lors de la récupération des commandes.');
         }
-    };
-}
+        const data = await response.json();
+        const orders = data;
 
+        return {
+            props: {
+                account_id: account_id,
+                orders : orders
+            }
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            props: {
+                error: 'Une erreur s\'est produite lors du traitement de la demande.'
+            }
+        };
+    }
+}
