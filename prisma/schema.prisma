@@ -13,3 +13,16 @@ model users {
   user_email    String  @unique
   user_password String
 }
+
+model accounts {
+  account_id                Int       @id @default(autoincrement())
+  user_id                   Int
+  strategy                  String
+  devise                    String
+  initiale_balance          Int
+  current_balance           Int
+  shared                    Boolean
+  profit_and_loss           Decimal   @default(0)
+  profit_and_loss_percent   Decimal   @default(0)
+  orders                    Int       @default(0)
+}

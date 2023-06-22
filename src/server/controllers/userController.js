@@ -4,6 +4,21 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const secretKey = process.env.SECRET_KEY;
 
+
+const getUserIdFromEmail = async (email) => {
+    try {
+        const user_id = await userModel.getUserIdFromEmail(email);
+        return user_id;
+    } catch (error) {
+        console.error(error);
+        return {
+            message: "An error occurred while getting the user ID.",
+        };
+    }
+};
+
+
+
 const hashPassword = async (password) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -24,13 +39,14 @@ const bcryptCompare = util.promisify(bcrypt.compare);
 const signin = async (userAccount) => {
     if (await userIsExist(userAccount.email)) {
       try {
+        const user_id = await getUserIdFromEmail(userAccount.email);
         const passwordHash = await userModel.getHashPasswordByEmail(userAccount.email);
         const passwordMatch = await bcryptCompare(userAccount.password, passwordHash.trim());
   
         if (passwordMatch) {
             const payload = {
+                user_id : user_id,
                 email: userAccount.email,
-                // Autres informations utilisateur que vous souhaitez inclure
               };
               const token = jwt.sign(payload, secretKey, { expiresIn: '15d' }); 
               return [true, token];
@@ -62,5 +78,6 @@ const insertUser = async (account) => {
 
 export const userController = {
     insertUser,
-    signin
+    signin,
+    getUserIdFromEmail
 }

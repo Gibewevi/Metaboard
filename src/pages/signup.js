@@ -1,7 +1,7 @@
 import FormSignup from "@/components/login/FormSignup"
 import { useState } from "react"
 import { useRouter } from 'next/router';
-import login from "@/components/services/Login";
+import login from "@/services/Login";
 
 export default function SignUp(props) {
     const router = useRouter();

@@ -1,0 +1,14 @@
+Creer un middleware capable de sécuriser les routes avec une authentification JWT et une redirection sur le client de la route pour signin.
+
+- middleware 
+    * sécuriser les routes avec vérification JWT
+    * vérifier le hostname du JWT et de l'URL
+    * rajouter l'id de l'utilisateur dans le JWT
+- back-end
+    * calcul PL (avec initiale balance et current balance)
+    * calcul PL% (avec initiale balance et current balance)
+    * ajouter un trade 
+- front 
+    * intégration des comptes
+    * page compte
+    * ajouter des trades (formulaire)
