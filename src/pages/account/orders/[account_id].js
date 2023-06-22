@@ -1,19 +1,42 @@
 import ContentHeader from "@/components/contentHeader/contentHeader";
-import ButtonBlueAdd from "@/components/button/buttonBlueAdd";
-export default function Orders(account_id) {
+import NewOrderForm from "@/components/form/NewOrderForm";
+import { useState } from "react";
+import orders from "@/services/Orders";
+
+export default function Orders({account_id}) {
+    const [orderFormOpen, setOrderFormOpen] = useState(false);
+    
+    const openNewOrderForm = () => {
+        setOrderFormOpen(!orderFormOpen);
+    };
+
+    const handleFormNewOrder = async (order) => {
+        await orders.sendOrderIntoDataBase(order);
+    };
 
     return (
-        <div className="w-full h-10">
-            <div className="max-w-7xl mx-auto">
+        <div className="w-full">
+            <div className="max-w-7xl mx-auto flex flex-col gap-y-5 relative">
+
                 <div className="flex flex-row items-center">
                     <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
                 </div>
-                <div className="w-full flex flex-col bg-[#1A1D1F] h-[500px] p-5">
-                    <div className="flex flex-row items-center justify-between">
-                        <div>
-                            <span>Trading account history</span>
-                        </div>
-                        <ButtonBlueAdd title={'new order'} />
+
+                <div className="flex flex-col gap-y-4 w-full">
+                    <div className="w-full">
+                        <button onClick={openNewOrderForm} className="max-w-[150px] float-right flex flex-row items-center justify-center border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white fill-[#35E2F7] hover:fill-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M17 15V8h-2v7H8v2h7v7h2v-7h7v-2z" /></svg>
+                            <span>new order</span>
+                        </button>
+                    </div>
+                </div>
+                <NewOrderForm submit={handleFormNewOrder} isOpen={orderFormOpen} account_id={account_id}/>
+
+
+
+                <div className="bg-[#1A1D1F] w-full p-5">
+                    <div>
+                        <span>Trading account history</span>
                     </div>
                 </div>
             </div>
@@ -23,12 +46,11 @@ export default function Orders(account_id) {
 
 export async function getServerSideProps(context) {
     const account_id = context.query.account_id;
-    try {
 
-    } catch {
-
-    }
-    // récupération des données du compte
-    // récupération des trades du compte
-    return { props: { account_id } };
+    return {
+        props: {
+            account_id : account_id
+        }
+    };
 }
+

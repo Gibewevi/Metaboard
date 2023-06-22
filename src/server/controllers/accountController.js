@@ -27,8 +27,20 @@ const getAccountsFromUserId = async (user_id) => {
     }
 };
 
+const getAccountFromAccountId = async (account_id) => {
+    try {
+        const account = await accountModel.getAccountFromAccountId(account_id);
+        return account;
+    } catch (error) {
+        console.error(error);
+        return {
+            message: "An error occurred while getting the account.",
+        };
+    }
+};
 
 export const accountController = {
     insertAccount,
-    getAccountsFromUserId
+    getAccountsFromUserId,
+    getAccountFromAccountId
 }

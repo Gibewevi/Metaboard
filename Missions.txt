@@ -12,3 +12,43 @@ Creer un middleware capable de sécuriser les routes avec une authentification J
     * intégration des comptes
     * page compte
     * ajouter des trades (formulaire)
+
+- formulaire order
+    - utiliser le select dans formik pour choisir la methode de calcul
+    - et ne recuperer qu'un seul input positionAmount
+
+  capital : 100 000
+    risk par trade : 10 000
+    open price : 1000
+    close price : 1500
+    stop : 500
+
+    taille de la position : risk / ( open price - stop ) = 20
+    profit : ( close price - open price ) * taille de position : 10 000
+
+    capital : 100 000
+    risk par trade : 10 000
+    open price : 1000
+    close price : 2000
+    stop : 500
+
+    taille de la position : risk / ( open price - stop ) = 20
+    profit : ( close price - open price ) * taille de position : 20 000
+
+    capital : 100 000
+    risk par trade : 10 000
+    open price : 1000
+    close price : 1500
+    stop : 900
+
+    taille de la position : risk / ( open price - stop ) = 100
+    profit : ( close price - open price ) * taille de position : 50 000
+
+    capital : 100 000
+    risk par trade : 10 000
+    open price : 1000
+    close price : 1500
+    stop : 1500
+
+    taille de la position : risk / ( open price - stop ) = -20
+    profit : ( close price - open price ) * taille de position : 50 000

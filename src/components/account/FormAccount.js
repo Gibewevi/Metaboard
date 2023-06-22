@@ -71,13 +71,13 @@ export default withFormik({
             .required('balance required.')
     }),
     handleSubmit: (values, { props }) => {
+        const API_URL = props.API_URL;
         const account = {
             strategy: values.strategy,
             devise: values.devise,
             initiale_balance: values.initiale_balance,
             user: props.user.email
         }
-        console.log(account)
-        props.submit(account, props.API_URL);
+        props.submit(account, API_URL);
     }
 })(FormAccount);

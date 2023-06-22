@@ -1,5 +1,3 @@
-import model from './model';
-import pool from './model';
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();

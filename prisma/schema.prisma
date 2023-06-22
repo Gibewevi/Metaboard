@@ -26,3 +26,17 @@ model accounts {
   profit_and_loss_percent   Decimal   @default(0)
   orders                    Int       @default(0)
 }
+
+model orders {
+  order_id       Int      @id @default(autoincrement())
+  account_id     Int
+  asset          String   @db.VarChar(255)
+  type           String   @db.VarChar(255)
+  open           Decimal
+  close          Decimal
+  closed_date    DateTime?
+  profit         Decimal
+  stop_loss      Decimal
+  amount         Decimal
+  profit_pourcent Decimal
+}

@@ -16,6 +16,19 @@ const getAccountsFromUserId = async (user_id) => {
     }
 };
 
+const getAccountFromAccountId = async (account_id) => {
+    try {
+        const account = await prisma.accounts.findUnique({
+            where: {
+                account_id: account_id,
+            },
+        });
+        return account;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
 
 const insertAccount = async (account) => {
     try {
@@ -38,8 +51,8 @@ const insertAccount = async (account) => {
                 current_balance: account.initiale_balance,
                 shared: false,
                 profit_and_loss: 0,
-                profit_and_loss_percent : 0,
-                orders : 0
+                profit_and_loss_percent: 0,
+                orders: 0
             },
         });
 
@@ -53,5 +66,6 @@ const insertAccount = async (account) => {
 
 export const accountModel = {
     insertAccount,
-    getAccountsFromUserId
+    getAccountsFromUserId,
+    getAccountFromAccountId
 };
