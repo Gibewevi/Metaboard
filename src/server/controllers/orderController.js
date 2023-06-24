@@ -1,4 +1,36 @@
+import login from "@/services/Login";
 import { orderModel } from "../models/orderModel";
+
+const calculProfitAndLoss = (orders) => {
+    const sessionProfit = [];
+    let currentProfit = 0;
+    orders.forEach(order => {
+        currentProfit += parseFloat(order.profit);
+        currentProfit = parseFloat(currentProfit.toFixed(2));
+        const profitLoss = {
+            plValue: currentProfit,
+            date: order.closed_date.toISOString().split('T')[0]
+        };
+        sessionProfit.push(profitLoss)
+    });
+    return sessionProfit;
+}
+
+
+const calculRatioLongShort = (orders) => {
+    let short = 0;
+    let long = 0;
+    orders.forEach(order => {
+        if (order.type == 'short') {
+            short += 1;
+        } else if (order.type == 'long') {
+            long += 1;
+        };
+    }
+    );
+    return { short: short, long: long };
+};
+
 
 const getOrdersByAccountId = async (account_id) => {
     const orders = await orderModel.getOrdersByAccountId(account_id);
@@ -64,5 +96,7 @@ export const orderController = {
     convertProfitLossToPercentage,
     calculateTradePosition,
     insertTradeByAccountId,
-    getOrdersByAccountId
+    getOrdersByAccountId,
+    calculRatioLongShort,
+    calculProfitAndLoss
 };

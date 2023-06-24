@@ -17,6 +17,22 @@ Creer un middleware capable de sécuriser les routes avec une authentification J
     - utiliser le select dans formik pour choisir la methode de calcul
     - et ne recuperer qu'un seul input positionAmount
 
+- page ordres
+    - win rate ( argent gagné / argent perdu)
+    - win rate ( trade gagnant / trade perdu)
+    - ratio (short / long)
+
+
+
+
+
+
+
+
+
+
+
+
   capital : 100 000
     risk par trade : 10 000
     open price : 1000
