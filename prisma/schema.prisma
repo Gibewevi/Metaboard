@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,34 +8,34 @@ datasource db {
 }
 
 model users {
-  user_id       Int     @id @default(autoincrement())
-  user_email    String  @unique
+  user_id       Int    @id @default(autoincrement())
+  user_email    String @unique
   user_password String
 }
 
 model accounts {
-  account_id                Int       @id @default(autoincrement())
-  user_id                   Int
-  strategy                  String
-  devise                    String
-  initiale_balance          Int
-  current_balance           Int
-  shared                    Boolean
-  profit_and_loss           Decimal   @default(0)
-  profit_and_loss_percent   Decimal   @default(0)
-  orders                    Int       @default(0)
+  account_id              Int     @id @default(autoincrement())
+  user_id                 Int
+  strategy                String
+  devise                  String
+  initiale_balance        Decimal @db.Decimal(10, 2)
+  current_balance         Decimal @db.Decimal(10, 2)
+  shared                  Boolean
+  profit_and_loss         Decimal @default(0) @db.Decimal(10, 2)
+  profit_and_loss_percent Decimal @default(0) @db.Decimal(10, 2)
+  orders                  Int     @default(0)
 }
 
 model orders {
-  order_id       Int      @id @default(autoincrement())
+  order_id       Int       @id @default(autoincrement())
   account_id     Int
-  asset          String   @db.VarChar(255)
-  type           String   @db.VarChar(255)
-  open           Decimal
-  close          Decimal
+  asset          String    @db.VarChar(255)
+  type           String    @db.VarChar(255)
+  open           Decimal   @db.Decimal(10, 2)
+  close          Decimal   @db.Decimal(10, 2)
   closed_date    DateTime?
-  profit         Decimal
-  stop_loss      Decimal
-  amount         Decimal
-  profit_pourcent Decimal
+  profit         Decimal   @db.Decimal(10, 2)
+  stop_loss      Decimal   @db.Decimal(10, 2)
+  amount         Decimal   @db.Decimal(10, 2)
+  profit_percent Decimal   @db.Decimal(10, 2)
 }

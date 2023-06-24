@@ -1,6 +1,43 @@
+import login from "@/services/Login";
 import { orderModel } from "../models/orderModel";
 
-const insertTradeByAccountId = async(order) => {
+const calculProfitAndLoss = (orders) => {
+    const sessionProfit = [];
+    let currentProfit = 0;
+    orders.forEach(order => {
+        currentProfit += parseFloat(order.profit);
+        currentProfit = parseFloat(currentProfit.toFixed(2));
+        const profitLoss = {
+            plValue: currentProfit,
+            date: order.closed_date.toISOString().split('T')[0]
+        };
+        sessionProfit.push(profitLoss)
+    });
+    return sessionProfit;
+}
+
+
+const calculRatioLongShort = (orders) => {
+    let short = 0;
+    let long = 0;
+    orders.forEach(order => {
+        if (order.type == 'short') {
+            short += 1;
+        } else if (order.type == 'long') {
+            long += 1;
+        };
+    }
+    );
+    return { short: short, long: long };
+};
+
+
+const getOrdersByAccountId = async (account_id) => {
+    const orders = await orderModel.getOrdersByAccountId(account_id);
+    return orders;
+};
+
+const insertTradeByAccountId = async (order) => {
     await orderModel.insertOrderByAccountId(order)
 };
 
@@ -21,13 +58,13 @@ const calculateRiskAmount = (order, account) => {
 const calculateTradePosition = (order) => {
     const stopLoss = order.stop_loss
     const entryPrice = order.open;
-    if(stopLoss<entryPrice){
+    if (stopLoss < entryPrice) {
         return 'long';
     };
     return 'short';
 }
 
-const calculatePositionSize = (order, amount) => {
+const calculateOrderSize = (order, amount) => {
     const riskAmount = amount;
     const entryPrice = order.open;
     const stopLossPrice = order.stop_loss;
@@ -54,9 +91,12 @@ const convertProfitLossToPercentage = (profitLoss, currentBalance) => {
 
 export const orderController = {
     calculateRiskAmount,
-    calculatePositionSize,
+    calculateOrderSize,
     calculateTradeProfitLoss,
     convertProfitLossToPercentage,
     calculateTradePosition,
-    insertTradeByAccountId
+    insertTradeByAccountId,
+    getOrdersByAccountId,
+    calculRatioLongShort,
+    calculProfitAndLoss
 };

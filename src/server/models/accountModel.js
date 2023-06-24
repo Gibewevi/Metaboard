@@ -1,6 +1,30 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+
+const updateAccount = async (account) => {
+    try {
+        const updatedAccount = await prisma.accounts.update({
+            where: {
+                account_id: account.account_id,
+            },
+            data: {
+                current_balance: account.current_balance,
+                profit_and_loss: account.profit_and_loss,
+                profit_and_loss_percent: account.profit_and_loss_percent,
+                orders: account.orders
+            }
+        });
+        console.log(updateAccount);
+        return updatedAccount;
+    } catch (error) {
+        console.error(error);
+        throw error; // Re-throw the error to be handled later
+    }
+};
+
+
+
 const getAccountsFromUserId = async (user_id) => {
     try {
         const accounts = await prisma.accounts.findMany({
@@ -67,5 +91,6 @@ const insertAccount = async (account) => {
 export const accountModel = {
     insertAccount,
     getAccountsFromUserId,
-    getAccountFromAccountId
+    getAccountFromAccountId,
+    updateAccount
 };

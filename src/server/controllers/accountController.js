@@ -14,6 +14,15 @@ const insertAccount = async (account) => {
     }
 };
 
+const updateAccountBalanceFromOrder = async (account, order) => {
+    // mettre à jour les données du compte
+    console.log(account.current_balance);
+    account.current_balance = Number(account.current_balance) + Number(order.profit);
+    account.profit_and_loss =  account.current_balance - account.initiale_balance;
+    account.profit_and_loss_percent = (account.profit_and_loss/account.initiale_balance)*100;
+    account.orders +=  1;
+    const accountUpdated = await accountModel.updateAccount(account);
+};
 
 const getAccountsFromUserId = async (user_id) => {
     try {
@@ -42,5 +51,6 @@ const getAccountFromAccountId = async (account_id) => {
 export const accountController = {
     insertAccount,
     getAccountsFromUserId,
-    getAccountFromAccountId
+    getAccountFromAccountId,
+    updateAccountBalanceFromOrder
 }
