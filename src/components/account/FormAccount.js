@@ -6,12 +6,12 @@ function FormAccount(props) {
         <form className={`flex flex-col bg-[#1A1D1F] rounded-md transition-all duration-200 ease-in ${props.isVisible ? 'visible' : ' hidden'}`}>
             <div className="w-full flex justify-center items-center gap-x-3 rounded-t-md p-2">
                 <img src='CarbonWallet.svg' className="w-[25px]" />
-                <span className="text-lg font-bold">General account settings</span>
+                <span className="text-lg font-bold text-white">General account settings</span>
             </div>
             <div className="flex flex-row justify-around items-center">
                 <div className="p-4 flex flex-col gap-y-2">
-                    <label htmlFor="strategy">Your strategy :</label>
-                    <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
+                    <label className="text-white" htmlFor="strategy">Your strategy :</label>
+                    <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                         type='text'
                         id="strategy"
                         name="strategy"
@@ -23,8 +23,8 @@ function FormAccount(props) {
                     {props.touched.strategy && props.errors.strategy && <span className="text-red-500">{props.errors.strategy}</span>}
                 </div>
                 <div className="p-4 flex flex-col gap-y-2">
-                    <label htmlFor="devise">Your devise :</label>
-                    <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
+                    <label className="text-white" htmlFor="devise">Your devise :</label>
+                    <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                         type='text'
                         id="devise"
                         name="devise"
@@ -36,8 +36,8 @@ function FormAccount(props) {
                     {props.touched.devise && props.errors.devise && <span className="text-red-500">{props.errors.devise}</span>}
                 </div>
                 <div className="p-4 flex flex-col gap-y-2">
-                    <label htmlFor="initiale_balance">Your balance :</label>
-                    <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
+                    <label className="text-white" htmlFor="initiale_balance">Your balance :</label>
+                    <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                         type='number'
                         id="initiale_balance"
                         name="initiale_balance"

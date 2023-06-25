@@ -49,7 +49,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
 
                 <div className="bg-[#1A1D1F] w-full p-5">
                     <div>
-                        <span>Trading account history</span>
+                        <span className="text-white">Trading account history</span>
                     </div>
                     <TradingAccountHistory orders={orders} />
                 </div>

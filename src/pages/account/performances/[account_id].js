@@ -15,7 +15,7 @@ export default function Performance({ account_id, profitLoss, account }) {
 
                 <div className="flex flex-row items-center justify-around ml-2 gap-x-2 w-full">
                     <Link href={`/account/performances/${account_id}`}>
-                        <span className="text-xl font-light">Performances</span>
+                        <span className="text-xl font-light text-white">Performances</span>
                     </Link>
                     <img src="/CarbonChevronRight.svg" className="w-[20px] mt-1" />
                     <Link href={`/account/orders/${account_id}`}>

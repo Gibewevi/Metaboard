@@ -58,7 +58,7 @@ export default function Accounts({ auth, API_URL, accounts }) {
           <div onClick={AccountFormVisible} className="flex justify-center items-center w-full h-[90px] border border-1 border-[#35E2F7] transition-all ease-in duration-800 rounded-md hover:border-2 hover:scale-105">
             <div className="flex flex-row items-center justify-center gap-x-2">
               <img src={'CarbonAdd.svg'} className="w-[35px] z-10" />
-              <span className="font-bold text-2xl z-10">New account</span>
+              <span className="font-bold text-2xl z-10 text-white">New account</span>
             </div>
           </div>
           <FormAccount isVisible={newAccountIsVisible} submit={addAccountToDatabase} user={user} API_URL={API_URL} />
