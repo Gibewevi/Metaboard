@@ -25,6 +25,7 @@ const updateAccount = async (account) => {
 
 
 const getAccountsFromUserId = async (user_id) => {
+    console.log(typeof(user_id));
     try {
         const accounts = await prisma.accounts.findMany({
             where: {

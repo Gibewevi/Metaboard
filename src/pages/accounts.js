@@ -85,6 +85,7 @@ export async function getServerSideProps(context) {
       },
     }
   };
+
     const response = await fetch(`${API_URL}/api/accounts?user_id=${auth.user_id}`, {
       method: 'GET',
       credentials: 'include' // Ajoutez cette ligne
