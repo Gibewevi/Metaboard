@@ -37,12 +37,9 @@ const bcryptCompare = util.promisify(bcrypt.compare);
 const signin = async (userAccount) => {
     if (await userIsExist(userAccount.email)) {
       try {
-        console.log('signin controller');
         const user_id = await getUserIdFromEmail(userAccount.email);
-        console.log('user_id ',user_id);
         const passwordHash = await userModel.getHashPasswordByEmail(userAccount.email);
         const passwordMatch = await bcryptCompare(userAccount.password, passwordHash.trim());
-        console.log('passwordMatch ',passwordMatch);
   
         if (passwordMatch) {
             const payload = {
