@@ -5,11 +5,9 @@ import ButtonBlue from "../button/buttonBlue";
 
 function NewOrderForm(props) {
     const [orderChoice, setOrderChoice] = useState('percent');
-
     const handleSelectChange = (event) => {
         props.setFieldValue("orderChoice", event.target.value);
     };
-
     return (
         <>
             {props.isOpen && (
@@ -126,7 +124,18 @@ function NewOrderForm(props) {
                         </div>
                     </div>
                     <div className="w-full">
-                        <button type='submit' onClick={props.handleSubmit} className="mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">add order</button>
+                        {props.orderLoading ?
+                            <button
+                                disabled
+                                className="flex flex-row items-center justify-center gap-x-2 mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white"
+                            >
+                                <div className="animate-spin w-5 h-5 border-2 border-white border-t-[#1A1D1F] rounded-full"></div>
+                                Process
+                            </button>
+                            :
+                            <button type='submit' onClick={props.handleSubmit} className="mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">add order</button>
+                        }
+
                     </div>
                 </form>
             )}
@@ -149,7 +158,7 @@ export default withFormik({
         asset: Yup.string()
             .required('base required.'),
     }),
-    handleSubmit: (values, { props }) => {
+    handleSubmit: async(values, { props }) => {
         const account_id = props.account_id;
         const order = {
             asset: values.asset,
@@ -158,10 +167,10 @@ export default withFormik({
             closed_date: values.closed_date,
             stop_loss: values.stop_loss,
             amount: values.amount,
-            orderChoice: values.orderChoice, 
-            account_id : account_id
+            orderChoice: values.orderChoice,
+            account_id: account_id
         };
-        props.submit(order);
+        await props.submit(order);
     }
 })(NewOrderForm);
 
