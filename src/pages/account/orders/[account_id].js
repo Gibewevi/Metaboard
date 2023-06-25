@@ -7,15 +7,27 @@ import LongShortRatio from "@/components/chart/LongShortRation";
 import Link from "next/link";
 
 export default function Orders({ account_id, orders, ratioLongShort }) {
-
     const [orderFormOpen, setOrderFormOpen] = useState(false);
+    const [orderLoading, setOrderLoading] = useState(false);
+
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
     };
 
     const handleFormNewOrder = async (order) => {
-        await ordersService.sendOrderIntoDataBase(order);
+        setOrderLoading(true);
+        console.log('true loading');
+        try {
+            await ordersService.sendOrderIntoDataBase(order);
+        } catch (error) {
+            console.error('Error sending order:', error);
+        } finally {
+            console.log('false loading');
+            setOrderLoading(false);
+            openNewOrderForm();
+        }
     };
+
 
     return (
         <div className="w-full">
@@ -27,7 +39,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
 
                 <div className="flex flex-row items-center justify-around ml-2 gap-x-2 w-full">
                     <Link href={`/account/performances/${account_id}`}>
-                        <span className="text-xl font-light">Performances</span>
+                        <span className="text-xl font-light text-white">Performances</span>
                     </Link>
                     <img src="/CarbonChevronRight.svg" className="w-[20px] mt-1" />
                     <Link href={`/account/orders/${account_id}`}>
@@ -45,7 +57,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
                         </button>
                     </div>
                 </div>
-                <NewOrderForm submit={handleFormNewOrder} isOpen={orderFormOpen} account_id={account_id} />
+                <NewOrderForm submit={handleFormNewOrder} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading} />
 
                 <div className="bg-[#1A1D1F] w-full p-5">
                     <div>
