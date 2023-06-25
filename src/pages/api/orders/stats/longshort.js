@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     try {
         let orders = req.body;
         const ratio = orderController.calculRatioLongShort(orders);
-        console.log(ratio);
         res.status(200).json(ratio);
     } catch (error) {
         // Handle error

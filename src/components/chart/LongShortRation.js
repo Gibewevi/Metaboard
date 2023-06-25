@@ -5,7 +5,7 @@ Chart.register(...registerables);
 
 const LongShortRatio = (props) => {
   const chartContainer = useRef(null);
-  console.log(props.ratio);
+
 const long = props.ratio.long;
 const short = props.ratio.short;
   useEffect(() => {

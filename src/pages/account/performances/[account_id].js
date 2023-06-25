@@ -6,7 +6,6 @@ import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAcc
 import ProfitLossChart from "@/components/chart/ProfitLoss";
 import Link from "next/link";
 export default function Performance({ account_id, profitLoss, account }) {
-console.log(account)
     return (
         <div className="w-full">
             <div className="max-w-7xl mx-auto flex flex-col gap-y-5 relative">
@@ -31,7 +30,7 @@ console.log(account)
 
 export async function getServerSideProps(context) {
     const account_id = context.query.account_id;
-    const API_URL = 'http://localhost:3000';
+    const API_URL = process.env.API_URL;
     const resOrders = await fetch(`${API_URL}/api/account/profit-losses?account_id=${account_id}`, {
         method: 'GET'
     });

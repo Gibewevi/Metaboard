@@ -8,7 +8,6 @@ function NewOrderForm(props) {
 
     const handleSelectChange = (event) => {
         props.setFieldValue("orderChoice", event.target.value);
-        console.log(event.target.value);
     };
 
     return (

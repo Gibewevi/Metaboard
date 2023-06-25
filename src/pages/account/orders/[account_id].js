@@ -7,6 +7,7 @@ import LongShortRatio from "@/components/chart/LongShortRation";
 import Link from "next/link";
 
 export default function Orders({ account_id, orders, ratioLongShort }) {
+
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
@@ -52,12 +53,6 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
                     </div>
                     <TradingAccountHistory orders={orders} />
                 </div>
-
-                <div className="w-full h-10">
-                    <div className="w-[250px]">
-                        <LongShortRatio ratio={ratioLongShort} />
-                    </div>
-                </div>
             </div>
         </div>
     )
@@ -66,7 +61,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
 export async function getServerSideProps(context) {
     try {
         const account_id = context.query.account_id;
-        const API_URL = 'http://localhost:3000';
+        const API_URL = process.env.API_URL;
         const resOrders = await fetch(`${API_URL}/api/account/orders?account_id=${account_id}`, {
             method: 'GET'
         });
@@ -83,14 +78,11 @@ export async function getServerSideProps(context) {
             },
             body: JSON.stringify(orders)
         });
-        const ratioLongShort = await resLongShort.json();
-        console.log(ratioLongShort);
 
         return {
             props: {
                 account_id: account_id,
                 orders: orders,
-                ratioLongShort: ratioLongShort
             }
         };
     } catch (error) {

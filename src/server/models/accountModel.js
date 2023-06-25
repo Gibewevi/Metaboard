@@ -15,7 +15,6 @@ const updateAccount = async (account) => {
                 orders: account.orders
             }
         });
-        console.log(updateAccount);
         return updatedAccount;
     } catch (error) {
         console.error(error);
