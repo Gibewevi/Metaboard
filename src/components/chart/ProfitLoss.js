@@ -65,19 +65,19 @@ const ProfitLossChart = ({ profitLoss, account }) => {
         <div className="flex flex-row justify-around items-center">
           <div className="flex flex-col">
             <span className="text-md text-[#00cfe8]">Total Pnl</span>
-            <span className="text-xl">${account.profit_and_loss}</span>
+            <span className="text-xl text-white">${account.profit_and_loss}</span>
           </div>
           <div className="flex flex-col">
             <span className="text-md text-[#00cfe8]">Account Balance</span>
-            <span className="text-xl">${account.current_balance}</span>
+            <span className="text-xl text-white">${account.current_balance}</span>
           </div>
           <div className="flex flex-col">
             <span className="text-md text-[#00cfe8]">Win rate</span>
-            <span className="text-xl">xx%</span>
+            <span className="text-xl text-white">xx%</span>
           </div>
           <div className="flex flex-col">
             <span className="text-md text-[#00cfe8]">Total trades</span>
-            <span className="text-xl">{account.orders}</span>
+            <span className="text-xl text-white">{account.orders}</span>
           </div>
         </div>
       </div>

@@ -64,12 +64,12 @@ export default function TradingAccountHistory(props) {
                 <table className="w-full table-auto">
                     <thead>
                         <tr>
-                            <th className="py-4">SYMBOL</th>
-                            <th className="py-4">TYPE</th>
-                            <th className="py-4">OPEN</th>
-                            <th className="py-4">CLOSE</th>
-                            <th className="py-4">CLOSE DATE</th>
-                            <th className="py-4">PROFIT</th>
+                            <th className="py-4 text-white">SYMBOL</th>
+                            <th className="py-4 text-white">TYPE</th>
+                            <th className="py-4 text-white">OPEN</th>
+                            <th className="py-4 text-white">CLOSE</th>
+                            <th className="py-4 text-white">CLOSE DATE</th>
+                            <th className="py-4 text-white">PROFIT</th>
                         </tr>
                     </thead>
                     <tbody className="">
@@ -80,7 +80,7 @@ export default function TradingAccountHistory(props) {
                 <div className="flex flex-row items-center justify-between">
 
                     <div className="flex flew-row items-center gap-x-2">
-                        <span className="font-light">Per page</span>
+                        <span className="font-light text-white">Per page</span>
                         <select
                             name="orderChoice"
                             id="orderChoice"
@@ -96,7 +96,7 @@ export default function TradingAccountHistory(props) {
                     <div>
                         <ul className="flex flex-row items-center gap-x-3 bg-[#111315]">
                             <li onClick={handlePageSelectLeft} className="hover:bg-[#00cfe8]"><img src={'/CarbonCaretLeft.svg'} /></li>
-                            <li className='' >{pageSelect}</li>
+                            <li className='text-white' >{pageSelect}</li>
                             <li onClick={handlePageSelectRight} className="hover:bg-[#00cfe8]"><img src={'/CarbonCaretRight.svg'} /></li>
                         </ul>
                     </div>
