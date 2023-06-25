@@ -6,7 +6,7 @@ const signin = async (account) => {
 
     if (account != undefined) {
         try {
-            const response = await fetch(`${API_URL}/api/signin`, {
+            const response = await fetch(`/api/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
