@@ -4,7 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const sendOrderIntoDataBase = async (order) => {
 
     try {
-      const response = await fetch(`${API_URL}/api/orders/create`, {
+      const response = await fetch(`/api/orders/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
