@@ -7,8 +7,6 @@ export default async function handler(req, res) {
   const email = userAccount.email;
 
   const [isSignedIn, token] = await userController.signin(userAccount);
-console.log('isSignedIn ',isSignedIn);
-console.log('token ',token);
   if (isSignedIn) {
     const cookie = {
       httpOnly: false,
@@ -19,7 +17,6 @@ console.log('token ',token);
     };
 
     const cookieJWT = serialize('jwt', token, cookie);
-    console.log(' cookieJWT ', cookieJWT);
     res.setHeader('Set-Cookie', cookieJWT);
     res.status(200).send({ token, email }); // Envoie le token dans le corps de la réponse
   } else {
