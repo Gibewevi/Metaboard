@@ -1,9 +1,8 @@
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log('API_URL : ', API_URL);
-// const API_URL = "http://localhost:3000";
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = "http://localhost:3000";
 
-const signin = async (account, setAccount) => {
+const signin = async (account) => {
 
     if (account != undefined) {
         try {
@@ -37,7 +36,7 @@ const signin = async (account, setAccount) => {
 const signup = async (account) => {
     if (account != undefined) {
         try {
-            const response = await fetch(`${API_URL}/api/signup`, {
+            const response = await fetch(`/api/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

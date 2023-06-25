@@ -25,8 +25,9 @@ export default function Accounts({ auth, API_URL, accounts }) {
   };
 
   const addAccountToDatabase = async (account, API_URL) => {
+    console.log(API_URL);
     try {
-      const response = await fetch(`${API_URL}/api/createAccount`, {
+      const response = await fetch(`/api/createAccount`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -84,7 +85,6 @@ export async function getServerSideProps(context) {
       },
     }
   };
-
     const response = await fetch(`${API_URL}/api/accounts?user_id=${auth.user_id}`, {
       method: 'GET',
       credentials: 'include' // Ajoutez cette ligne
