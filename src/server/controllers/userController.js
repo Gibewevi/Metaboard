@@ -2,8 +2,6 @@ import { userModel } from "../models/userModel";
 import bcrypt from 'bcrypt';
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const secretKey = process.env.SECRET_KEY;
-
 
 const getUserIdFromEmail = async (email) => {
     try {
@@ -51,7 +49,7 @@ const signin = async (userAccount) => {
                 user_id : user_id,
                 email: userAccount.email,
               };
-              const token = jwt.sign(payload, secretKey, { expiresIn: '15d' }); 
+              const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '15d' }); 
               return [true, token];
         } else {
       

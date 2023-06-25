@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     const cookie = {
       httpOnly: false,
       secure: false,
-      sameSite: 'strict',
+      sameSite: 'none',
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000, // Durée de 7 jours en millisecondes
     };
