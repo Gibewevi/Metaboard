@@ -21,10 +21,10 @@ export async function getServerSideProps(context) {
   const cookies = parseCookies(context);
   const token = cookies.jwt;
   let tokenJWT = null;  // <-- default to null
-  console.log('token ', token);
+  const API_URL = process.env.API_URL;
   if (token) {
     try {
-      const response = await fetch('http://localhost:3000/api/validate-jwt', {
+      const response = await fetch(`${API_URL}/api/validate-jwt`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -33,7 +33,6 @@ export async function getServerSideProps(context) {
       const data = await response.json();
       tokenJWT = data.auth;
       if (tokenJWT) {
-        console.log('tokenJWT :', tokenJWT)
         return {
           redirect: {
             destination: '/accounts',

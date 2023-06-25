@@ -10,6 +10,7 @@ const getOrdersByAccountId = async (account_id) => {
                 account_id: account_id,
             },
         });
+ 
         return orders;
     } catch (error) {
         console.error(error);

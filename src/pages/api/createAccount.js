@@ -3,7 +3,6 @@ import { auth } from "@/middleware/authentificationJWT";
 
 export default async function handler(req, res) {
     const token = req.cookies['jwt'];
-    console.log(token)
     await auth(req, res, async () => {
         if (req.method === 'POST') {
             const account = req.body;

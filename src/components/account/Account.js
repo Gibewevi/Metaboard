@@ -3,7 +3,7 @@ import Link from "next/link"
 export default function Account(props) {
 
     const handleButton = () => {
-        console.log(props.account_id)
+       
     }
 
     return (
