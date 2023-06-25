@@ -45,11 +45,11 @@ export default function TradingAccountHistory(props) {
         return orders.slice(startIndex, endIndex).map((order, key) => {
             return (
                 <tr key={key} className={`${key % 2 === 0 ? 'bg-[#111315]' : ''} text-center hover:bg-[#00cfe8] group`}>
-                    <td className="py-4 rounded-l-md">{order.asset}</td>
-                    <td className="py-4">{order.type}</td>
-                    <td className="py-4">{order.open}</td>
-                    <td className="py-4">{order.close}</td>
-                    <td className="py-4">{order.closed_date}</td>
+                    <td className="py-4 rounded-l-md text-white">{order.asset}</td>
+                    <td className="py-4 text-white">{order.type}</td>
+                    <td className="py-4 text-white">{order.open}</td>
+                    <td className="py-4 text-white">{order.close}</td>
+                    <td className="py-4 text-white">{order.closed_date}</td>
                     <td className={`${order.profit > 0 ? 'text-[#00cfe8] group-hover:text-white' : 'text-red-700'} py-4`}>{order.profit}</td>
                     <td className="py-4 rounded-r-md"><img src={'/CarbonDocumentBlank.svg'} className="w-[25px]" /></td>
                 </tr>

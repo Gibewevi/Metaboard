@@ -60,7 +60,7 @@ const ProfitLossChart = ({ profitLoss, account }) => {
     <div className="bg-[#1A1D1F] p-4 rounded-lg">
       <div className="flex flex-col">
         <div className="p-3">
-          <span className="text-xl">Profit and Losses</span>
+          <span className="text-xl text-white">Profit and Losses</span>
         </div>
         <div className="flex flex-row justify-around items-center">
           <div className="flex flex-col">

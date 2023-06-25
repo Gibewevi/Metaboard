@@ -16,9 +16,9 @@ function NewOrderForm(props) {
                 <form className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[500px] flex flex-col gap-y-5 bg-[#1A1D1F] p-5">
                     <div className="grid grid-cols-2 gap-8 ">
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="base">Asset :</label>
+                            <label className='text-white' htmlFor="base">Asset :</label>
                             <input
-                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
+                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                                 type="text"
                                 id="asset"
                                 name="asset"
@@ -32,9 +32,9 @@ function NewOrderForm(props) {
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="ClosedDate">Closed date :</label>
+                            <label className="text-white" htmlFor="ClosedDate">Closed date :</label>
                             <input
-                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-neutral-600"
+                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-neutral-600 text-white"
                                 type="date"
                                 id="closed_date"
                                 name="closed_date"
@@ -48,9 +48,9 @@ function NewOrderForm(props) {
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="open">Open position :</label>
+                            <label className="text-white" htmlFor="open">Open position :</label>
                             <input
-                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
+                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                                 type="text"
                                 id="open"
                                 name="open"
@@ -64,9 +64,9 @@ function NewOrderForm(props) {
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="close">Closed position :</label>
+                            <label className="text-white" htmlFor="close">Closed position :</label>
                             <input
-                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
+                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                                 type="text"
                                 id="close"
                                 name="close"
@@ -80,9 +80,9 @@ function NewOrderForm(props) {
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
-                            <label htmlFor="stop_loss">Stop loss :</label>
+                            <label className="text-white" htmlFor="stop_loss">Stop loss :</label>
                             <input
-                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600"
+                                className=" h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                                 type="number"
                                 id="stop_loss"
                                 name="stop_loss"
@@ -100,7 +100,7 @@ function NewOrderForm(props) {
                                 <select
                                     name="orderChoice"
                                     id="orderChoice"
-                                    className="h-[45px] w-[80px] bg-white text-black focus:outline-none border-t border-b border-r rounded-tl-md rounded-bl-md"
+                                    className="h-[45px] w-[80px] bg-white text-black focus:outline-none border-t border-b border-r rounded-tl-md rounded-bl-md "
                                     value={props.values.orderChoice} // utilisez props.values.orderChoice
                                     onChange={handleSelectChange}
                                 >
@@ -109,7 +109,7 @@ function NewOrderForm(props) {
                                 </select>
                                 <div className="flex flex-col justify-center items-center">
                                     <input
-                                        className="h-[45px] w-full p-3 bg-[#111315] border-[#111315] border-t border-b border-r rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md placeholder-neutral-600"
+                                        className="h-[45px] w-full p-3 bg-[#111315] border-[#111315] border-t border-b border-r rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md placeholder-neutral-600 text-white"
                                         type="number"
                                         id="amount"
                                         name="amount"
