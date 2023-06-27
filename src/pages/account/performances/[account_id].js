@@ -5,25 +5,45 @@ import ordersService from "@/services/Orders";
 import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAccountHistory";
 import ProfitLossChart from "@/components/chart/ProfitLoss";
 import Link from "next/link";
+import HeaderIndex from "@/components/accountOverview/HeaderIndex";
+import Layout from "@/containers/Layout";
+import NewOrder from "@/components/button/NewOrder";
+
 export default function Performance({ account_id, profitLoss, account }) {
+    const [orderFormOpen, setOrderFormOpen] = useState(false);
+    const [orderLoading, setOrderLoading] = useState(false);
+
+    const openNewOrderForm = () => {
+        setOrderFormOpen(!orderFormOpen);
+    };
+
+    const handleFormNewOrder = async (order) => {
+        setOrderLoading(true);
+        try {
+            let newOrder = await ordersService.sendOrderIntoDataBase(order);
+        } catch (error) {
+            console.error('Error sending order:', error);
+        } finally {
+            setOrderLoading(false);
+            openNewOrderForm();
+        }
+    };
+
     return (
         <div className="w-full">
-            <div className="max-w-7xl mx-auto flex flex-col gap-y-5 relative">
-                <div className="flex flex-row items-center">
-                    <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
+            <Layout>
+                <div className="flex flex-col gap-y-5">
+                    <div className="flex flex-row items-center">
+                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
+                    </div>
+                    <div className="flex flex-row">
+                        <HeaderIndex account_id={account_id} />
+                        <NewOrder onClick={openNewOrderForm}/>
+                    </div>
+                    <NewOrderForm submit={handleFormNewOrder} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading}/>
+                    <ProfitLossChart profitLoss={profitLoss} account={account} />
                 </div>
-
-                <div className="flex flex-row items-center justify-around ml-2 gap-x-2 w-full">
-                    <Link href={`/account/performances/${account_id}`}>
-                        <span className="text-xl font-light text-white">Performances</span>
-                    </Link>
-                    <img src="/CarbonChevronRight.svg" className="w-[20px] mt-1" />
-                    <Link href={`/account/orders/${account_id}`}>
-                        <span className="text-x font-light text-[#575757]">Orders</span>
-                    </Link>
-                </div>
-                <ProfitLossChart profitLoss={profitLoss} account={account}/>
-            </div>
+            </Layout>
         </div>
     )
 }
