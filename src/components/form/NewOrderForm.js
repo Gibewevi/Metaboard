@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { withFormik } from "formik";
 import * as Yup from 'yup';
 import ButtonBlue from "../button/buttonBlue";
@@ -8,10 +8,18 @@ function NewOrderForm(props) {
     const handleSelectChange = (event) => {
         props.setFieldValue("orderChoice", event.target.value);
     };
+
+    const handleCloseWindow = () =>{
+        props.openNewOrderForm();
+    };
+
     return (
         <>
             {props.isOpen && (
-                <form className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[500px] flex flex-col gap-y-5 bg-[#1A1D1F] p-5">
+                <form className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[500px] flex flex-col gap-y-5 bg-[#1A1D1F] p-5 border border-1 border-[#35E2F7] border-1">
+                    <button onClick={handleCloseWindow} className=" fill-white hover:fill-[#35E2F7] absolute right-0 top-0 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" /></svg>
+                    </button>
                     <div className="grid grid-cols-2 gap-8 ">
                         <div className="flex flex-col gap-y-2">
                             <label className='text-white' htmlFor="base">Asset :</label>
@@ -158,7 +166,7 @@ export default withFormik({
         asset: Yup.string()
             .required('base required.'),
     }),
-    handleSubmit: async(values, { props }) => {
+    handleSubmit: async (values, { props }) => {
         const account_id = props.account_id;
         const order = {
             asset: values.asset,

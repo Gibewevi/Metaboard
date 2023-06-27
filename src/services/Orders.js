@@ -14,7 +14,7 @@ const sendOrderIntoDataBase = async (order) => {
   
       if (response.ok) {
         const newOrder = await response.json();
-        return;
+        return newOrder;
       } else {
         console.error('Failed to create order:', response.status);
       }

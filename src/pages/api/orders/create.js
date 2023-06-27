@@ -10,9 +10,8 @@ export default async function handler(req, res) {
         order = await updateOrderDetails(order, account, amount);
         await insertTrade(order);
         await accountController.updateAccountBalanceFromOrder(account, order);
-
         // Ajoutez cette ligne pour envoyer une réponse de succès
-        res.status(200).json({ success: true });
+        res.status(200).json(order);
     } catch (error) {
         // Handle error
         res.status(500).json({ success: false, message: error.message });

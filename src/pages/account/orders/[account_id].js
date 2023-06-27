@@ -3,26 +3,44 @@ import NewOrderForm from "@/components/form/NewOrderForm";
 import { useState } from "react";
 import ordersService from "@/services/Orders";
 import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAccountHistory";
-import LongShortRatio from "@/components/chart/LongShortRation";
-import Link from "next/link";
+import HeaderIndex from "@/components/accountOverview/HeaderIndex";
+import Layout from "@/containers/Layout";
+import NewOrder from "@/components/button/NewOrder";
 
 export default function Orders({ account_id, orders, ratioLongShort }) {
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const [orderLoading, setOrderLoading] = useState(false);
+    const [ordersHistory, setOrdersHistory] = useState(orders);
 
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
     };
 
+    const formatNewOrder = (pOrder) => {
+        const order = {
+            account_id: parseInt(pOrder.account_id),
+            asset: pOrder.asset,
+            type: pOrder.type,
+            open: parseFloat(pOrder.open),
+            close: parseFloat(pOrder.close),
+            closed_date: pOrder.closed_date,
+            profit: Math.round(pOrder.profit * 100) / 100 || 0, // assumez 0 si le profit n'est pas fourni
+            profit_percent: pOrder.profit_percent || 0, // assumez 0 si le profit_pourcent n'est pas fourni
+            stop_loss: pOrder.stop_loss,
+            amount: pOrder.amount
+        };
+        return order;
+    };
+
     const handleFormNewOrder = async (order) => {
         setOrderLoading(true);
-        console.log('true loading');
         try {
-            await ordersService.sendOrderIntoDataBase(order);
+            let newOrder = await ordersService.sendOrderIntoDataBase(order);
+            const formatOrder = formatNewOrder(newOrder);
+            setOrdersHistory(currentOrders => [...currentOrders, formatOrder]);
         } catch (error) {
             console.error('Error sending order:', error);
         } finally {
-            console.log('false loading');
             setOrderLoading(false);
             openNewOrderForm();
         }
@@ -31,41 +49,25 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
 
     return (
         <div className="w-full">
-            <div className="max-w-7xl mx-auto flex flex-col gap-y-5 relative">
-
-                <div className="flex flex-row items-center">
-                    <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
-                </div>
-
-                <div className="flex flex-row items-center justify-around ml-2 gap-x-2 w-full">
-                    <Link href={`/account/performances/${account_id}`}>
-                        <span className="text-xl font-light text-white">Performances</span>
-                    </Link>
-                    <img src="/CarbonChevronRight.svg" className="w-[20px] mt-1" />
-                    <Link href={`/account/orders/${account_id}`}>
-                        <span className="text-x font-light text-[#575757]">Orders</span>
-                    </Link>
-                </div>
-
-
-
-                <div className="flex flex-col gap-y-4 w-full">
-                    <div className="w-full">
-                        <button onClick={openNewOrderForm} className="max-w-[150px] float-right flex flex-row items-center justify-center border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white fill-[#35E2F7] hover:fill-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M17 15V8h-2v7H8v2h7v7h2v-7h7v-2z" /></svg>
-                            <span>new order</span>
-                        </button>
+            <Layout>
+                <div className="flex flex-col gap-y-5">
+                    <div className="flex flex-row items-center">
+                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
+                    </div>
+                    <div className="flex flex-row">
+                        <HeaderIndex account_id={account_id} />
+                        <NewOrder onClick={openNewOrderForm} />
+                    </div>
+                    <NewOrderForm submit={handleFormNewOrder} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading} />
+                    <div className="bg-[#1A1D1F] w-full p-5">
+                        <div>
+                            <span className="text-white">Trading account history</span>
+                        </div>
+                        <TradingAccountHistory orders={ordersHistory} />
                     </div>
                 </div>
-                <NewOrderForm submit={handleFormNewOrder} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading} />
+            </Layout>
 
-                <div className="bg-[#1A1D1F] w-full p-5">
-                    <div>
-                        <span className="text-white">Trading account history</span>
-                    </div>
-                    <TradingAccountHistory orders={orders} />
-                </div>
-            </div>
         </div>
     )
 }

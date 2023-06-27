@@ -4,20 +4,22 @@ Chart.register(...registerables);
 
 const ProfitLossChart = ({ profitLoss, account }) => {
   const chartContainer = useRef(null);
-  let chartInstance = null;
+  const chartInstance = useRef(null);  // utilisez useRef pour une valeur persistante
+
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
       const chartContext = chartContainer.current.getContext('2d');
 
-      if (chartInstance) {
-        chartInstance.destroy();
+      // vérifiez si chartInstance.current existe avant de la détruire
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
       }
 
       const labels = profitLoss.map(item => item.date);
       const data = profitLoss.map(item => item.plValue);
 
-      chartInstance = new Chart(chartContext, {
+      chartInstance.current = new Chart(chartContext, {
         type: 'line',
         data: {
           labels: labels,

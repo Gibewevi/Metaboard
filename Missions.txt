@@ -1,5 +1,17 @@
 Creer un middleware capable de sécuriser les routes avec une authentification JWT et une redirection sur le client de la route pour signin.
 
+
+27/06/23
+    - orders/performances   
+        * bouton animé
+        * update infos en temps reel
+        * supprimer trade
+
+* supprimer trade 
+    - clique sur l'ordre
+    - petit volet déroulant a droite a l'interieur de la div par dessus les infos
+    - poubelle pour supprimer
+
 - middleware 
     * sécuriser les routes avec vérification JWT
     * vérifier le hostname du JWT et de l'URL

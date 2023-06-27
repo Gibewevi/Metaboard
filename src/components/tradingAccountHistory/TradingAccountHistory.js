@@ -7,6 +7,10 @@ export default function TradingAccountHistory(props) {
         return Math.round(maxPage);
     };
 
+    useEffect(() => {
+        setOrders(props.orders);
+    }, [props.orders]);
+
     const [orders, setOrders] = useState(props.orders);
     const page = [5, 10, 25, 50, 100];
     const [ordersPerPage, setOrdersPerPage] = useState(5);
