@@ -7,11 +7,10 @@ import HeaderIndex from "@/components/accountOverview/HeaderIndex";
 import Layout from "@/containers/Layout";
 import NewOrder from "@/components/button/NewOrder";
 
-export default function Orders({ account_id, orders, ratioLongShort }) {
+export default function Orders({ account_id, orders }) {
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const [orderLoading, setOrderLoading] = useState(false);
     const [ordersHistory, setOrdersHistory] = useState(orders);
-    const strategy = JSON.parse(localStorage.getItem('strategy'));
 
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
@@ -29,7 +28,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
             profit_percent: pOrder.profit_percent || 0, // assumez 0 si le profit_pourcent n'est pas fourni
             stop_loss: pOrder.stop_loss,
             amount: pOrder.amount,
-            picture : pOrder.picture
+            picture : pOrder.picture || null
         };
         return order;
     };
@@ -54,7 +53,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
             <Layout>
                 <div className="flex flex-col gap-y-5">
                     <div className="flex flex-row items-center">
-                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={strategy} />
+                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Strategy'} />
                     </div>
                     <div className="flex flex-row">
                         <HeaderIndex account_id={account_id} />

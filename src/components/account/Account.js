@@ -1,10 +1,6 @@
 import Link from "next/link"
 export default function Account(props) {
 
-    const setStrategyLocalStorage = (strategy)=>{
-        localStorage.setItem('strategy', JSON.stringify(props.strategy));
-    };
-
     return (
         <div className="flex flex-row w-full h-[90px] bg-[#1A1D1F] rounded-md transition-all ease-in duration-800 hover:scale-105 hover:border hover:border-2 hover:border-[#35E2F7] ">
 
@@ -33,7 +29,7 @@ export default function Account(props) {
                     </div>
                     <div className="flex items-center justify-center">
                         <Link href={`account/performances/${props.account_id}`}>
-                            <button onClick={setStrategyLocalStorage} className="border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">dashboard</button>
+                            <button className="border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">dashboard</button>
                         </Link>
                     </div>
                 </div>
