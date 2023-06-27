@@ -33,7 +33,8 @@ const insertOrderByAccountId = async (order) => {
                 profit: Math.round(order.profit*100)/100 || 0, // assumez 0 si le profit n'est pas fourni
                 profit_percent: order.profit_percent || 0, // assumez 0 si le profit_pourcent n'est pas fourni
                 stop_loss: order.stop_loss,
-                amount: order.amount
+                amount: order.amount,
+                picture: order.picture
             }
         });
     } catch (error) {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import Link from "next/link";
 
 export default function TradingAccountHistory(props) {
 
@@ -47,6 +48,7 @@ export default function TradingAccountHistory(props) {
         const endIndex = Math.min(startIndex + ordersPerPage, orders.length);
 
         return orders.slice(startIndex, endIndex).map((order, key) => {
+            console.log(order.picture)
             return (
                 <tr key={key} className={`${key % 2 === 0 ? 'bg-[#111315]' : ''} text-center hover:bg-[#00cfe8] group`}>
                     <td className="py-4 rounded-l-md text-white">{order.asset}</td>
@@ -55,7 +57,15 @@ export default function TradingAccountHistory(props) {
                     <td className="py-4 text-white">{order.close}</td>
                     <td className="py-4 text-white">{order.closed_date}</td>
                     <td className={`${order.profit > 0 ? 'text-[#00cfe8] group-hover:text-white' : 'text-red-700'} py-4`}>{order.profit}</td>
-                    <td className="py-4 rounded-r-md"><img src={'/CarbonDocumentBlank.svg'} className="w-[25px]" /></td>
+                    {order.picture != null ?
+                        <td className="py-4 rounded-r-md">
+                            <a href={order.picture} target="_blank" rel="noopener noreferrer">
+                                <img src={'/CarbonDocumentBlank.svg'} className="w-[25px]" />
+                            </a>
+                        </td>
+                        :
+                        <td className="py-4 rounded-r-md"></td>
+                    }
                 </tr>
             )
         })
