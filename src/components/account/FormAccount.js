@@ -24,6 +24,36 @@ function FormAccount(props) {
                 </div>
                 <div className="p-4 flex flex-col gap-y-2">
                     <label className="text-white" htmlFor="devise">Your devise :</label>
+                    <select
+                        className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
+                        id="devise"
+                        name="devise"
+                        onChange={props.handleChange}
+                        value={props.values.devise}
+                        onBlur={props.handleBlur}
+                    >
+                        <option value="">Select</option>
+                        <option value="USD">USD - US Dollar</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="JPY">JPY - Japanese Yen</option>
+                        <option value="GBP">GBP - British Pound</option>
+                        <option value="CHF">CHF - Swiss Franc</option>
+                        <option value="CAD">CAD - Canadian Dollar</option>
+                        <option value="AUD">AUD - Australian Dollar</option>
+                        <option value="NZD">NZD - New Zealand Dollar</option>
+                        <option value="HKD">HKD - Hong Kong Dollar</option>
+                        <option value="SEK">SEK - Swedish Krona</option>
+                        <option value="NOK">NOK - Norwegian Krone</option>
+                        <option value="CNY">CNY - Chinese Yuan</option>
+                        <option value="SGD">SGD - Singapore Dollar</option>
+                        <option value="MXN">MXN - Mexican Peso</option>
+                        <option value="INR">INR - Indian Rupee</option>
+                    </select>
+                    {props.touched.devise && props.errors.devise && <span className="text-red-500">{props.errors.devise}</span>}
+                </div>
+
+                {/* <div className="p-4 flex flex-col gap-y-2">
+                    <label className="text-white" htmlFor="devise">Your devise :</label>
                     <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                         type='text'
                         id="devise"
@@ -34,7 +64,7 @@ function FormAccount(props) {
                         placeholder="USD"
                     ></input>
                     {props.touched.devise && props.errors.devise && <span className="text-red-500">{props.errors.devise}</span>}
-                </div>
+                </div> */}
                 <div className="p-4 flex flex-col gap-y-2">
                     <label className="text-white" htmlFor="initiale_balance">Your balance :</label>
                     <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
@@ -59,8 +89,8 @@ function FormAccount(props) {
 export default withFormik({
     mapPropsToValues: () => ({
         strategy: "",
-        devise:"",
-        initiale_balance:"",
+        devise: "",
+        initiale_balance: "",
     }),
     validationSchema: Yup.object().shape({
         strategy: Yup.string()
