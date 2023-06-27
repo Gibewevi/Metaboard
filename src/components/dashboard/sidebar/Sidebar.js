@@ -40,6 +40,8 @@ export default function Sidebar() {
             <div className={`${unfold ? "list-none flex flex-col gap-y-4 justify-center mt-6" : "list-none flex flex-col gap-y-4 justify-center items-center mt-6"}`}>
                 <Menu title='Accounts overview' image='/CarbonHome.svg' link='/accounts' unfold={unfold} />
                 <Menu title='Profil' image='/CarbonUser.svg' link='profil' unfold={unfold} />
+                <Menu title='Trading view +' image='/CarbonAnalyticsCustom.svg' link='tradingview' unfold={unfold} />
+                <Menu title='community' image='/CarbonStore.svg' link='community' unfold={unfold} />
                 <Menu title='Leaderboard' image='/CarbonBookmarkAdd.svg' link='leaderboard' unfold={unfold} />
             </div>
         </div>
