@@ -9,7 +9,7 @@ function NewOrderForm(props) {
         props.setFieldValue("orderChoice", event.target.value);
     };
 
-    const handleCloseWindow = () =>{
+    const handleCloseWindow = () => {
         props.openNewOrderForm();
     };
 
@@ -131,18 +131,37 @@ function NewOrderForm(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full">
-                        {props.orderLoading ?
-                            <button
-                                disabled
-                                className="flex flex-row items-center justify-center gap-x-2 mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white"
-                            >
-                                <div className="animate-spin w-5 h-5 border-2 border-white border-t-[#1A1D1F] rounded-full"></div>
-                                Process
-                            </button>
-                            :
-                            <button type='submit' onClick={props.handleSubmit} className="mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">add order</button>
-                        }
+                    <div className="w-full flex flex-row justify-between items-center mt-2">
+                        <div className="flex flex-1 flex-col gap-y-2 mr-5 ">
+                            <label className="text-white" htmlFor="picture">Tradingview (facultatif) :</label>
+                            <input
+                                className=" h-[45px] p-3 bg-[#111315] focus:bg-[#111315] rounded-md placeholder-neutral-600 text-white"
+                                type="text"
+                                id="picture"
+                                name="picture"
+                                onChange={props.handleChange}
+                                value={props.values.picture}
+                                onBlur={props.handleBlur}
+                                placeholder="https://www.tradingview.com/x/j2VANrs3/"
+                            />
+                            {props.touched.picture && props.errors.picture && (
+                                <span className="text-red-500">{props.errors.picture}</span>
+                            )}
+                        </div>
+                        <div>
+                            {props.orderLoading ?
+                                <button
+                                    disabled
+                                    className="flex flex-row items-center justify-center gap-x-2 mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white"
+                                >
+                                    <div className="animate-spin w-5 h-5 border-2 border-white border-t-[#1A1D1F] rounded-full"></div>
+                                    Process
+                                </button>
+                                :
+                                <button type='submit' onClick={props.handleSubmit} className="mt-5 w-[130px] float-right border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">add order</button>
+                            }
+                        </div>
+
 
                     </div>
                 </form>
@@ -160,7 +179,8 @@ export default withFormik({
         closed_date: "",
         stop_loss: "",
         amount: "",
-        orderChoice: "percent"
+        orderChoice: "percent",
+        picture : ""
     }),
     validationSchema: Yup.object().shape({
         asset: Yup.string()
@@ -176,7 +196,8 @@ export default withFormik({
             stop_loss: values.stop_loss,
             amount: values.amount,
             orderChoice: values.orderChoice,
-            account_id: account_id
+            account_id: account_id,
+            picture : values.picture
         };
         await props.submit(order);
     }
