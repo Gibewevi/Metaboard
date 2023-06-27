@@ -11,6 +11,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const [orderLoading, setOrderLoading] = useState(false);
     const [ordersHistory, setOrdersHistory] = useState(orders);
+    const strategy = JSON.parse(localStorage.getItem('strategy'));
 
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
@@ -53,7 +54,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
             <Layout>
                 <div className="flex flex-col gap-y-5">
                     <div className="flex flex-row items-center">
-                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
+                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={strategy} />
                     </div>
                     <div className="flex flex-row">
                         <HeaderIndex account_id={account_id} />

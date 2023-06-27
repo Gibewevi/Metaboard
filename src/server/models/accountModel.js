@@ -78,8 +78,7 @@ const insertAccount = async (account) => {
                 shared: false,
                 profit_and_loss: 0,
                 profit_and_loss_percent: 0,
-                orders: 0,
-                winrate: 0
+                orders: 0
             },
         });
 

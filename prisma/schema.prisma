@@ -26,7 +26,6 @@ model accounts {
   orders                  Int     @default(0)
   winning_trades          Int     @default(0)
   losing_trades           Int     @default(0)
-  winrate                 Int     @default(0)
 }
 
 model orders {
