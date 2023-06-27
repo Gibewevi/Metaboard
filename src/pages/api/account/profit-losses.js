@@ -5,8 +5,11 @@ import { accountController } from "@/server/controllers/accountController";
 export default async function handler(req, res) {
     if (req.method === 'GET') {
     const account_id = parseInt(req.query.account_id, 10);
+    // recupere le compte
     const account = await accountController.getAccountFromAccountId(account_id);
+    // recupere les ordres
     const orders = await orderController.getOrdersByAccountId(account_id);
+    // calcul le profit pour chaque ordre
     const profitLoss = orderController.calculProfitAndLoss(orders);
     res.status(200).json({profitLoss : profitLoss, account : account});
         // Reste du code pour traiter la récupération des informations du compte

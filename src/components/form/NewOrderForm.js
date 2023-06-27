@@ -82,7 +82,7 @@ function NewOrderForm(props) {
                                 placeholder="29 000"
                             />
                             {props.touched.close && props.errors.close && (
-                                <span className="text-red-500">{props.errors.closeclosedPosition}</span>
+                                <span className="text-red-500">{props.errors.close}</span>
                             )}
                         </div>
                         <div className="flex flex-col gap-y-2">
@@ -180,12 +180,38 @@ export default withFormik({
         stop_loss: "",
         amount: "",
         orderChoice: "percent",
-        picture : ""
+        picture: ""
     }),
     validationSchema: Yup.object().shape({
         asset: Yup.string()
-            .required('base required.'),
+            .required('Asset is required.')
+            .matches(/^[a-zA-Z]+$/, 'Only alphabets are allowed for asset name.'),
+        open: Yup.number()
+            .required('Open position is required.')
+            .positive('Open position must be a positive number.')
+            .moreThan(0, 'Open position must be greater than 0.'),
+        close: Yup.number()
+            .required('Closed position is required.')
+            .positive('Closed position must be a positive number.'),
+        closed_date: Yup.date()
+            .required('Closed date is required.'),
+        stop_loss: Yup.number()
+            .required('Stop loss is required.')
+            .positive('Stop loss must be a positive number.'),
+        amount: Yup.number()
+            .required('Amount is required.')
+            .positive('Amount must be a positive number.'),
+        orderChoice: Yup.string()
+            .required('Order choice is required.')
+            .oneOf(['percent', 'fixed'], 'Invalid order choice.'),
+        picture: Yup.string()
+            .matches(
+                /^https:\/\/www\.tradingview\.com\//,
+                'Picture URL must start with "https://www.tradingview.com/"'
+            )
+            .url('Invalid URL for the Tradingview.')
     }),
+
     handleSubmit: async (values, { props }) => {
         const account_id = props.account_id;
         const order = {
@@ -197,7 +223,7 @@ export default withFormik({
             amount: values.amount,
             orderChoice: values.orderChoice,
             account_id: account_id,
-            picture : values.picture
+            picture: values.picture
         };
         await props.submit(order);
     }

@@ -11,6 +11,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const [orderLoading, setOrderLoading] = useState(false);
     const [ordersHistory, setOrdersHistory] = useState(orders);
+    const strategy = JSON.parse(localStorage.getItem('strategy'));
 
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
@@ -27,7 +28,8 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
             profit: Math.round(pOrder.profit * 100) / 100 || 0, // assumez 0 si le profit n'est pas fourni
             profit_percent: pOrder.profit_percent || 0, // assumez 0 si le profit_pourcent n'est pas fourni
             stop_loss: pOrder.stop_loss,
-            amount: pOrder.amount
+            amount: pOrder.amount,
+            picture : pOrder.picture
         };
         return order;
     };
@@ -52,7 +54,7 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
             <Layout>
                 <div className="flex flex-col gap-y-5">
                     <div className="flex flex-row items-center">
-                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
+                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={strategy} />
                     </div>
                     <div className="flex flex-row">
                         <HeaderIndex account_id={account_id} />
@@ -84,14 +86,6 @@ export async function getServerSideProps(context) {
         }
         const data = await resOrders.json();
         const orders = data;
-
-        const resLongShort = await fetch(`${API_URL}/api/orders/stats/longshort`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(orders)
-        });
 
         return {
             props: {

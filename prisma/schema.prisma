@@ -18,12 +18,14 @@ model accounts {
   user_id                 Int
   strategy                String
   devise                  String
-  initiale_balance        Decimal @db.Decimal(10, 2)
+  initial_balance         Decimal @db.Decimal(10, 2)
   current_balance         Decimal @db.Decimal(10, 2)
   shared                  Boolean
   profit_and_loss         Decimal @default(0) @db.Decimal(10, 2)
   profit_and_loss_percent Decimal @default(0) @db.Decimal(10, 2)
   orders                  Int     @default(0)
+  winning_trades          Int     @default(0)
+  losing_trades           Int     @default(0)
 }
 
 model orders {
