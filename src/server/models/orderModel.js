@@ -34,7 +34,7 @@ const insertOrderByAccountId = async (order) => {
                 profit_percent: order.profit_percent || 0, // assumez 0 si le profit_pourcent n'est pas fourni
                 stop_loss: order.stop_loss,
                 amount: order.amount,
-                picture: order.picture
+                picture: order.picture || null
             }
         });
     } catch (error) {
