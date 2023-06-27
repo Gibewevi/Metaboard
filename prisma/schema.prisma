@@ -39,5 +39,4 @@ model orders {
   amount         Decimal   @db.Decimal(10, 2)
   profit_percent Decimal   @db.Decimal(10, 2)
   picture String?
-
 }
