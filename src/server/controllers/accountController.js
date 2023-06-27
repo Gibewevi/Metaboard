@@ -17,10 +17,26 @@ const insertAccount = async (account) => {
 const updateAccountBalanceFromOrder = async (account, order) => {
     // mettre à jour les données du compte
     account.current_balance = Number(account.current_balance) + Number(order.profit);
-    account.profit_and_loss =  account.current_balance - account.initiale_balance;
-    account.profit_and_loss_percent = (account.profit_and_loss/account.initiale_balance)*100;
-    account.orders +=  1;
+    account.profit_and_loss = account.current_balance - account.initial_balance;
+    account.profit_and_loss_percent = (account.profit_and_loss / account.initial_balance) * 100;
+    account.orders += 1;
+    account.losing_trades += isNegative(order.profit);
+    account.winning_trades += isPositive(order.profit);
     const accountUpdated = await accountModel.updateAccount(account);
+};
+
+const isPositive = (number) => {
+    if (number > 0) {
+        return 1;
+    };
+    return 0;
+};
+
+const isNegative = (number ) => {
+    if (number < 0) {
+        return 1;
+    };
+    return 0;
 };
 
 const getAccountsFromUserId = async (user_id) => {

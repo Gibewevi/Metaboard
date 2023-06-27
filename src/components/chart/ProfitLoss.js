@@ -3,6 +3,7 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 const ProfitLossChart = ({ profitLoss, account }) => {
+  const winrate = Math.round((account.winning_trades / (account.winning_trades+account.losing_trades)) * 100);
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);  // utilisez useRef pour une valeur persistante
 
@@ -75,7 +76,7 @@ const ProfitLossChart = ({ profitLoss, account }) => {
           </div>
           <div className="flex flex-col">
             <span className="text-md text-[#00cfe8]">Win rate</span>
-            <span className="text-xl text-white">xx%</span>
+            <span className="text-xl text-white">{winrate}%</span>
           </div>
           <div className="flex flex-col">
             <span className="text-md text-[#00cfe8]">Total trades</span>

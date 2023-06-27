@@ -39,7 +39,17 @@ Creer un middleware capable de sécuriser les routes avec une authentification J
 
 
 
-
+OPR METHODOLOGIE
+    - reintegration
+        * Borne haute/divergence baissiere 
+                -> Prise de position sur la Borne
+                -> stop -1/4 OPR
+        * Borne basse/divergence haussiere
+                -> Prise de position sur la Borne
+                -> stop +1/4 OPR
+    - break OPR
+        -> Prise de position cloture 1 bougie
+        -> OPR +-1/4
 
 
 

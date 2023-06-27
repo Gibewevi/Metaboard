@@ -66,17 +66,17 @@ function FormAccount(props) {
                     {props.touched.devise && props.errors.devise && <span className="text-red-500">{props.errors.devise}</span>}
                 </div> */}
                 <div className="p-4 flex flex-col gap-y-2">
-                    <label className="text-white" htmlFor="initiale_balance">Your balance :</label>
+                    <label className="text-white" htmlFor="initial_balance">Your balance :</label>
                     <input className="w-[250px] h-[45px] p-3 bg-[#111315] rounded-md placeholder-neutral-600 text-white"
                         type='number'
-                        id="initiale_balance"
-                        name="initiale_balance"
+                        id="initial_balance"
+                        name="initial_balance"
                         onChange={props.handleChange}
-                        value={props.values.initiale_balance}
+                        value={props.values.initial_balance}
                         onBlur={props.handleBlur}
                         placeholder="200000"
                     ></input>
-                    {props.touched.initiale_balance && props.errors.initiale_balance && <span className="text-red-500">{props.errors.initiale_balance}</span>}
+                    {props.touched.initial_balance && props.errors.initial_balance && <span className="text-red-500">{props.errors.initial_balance}</span>}
                 </div>
                 <div className="mt-8">
                     <button type="submit" onClick={props.handleSubmit} className="border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">add account</button>
@@ -90,14 +90,14 @@ export default withFormik({
     mapPropsToValues: () => ({
         strategy: "",
         devise: "",
-        initiale_balance: "",
+        initial_balance: "",
     }),
     validationSchema: Yup.object().shape({
         strategy: Yup.string()
             .required('strategy required.'),
         devise: Yup.string()
             .required('devise required.'),
-        initiale_balance: Yup.number()
+        initial_balance: Yup.number()
             .required('balance required.')
     }),
     handleSubmit: (values, { props }) => {
@@ -105,7 +105,7 @@ export default withFormik({
         const account = {
             strategy: values.strategy,
             devise: values.devise,
-            initiale_balance: values.initiale_balance,
+            initial_balance: values.initial_balance,
             user: props.user.email
         }
         props.submit(account, API_URL);

@@ -12,7 +12,9 @@ const updateAccount = async (account) => {
                 current_balance: account.current_balance,
                 profit_and_loss: account.profit_and_loss,
                 profit_and_loss_percent: account.profit_and_loss_percent,
-                orders: account.orders
+                orders: account.orders,
+                losing_trades: account.losing_trades,
+                winning_trades: account.winning_trades,
             }
         });
         return updatedAccount;
@@ -25,7 +27,7 @@ const updateAccount = async (account) => {
 
 
 const getAccountsFromUserId = async (user_id) => {
-    console.log(typeof(user_id));
+    console.log(typeof (user_id));
     try {
         const accounts = await prisma.accounts.findMany({
             where: {
@@ -71,12 +73,13 @@ const insertAccount = async (account) => {
                 user_id: user.user_id,
                 strategy: account.strategy,
                 devise: account.devise,
-                initiale_balance: account.initiale_balance,
-                current_balance: account.initiale_balance,
+                initial_balance: account.initial_balance,
+                current_balance: account.initial_balance,
                 shared: false,
                 profit_and_loss: 0,
                 profit_and_loss_percent: 0,
-                orders: 0
+                orders: 0,
+                winrate: 0
             },
         });
 

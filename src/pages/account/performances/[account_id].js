@@ -2,9 +2,7 @@ import ContentHeader from "@/components/contentHeader/contentHeader";
 import NewOrderForm from "@/components/form/NewOrderForm";
 import { useState } from "react";
 import ordersService from "@/services/Orders";
-import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAccountHistory";
 import ProfitLossChart from "@/components/chart/ProfitLoss";
-import Link from "next/link";
 import HeaderIndex from "@/components/accountOverview/HeaderIndex";
 import Layout from "@/containers/Layout";
 import NewOrder from "@/components/button/NewOrder";
@@ -17,7 +15,7 @@ export default function Performance({ account_id, profitLoss, account }) {
         setOrderFormOpen(!orderFormOpen);
     };
 
-    const handleFormNewOrder = async (order) => {
+    const handleFormNewOrderFromPerformance = async (order) => {
         setOrderLoading(true);
         try {
             let newOrder = await ordersService.sendOrderIntoDataBase(order);
@@ -34,13 +32,13 @@ export default function Performance({ account_id, profitLoss, account }) {
             <Layout>
                 <div className="flex flex-col gap-y-5">
                     <div className="flex flex-row items-center">
-                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={'Open range break 129540'} />
+                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={account.strategy} />
                     </div>
                     <div className="flex flex-row">
                         <HeaderIndex account_id={account_id} />
                         <NewOrder onClick={openNewOrderForm}/>
                     </div>
-                    <NewOrderForm submit={handleFormNewOrder} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading}/>
+                    <NewOrderForm submit={handleFormNewOrderFromPerformance} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading}/>
                     <ProfitLossChart profitLoss={profitLoss} account={account} />
                 </div>
             </Layout>

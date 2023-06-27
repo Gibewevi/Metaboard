@@ -27,7 +27,8 @@ export default function Orders({ account_id, orders, ratioLongShort }) {
             profit: Math.round(pOrder.profit * 100) / 100 || 0, // assumez 0 si le profit n'est pas fourni
             profit_percent: pOrder.profit_percent || 0, // assumez 0 si le profit_pourcent n'est pas fourni
             stop_loss: pOrder.stop_loss,
-            amount: pOrder.amount
+            amount: pOrder.amount,
+            picture : pOrder.picture
         };
         return order;
     };
@@ -84,14 +85,6 @@ export async function getServerSideProps(context) {
         }
         const data = await resOrders.json();
         const orders = data;
-
-        const resLongShort = await fetch(`${API_URL}/api/orders/stats/longshort`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(orders)
-        });
 
         return {
             props: {
