@@ -37,7 +37,7 @@ export default function Sidebar() {
                 "absolute left-0 grow h-full transition-all duration-200 ease-in w-[90px] bg-[#1A1D1F] p-5" 
                }`}
         >
-            <div className={`${unfold ? "list-none flex flex-col gap-y-4 justify-center mt-6" : "list-none flex flex-col gap-y-4 justify-center items-center mt-6"}`}>
+            <div className={`${unfold ? "z-10 list-none flex flex-col gap-y-4 justify-center mt-6" : "list-none flex flex-col gap-y-4 justify-center items-center mt-6"}`}>
                 <Menu title='Accounts overview' image='/CarbonHome.svg' link='/accounts' unfold={unfold} />
                 <Menu title='Profil' image='/CarbonUser.svg' link='profil' unfold={unfold} />
                 <Menu title='Trading view +' image='/CarbonAnalyticsCustom.svg' link='tradingview' unfold={unfold} />

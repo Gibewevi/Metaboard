@@ -38,7 +38,9 @@ model orders {
   closed_date    DateTime?
   profit         Decimal   @db.Decimal(10, 2)
   stop_loss      Decimal   @db.Decimal(10, 2)
-  amount         Decimal   @db.Decimal(10, 2)
+  risk           Decimal   @db.Decimal(10, 2)
+  risk_percent   Decimal   @db.Decimal(10, 2)
+  risk_method    String    @db.VarChar(255)
   profit_percent Decimal   @db.Decimal(10, 2)
   picture String?
 }

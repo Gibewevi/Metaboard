@@ -16,19 +16,32 @@ export default function Orders({ account_id, orders }) {
         setOrderFormOpen(!orderFormOpen);
     };
 
+
+    const updateOrdersAfterRemoveOrder = (orders) => {
+        let pendingOrders = [];
+        orders.forEach(order => {
+            let pendingOrder = formatNewOrder(order);
+            pendingOrders.push(order);
+        });
+        console.log('pending : ', pendingOrders);
+        setOrdersHistory(pendingOrders);
+    };
+
     const formatNewOrder = (pOrder) => {
         const order = {
             account_id: parseInt(pOrder.account_id),
+            order_id: parseInt(pOrder.order_id),
             asset: pOrder.asset,
             type: pOrder.type,
             open: parseFloat(pOrder.open),
             close: parseFloat(pOrder.close),
             closed_date: pOrder.closed_date,
-            profit: Math.round(pOrder.profit * 100) / 100 || 0, // assumez 0 si le profit n'est pas fourni
-            profit_percent: pOrder.profit_percent || 0, // assumez 0 si le profit_pourcent n'est pas fourni
-            stop_loss: pOrder.stop_loss,
-            amount: pOrder.amount,
-            picture : pOrder.picture || null
+            profit: parseFloat((Math.round(pOrder.profit * 100) / 100).toFixed(2)) || 0,
+            profit_percent: parseFloat((Math.round(pOrder.profit_percent * 100) / 100).toFixed(2)) || 0,
+            stop_loss: parseFloat(pOrder.stop_loss),
+            risk: parseFloat((Math.round(pOrder.risk * 100) / 100).toFixed(2)),
+            risk_method: pOrder.risk_method,
+            picture: pOrder.picture || null
         };
         return order;
     };
@@ -64,7 +77,7 @@ export default function Orders({ account_id, orders }) {
                         <div>
                             <span className="text-white">Trading account history</span>
                         </div>
-                        <TradingAccountHistory orders={ordersHistory} />
+                        <TradingAccountHistory orders={ordersHistory} updateOrdersAfterRemoveOrder={updateOrdersAfterRemoveOrder} />
                     </div>
                 </div>
             </Layout>
@@ -85,7 +98,6 @@ export async function getServerSideProps(context) {
         }
         const data = await resOrders.json();
         const orders = data;
-
         return {
             props: {
                 account_id: account_id,

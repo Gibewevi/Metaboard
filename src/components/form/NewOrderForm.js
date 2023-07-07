@@ -16,7 +16,7 @@ function NewOrderForm(props) {
     return (
         <>
             {props.isOpen && (
-                <form className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[500px] flex flex-col gap-y-5 bg-[#1A1D1F] p-5 border border-1 border-[#35E2F7] border-1">
+                <form className="z-10 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  w-[500px] flex flex-col gap-y-5 bg-[#1A1D1F] p-5 border border-1 border-[#35E2F7] border-1">
                     <button onClick={handleCloseWindow} className=" fill-white hover:fill-[#35E2F7] absolute right-0 top-0 cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M24 9.4L22.6 8L16 14.6L9.4 8L8 9.4l6.6 6.6L8 22.6L9.4 24l6.6-6.6l6.6 6.6l1.4-1.4l-6.6-6.6L24 9.4z" /></svg>
                     </button>
@@ -104,10 +104,10 @@ function NewOrderForm(props) {
                         <div className="flex flex-row items-center relative">
                             <div className="flex flex-row absolute bottom-0">
                                 <select
-                                    name="orderChoice"
-                                    id="orderChoice"
+                                    name="risk_method"
+                                    id="risk_method"
                                     className="h-[45px] w-[80px] bg-white focus:bg-[#111315] text-black focus:outline-none border-t border-b border-r rounded-tl-md rounded-bl-md "
-                                    value={props.values.orderChoice} // utilisez props.values.orderChoice
+                                    value={props.values.risk_method} // utilisez props.values.orderChoice
                                     onChange={handleSelectChange}
                                 >
                                     <option value="percent" className="text-center">%</option>
@@ -117,15 +117,15 @@ function NewOrderForm(props) {
                                     <input
                                         className="h-[45px] w-full p-3 bg-[#111315] focus:bg-[#111315] border-[#111315] border-t border-b border-r rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md placeholder-neutral-600 text-white"
                                         type="number"
-                                        id="amount"
-                                        name="amount"
+                                        id="risk"
+                                        name="risk"
                                         onChange={props.handleChange}
-                                        value={props.values.amount}
+                                        value={props.values.risk}
                                         onBlur={props.handleBlur}
                                         placeholder={props.values.orderChoice === 'percent' ? "0.5" : "1000"}
                                     />
-                                    {props.touched.amount && props.errors.amount && (
-                                        <span className="text-red-500">{props.errors.amount}</span>
+                                    {props.touched.risk && props.errors.risk && (
+                                        <span className="text-red-500">{props.errors.risk}</span>
                                     )}
                                 </div>
                             </div>
@@ -178,8 +178,8 @@ export default withFormik({
         close: "",
         closed_date: "",
         stop_loss: "",
-        amount: "",
-        orderChoice: "percent",
+        risk: "",
+        risk_method: "percent",
         picture: ""
     }),
     validationSchema: Yup.object().shape({
@@ -198,10 +198,10 @@ export default withFormik({
         stop_loss: Yup.number()
             .required('Stop loss is required.')
             .positive('Stop loss must be a positive number.'),
-        amount: Yup.number()
+            risk: Yup.number()
             .required('Amount is required.')
             .positive('Amount must be a positive number.'),
-        orderChoice: Yup.string()
+            risk_method: Yup.string()
             .required('Order choice is required.')
             .oneOf(['percent', 'fixed'], 'Invalid order choice.'),
         picture: Yup.string()
@@ -214,14 +214,19 @@ export default withFormik({
 
     handleSubmit: async (values, { props }) => {
         const account_id = props.account_id;
+        let riskPercent = null;
+        if(values.risk_method=='percent'){
+            riskPercent = values.risk;
+        }
         const order = {
             asset: values.asset,
             open: values.open,
             close: values.close,
             closed_date: values.closed_date,
             stop_loss: values.stop_loss,
-            amount: values.amount,
-            orderChoice: values.orderChoice,
+            risk: values.risk,
+            risk_percent : riskPercent, 
+            risk_method: values.risk_method,
             account_id: account_id,
             picture: values.picture
         };

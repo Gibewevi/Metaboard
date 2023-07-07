@@ -1,4 +1,6 @@
 import { accountModel } from "../models/accountModel";
+import { orderModel } from "../models/orderModel";
+
 
 const insertAccount = async (account) => {
     try {
@@ -12,6 +14,25 @@ const insertAccount = async (account) => {
             message: "An error occurred while adding the account."
         };
     }
+};
+
+const updateAccountBalanceByOrders = async (account, orders) => {
+    account.current_balance = account.initial_balance;
+    account.profit_and_loss = 0;
+    account.profit_and_loss_percent = 0;
+    account.orders = 0;
+    account.losing_trades = 0;
+    account.winning_trades = 0;
+    for (const order of orders) {
+        account.current_balance = Number(account.current_balance) + Number(order.profit);
+        account.profit_and_loss = account.current_balance - account.initial_balance;
+        account.profit_and_loss_percent = (account.profit_and_loss / account.initial_balance) * 100;
+        account.orders += 1;
+        account.losing_trades += isNegative(order.profit);
+        account.winning_trades += isPositive(order.profit);
+        const accountUpdated = await accountModel.updateAccount(account);
+    };
+    const accountUpdated = await accountModel.updateAccount(account);
 };
 
 const updateAccountBalanceFromOrder = async (account, order) => {
@@ -32,7 +53,7 @@ const isPositive = (number) => {
     return 0;
 };
 
-const isNegative = (number ) => {
+const isNegative = (number) => {
     if (number < 0) {
         return 1;
     };
@@ -67,5 +88,6 @@ export const accountController = {
     insertAccount,
     getAccountsFromUserId,
     getAccountFromAccountId,
-    updateAccountBalanceFromOrder
+    updateAccountBalanceFromOrder,
+    updateAccountBalanceByOrders
 }

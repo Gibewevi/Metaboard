@@ -1,6 +1,40 @@
 import login from "@/services/Login";
 import { orderModel } from "../models/orderModel";
 
+const setOrdersByOrders = async (orders) => {
+    let updatedOrders = await orderModel.setOrdersByOrders(orders);
+    return updatedOrders;
+};
+
+const updateOrdersAfterOrderDelete = async (orders, account) => {
+    account.current_balance = account.initial_balance;
+    let current_balance = parseFloat(account.initial_balance);
+    let ordersToUpdate = [];
+    orders.forEach(order => {
+        let risk = calculateRiskAmount(order, account);
+        let orderSize = calculateOrderSize(order, risk);
+        let profitLoss = calculateTradeProfitLoss(order, orderSize);
+        let profitLossPercentage = convertProfitLossToPercentage(profitLoss, current_balance);
+        order.risk = risk;
+        order.profit = profitLoss;
+        order.profit_percent = parseFloat(profitLossPercentage);
+        current_balance = parseFloat((parseFloat(current_balance) + order.profit).toFixed(2));
+        account.current_balance = current_balance;
+        ordersToUpdate.push(order);
+    });
+    let ordersUpdated = await setOrdersByOrders(ordersToUpdate)
+    return ordersUpdated;
+};
+
+const setOrdersByOrdersIntoDataBase = async (orders) => {
+    const ordersUpdated = await orderModel.setOrdersByOrders(orders);
+}
+
+
+const deleteOrderById = async (orderId) => {
+    await orderModel.deleteOrder(orderId);
+};
+
 const calculProfitAndLoss = (orders) => {
     const sessionProfit = [];
     let currentProfit = 0;
@@ -38,21 +72,21 @@ const getOrdersByAccountId = async (account_id) => {
 };
 
 const insertTradeByAccountId = async (order) => {
-    await orderModel.insertOrderByAccountId(order)
+    const newOrder = await orderModel.insertOrderByAccountId(order)
+    return newOrder;
 };
 
 const calculateRiskAmount = (order, account) => {
+
     const currentBalance = account.current_balance;
-    const tradeMethodOption = order.orderChoice;
-    let amount = null;
-    const position = order.amount;
+    let risk = null;
+    const position = order.risk;
 
-    if (tradeMethodOption === 'percent') {
-        amount = (position / 100) * currentBalance;
-        return amount;
+    if (order.risk_method === 'percent') {
+        risk = (order.risk_percent / 100) * currentBalance;
+        return risk;
     }
-
-    return amount = position;
+    return risk = position;
 };
 
 const calculateTradePosition = (order) => {
@@ -64,11 +98,11 @@ const calculateTradePosition = (order) => {
     return 'short';
 }
 
-const calculateOrderSize = (order, amount) => {
-    const riskAmount = amount;
-    const entryPrice = order.open;
-    const stopLossPrice = order.stop_loss;
-    const positionSize = riskAmount / (entryPrice - stopLossPrice);
+const calculateOrderSize = (pOrder, pRisk) => {
+    const risk = pRisk;
+    const entryPrice = pOrder.open;
+    const stopLossPrice = pOrder.stop_loss;
+    const positionSize = risk / (entryPrice - stopLossPrice);
 
     return positionSize;
 };
@@ -98,5 +132,7 @@ export const orderController = {
     insertTradeByAccountId,
     getOrdersByAccountId,
     calculRatioLongShort,
-    calculProfitAndLoss
+    calculProfitAndLoss,
+    deleteOrderById,
+    updateOrdersAfterOrderDelete
 };
