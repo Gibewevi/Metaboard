@@ -7,6 +7,7 @@ export default async function handler(req, res) {
         const account_id = parseInt(order.account_id);
         const account = await getAccount(account_id);
         const risk = await calculateRiskAmount(order, account);
+        order.risk_reward = orderController.calculRiskRewardByOrder(order);
         order = await updateOrderDetails(order, account, risk);
         const newOrder = await insertTrade(order);
         await accountController.updateAccountBalanceFromOrder(account, order);

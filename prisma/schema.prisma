@@ -42,5 +42,7 @@ model orders {
   risk_percent   Decimal   @db.Decimal(10, 2)
   risk_method    String    @db.VarChar(255)
   profit_percent Decimal   @db.Decimal(10, 2)
-  picture String?
+  risk_reward    Decimal   @db.Decimal(10, 2)
+  picture        String?
 }
+

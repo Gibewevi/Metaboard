@@ -22,6 +22,7 @@ const setOrdersByOrders = async (orders) => {
                     risk_percent : order.risk_percent,
                     risk_method : order.risk_method,
                     profit_percent: order.profit_percent,
+                    risk_reward : order.risk_reward,
                     picture: order.picture,
                 }
             });
@@ -81,6 +82,7 @@ const insertOrderByAccountId = async (order) => {
                 risk: order.risk,
                 risk_method: order.risk_method,
                 risk_percent : order.risk_percent,
+                risk_reward : order.risk_reward,
                 picture: order.picture || null
             }
         });

@@ -121,6 +121,14 @@ const convertProfitLossToPercentage = (profitLoss, currentBalance) => {
     return profitLossPercentage;
 };
 
+const calculRiskRewardByOrder = (order) => {
+    console.log('calculRiskRewardByOrder');
+    let profit = order.close - order.open;
+    console.log('profit : ',profit);
+    let RR = (profit / (order.open - order.stop_loss))
+    console.log('RR : ',RR);
+    return RR;
+};
 
 
 export const orderController = {
@@ -134,5 +142,6 @@ export const orderController = {
     calculRatioLongShort,
     calculProfitAndLoss,
     deleteOrderById,
-    updateOrdersAfterOrderDelete
+    updateOrdersAfterOrderDelete,
+    calculRiskRewardByOrder
 };
