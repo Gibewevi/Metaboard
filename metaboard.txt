@@ -1,0 +1,28 @@
+PRICING 
+    - STUDENT
+        - accès formations complètes
+        - 1 compte gratuit de back-test illimité en temps
+    - PRO/mensuel
+        - 5 comptes de back-test
+        - importation/exportation back-test metatrader
+        - tradingView pro +
+    - ULTRA/mensuel
+        - 10 comptes de back-test
+        - connexion props firm
+        - importation/exportation back-test metatrader
+        - tradingView pro +  
+
+PLATEFORME
+    - formations
+        - initiation a metaboard/gratuite
+        - initiation au trading
+        - open range break classic
+        - open range break ré-intégration en contre tendance
+    - Market stratégies
+        - consultation des stratégies 
+            - officiel -> accéder à la formation de la stratégie
+            - public
+        - likes/commentaires
+    - Trading view pro + 
+        - trader directement avec trading view
+        

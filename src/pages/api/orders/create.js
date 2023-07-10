@@ -6,12 +6,13 @@ export default async function handler(req, res) {
         let order = req.body;
         const account_id = parseInt(order.account_id);
         const account = await getAccount(account_id);
-        const amount = await calculateRiskAmount(order, account);
-        order = await updateOrderDetails(order, account, amount);
-        await insertTrade(order);
+        const risk = await calculateRiskAmount(order, account);
+        order.risk_reward = orderController.calculRiskRewardByOrder(order);
+        order = await updateOrderDetails(order, account, risk);
+        const newOrder = await insertTrade(order);
         await accountController.updateAccountBalanceFromOrder(account, order);
         // Ajoutez cette ligne pour envoyer une réponse de succès
-        res.status(200).json(order);
+        res.status(200).json(newOrder);
     } catch (error) {
         // Handle error
         res.status(500).json({ success: false, message: error.message });
@@ -25,15 +26,15 @@ async function getAccount(account_id) {
 }
 
 async function calculateRiskAmount(order, account) {
-    const amount = await orderController.calculateRiskAmount(order, account);
-    return amount;
+    const risk = await orderController.calculateRiskAmount(order, account);
+    return risk;
 }
 
-async function updateOrderDetails(order, account, riskAmount) {
-    const orderSize = orderController.calculateOrderSize(order, riskAmount);
+async function updateOrderDetails(order, account, risk) {
+    const orderSize = orderController.calculateOrderSize(order, risk);
     const profitLoss = orderController.calculateTradeProfitLoss(order, orderSize);
     const profitLossPercentage = orderController.convertProfitLossToPercentage(profitLoss, account.current_balance);
-    order.amount = riskAmount;
+    order.risk = risk;
     order.type = orderController.calculateTradePosition(order);
     order.profit = profitLoss;
     order.profit_percent = profitLossPercentage;
@@ -41,7 +42,8 @@ async function updateOrderDetails(order, account, riskAmount) {
 }
 
 async function insertTrade(order) {
-    await orderController.insertTradeByAccountId(order);
+    const newOrder = await orderController.insertTradeByAccountId(order);
+    return newOrder;
 }
 
 

@@ -1,5 +1,10 @@
 Creer un middleware capable de sécuriser les routes avec une authentification JWT et une redirection sur le client de la route pour signin.
 
+10/07/23
+    - croix a droite de account vertical et discrete (blanc et voir la couleur de la croix)
+        - lors du clic faire défiler un bandeau horizontal surt la gauche avec un motif rayer (attention danger en blanc et gris)
+        - remplacer la croix par un confirmer a droite
+        - tout annuler si la souris sort de l'account
 
 27/06/23
     - orders/performances   
@@ -91,3 +96,7 @@ OPR METHODOLOGIE
     taille de la position : risk / ( open price - stop ) = -20
     profit : ( close price - open price ) * taille de position : 50 000
     ----------------------------------------------------------------------------
+
+
+    DAX 9h-9h15
+    NASDAQ 15h30-15h45
