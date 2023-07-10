@@ -1,6 +1,26 @@
 import login from "@/services/Login";
 import { orderModel } from "../models/orderModel";
 
+
+const getRisksRewardsByOrders = (orders) => {
+    let risksRewards = [];
+    orders.forEach(order => {
+        risksRewards.push(order.risk_reward);
+    });
+    return risksRewards;
+};
+
+const getRiskRewardMaxValue = (risksRewards) => {
+    let max = Math.max(...risksRewards);
+    return max;
+};
+
+const getRiskRewardAverage = (risksRewards) => {
+    const sum = risksRewards.reduce((acc, val) => acc + parseFloat(val), 0);
+    const average = sum / risksRewards.length;
+    return average;
+};
+
 const setOrdersByOrders = async (orders) => {
     let updatedOrders = await orderModel.setOrdersByOrders(orders);
     return updatedOrders;
@@ -122,11 +142,8 @@ const convertProfitLossToPercentage = (profitLoss, currentBalance) => {
 };
 
 const calculRiskRewardByOrder = (order) => {
-    console.log('calculRiskRewardByOrder');
     let profit = order.close - order.open;
-    console.log('profit : ',profit);
     let RR = (profit / (order.open - order.stop_loss))
-    console.log('RR : ',RR);
     return RR;
 };
 
@@ -143,5 +160,8 @@ export const orderController = {
     calculProfitAndLoss,
     deleteOrderById,
     updateOrdersAfterOrderDelete,
-    calculRiskRewardByOrder
+    calculRiskRewardByOrder,
+    getRisksRewardsByOrders,
+    getRiskRewardAverage,
+    getRiskRewardMaxValue
 };

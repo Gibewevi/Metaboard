@@ -6,8 +6,9 @@ import ProfitLossChart from "@/components/chart/ProfitLoss";
 import HeaderIndex from "@/components/accountOverview/HeaderIndex";
 import Layout from "@/containers/Layout";
 import NewOrder from "@/components/button/NewOrder";
+import RiskRewardAverage from "@/components/chart/RiskRewardAverage";
 
-export default function Performance({ account_id, profitLoss, account }) {
+export default function Performance({ account_id, profitLoss, account, risksRewards }) {
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const [orderLoading, setOrderLoading] = useState(false);
 
@@ -36,11 +37,20 @@ export default function Performance({ account_id, profitLoss, account }) {
                     </div>
                     <div className="flex flex-row">
                         <HeaderIndex account_id={account_id} />
-                        <NewOrder onClick={openNewOrderForm}/>
+                        <NewOrder onClick={openNewOrderForm} />
                     </div>
-                    <NewOrderForm submit={handleFormNewOrderFromPerformance} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading}/>
+                    <NewOrderForm submit={handleFormNewOrderFromPerformance} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading} />
                     <ProfitLossChart profitLoss={profitLoss} account={account} />
                 </div>
+                <div className="flex flex-row gap-x-4 w-full bg-red-400 p-3">
+                    <div className="w-full">
+                        <RiskRewardAverage risksRewards={risksRewards} />
+                    </div>
+                    <div className="w-full">
+                        <RiskRewardAverage risksRewards={risksRewards} />
+                    </div>
+                </div>
+
             </Layout>
         </div>
     )
@@ -52,12 +62,18 @@ export async function getServerSideProps(context) {
     const resOrders = await fetch(`${API_URL}/api/account/profit-losses?account_id=${account_id}`, {
         method: 'GET'
     });
+
+    const resriskRewardOrders = await fetch(`${API_URL}/api/orders/stats/risksRewards/?account_id=${account_id}`, {
+        method: 'GET'
+    });
+    const risksRewards = await resriskRewardOrders.json();
     const { profitLoss, account } = await resOrders.json();
     return {
         props: {
             account_id: account_id,
             profitLoss,
-            account
+            account,
+            risksRewards
         }
     };
 }
