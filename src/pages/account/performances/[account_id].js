@@ -40,17 +40,20 @@ export default function Performance({ account_id, profitLoss, account, risksRewa
                         <NewOrder onClick={openNewOrderForm} />
                     </div>
                     <NewOrderForm submit={handleFormNewOrderFromPerformance} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading} />
-                    <ProfitLossChart profitLoss={profitLoss} account={account} />
-                </div>
-                <div className="flex flex-row gap-x-4 w-full bg-red-400 p-3">
-                    <div className="w-full">
-                        <RiskRewardAverage risksRewards={risksRewards} />
-                    </div>
-                    <div className="w-full">
-                        <RiskRewardAverage risksRewards={risksRewards} />
-                    </div>
-                </div>
+                    <div className=" flex flex-col w-full gap-y-6">
 
+                        <ProfitLossChart profitLoss={profitLoss} account={account} />
+
+                        <div className="flex flex-row gap-x-4 w-full">
+                            <div className="w-full">
+                                <RiskRewardAverage risksRewards={risksRewards} />
+                            </div>
+                            <div className="w-full">
+                                <RiskRewardAverage risksRewards={risksRewards} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Layout>
         </div>
     )
