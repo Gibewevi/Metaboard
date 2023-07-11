@@ -24,6 +24,7 @@ export default function Order(props) {
             <td className="relative py-4 text-white group-hover:bg-[#00cfe8]">{props.data.open}</td>
             <td className="relative py-4 text-white group-hover:bg-[#00cfe8]">{props.data.close}</td>
             <td className="relative py-4 text-white group-hover:bg-[#00cfe8]">{props.data.closed_date}</td>
+            <td className="relative py-4 text-white group-hover:bg-[#00cfe8]">{props.data.risk_reward}</td>
             <td className={`relative ${props.data.profit > 0 ? 'text-[#00cfe8] group-hover:text-white group-hover:bg-[#00cfe8]' : 'text-red-700 group-hover:bg-[#00cfe8]'} py-4`}>{props.data.profit}</td>
             {props.data.picture != null ?
                 <td className="relative py-4 rounded-r-md group-hover:bg-[#00cfe8]">
