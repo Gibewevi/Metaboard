@@ -14,23 +14,25 @@ model users {
 }
 
 model accounts {
-  account_id              Int     @id @default(autoincrement())
+  account_id              Int       @id @default(autoincrement())
   user_id                 Int
   strategy                String
   devise                  String
-  initial_balance         Decimal @db.Decimal(10, 2)
-  current_balance         Decimal @db.Decimal(10, 2)
+  initial_balance         Decimal   @db.Decimal(10, 2)
+  current_balance         Decimal   @db.Decimal(10, 2)
   shared                  Boolean
-  profit_and_loss         Decimal @default(0) @db.Decimal(10, 2)
-  profit_and_loss_percent Decimal @default(0) @db.Decimal(10, 2)
-  orders                  Int     @default(0)
-  winning_trades          Int     @default(0)
-  losing_trades           Int     @default(0)
+  profit_and_loss         Decimal   @default(0) @db.Decimal(10, 2)
+  profit_and_loss_percent Decimal   @default(0) @db.Decimal(10, 2)
+  winning_trades          Int       @default(0)
+  losing_trades           Int       @default(0)
+  orders_number           Int       @default(0)
+  orders                  orders[]  // List of all orders related to this account
 }
 
 model orders {
   order_id       Int       @id @default(autoincrement())
   account_id     Int
+  account        accounts  @relation(fields: [account_id], references: [account_id])
   asset          String    @db.VarChar(255)
   type           String    @db.VarChar(255)
   open           Decimal   @db.Decimal(10, 2)
@@ -45,4 +47,3 @@ model orders {
   risk_reward    Decimal   @db.Decimal(10, 2)
   picture        String?
 }
-

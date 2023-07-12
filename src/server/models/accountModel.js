@@ -2,15 +2,15 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 
-const getSharedAccounts = async() => {
+const getSharedAccounts = async () => {
     try {
         const accounts = await prisma.accounts.findMany({
-            where : {
-                shared : true,
+            where: {
+                shared: true,
             }
         });
         return accounts;
-    } catch(error){
+    } catch (error) {
 
     }
 }
@@ -56,7 +56,7 @@ const updateAccount = async (account) => {
                 current_balance: account.current_balance,
                 profit_and_loss: account.profit_and_loss,
                 profit_and_loss_percent: account.profit_and_loss_percent,
-                orders: account.orders,
+                orders_number: account.orders_number,
                 losing_trades: account.losing_trades,
                 winning_trades: account.winning_trades,
             }
@@ -69,7 +69,6 @@ const updateAccount = async (account) => {
 };
 
 const getAccountsFromUserId = async (user_id) => {
-    console.log(typeof (user_id));
     try {
         const accounts = await prisma.accounts.findMany({
             where: {
@@ -78,6 +77,9 @@ const getAccountsFromUserId = async (user_id) => {
             orderBy: {
                 account_id: 'asc',
             },
+            include: {
+                orders: false, // Inclure les ordres
+            }
         });
 
         return accounts;
@@ -87,12 +89,36 @@ const getAccountsFromUserId = async (user_id) => {
     }
 };
 
+const getSharedAccountsWithLastTenOrders = async () => {
+    try {
+        // Recherche de comptes avec shared : true
+        const accounts = await prisma.accounts.findMany({
+            where: { shared: true },
+            include: { orders: true } // Cette ligne inclut les ordres liés à chaque compte
+        });
+
+        // Limite les ordres pour chaque compte aux 10 derniers
+        const accountsWithLimitedOrders = accounts.map(account => {
+            const limitedOrders = account.orders.slice(-10); // récupère les 10 derniers ordres
+            return { ...account, orders: limitedOrders };
+        });
+
+        return accountsWithLimitedOrders;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+
 const getAccountFromAccountId = async (account_id) => {
     try {
         const account = await prisma.accounts.findUnique({
             where: {
                 account_id: account_id,
             },
+            include: {
+                orders: false, // Inclure les ordres
+            }
         });
         return account;
     } catch (error) {
@@ -123,7 +149,7 @@ const insertAccount = async (account) => {
                 shared: false,
                 profit_and_loss: 0,
                 profit_and_loss_percent: 0,
-                orders: 0
+                orders_number: 0
             },
         });
 
@@ -141,5 +167,6 @@ export const accountModel = {
     getAccountFromAccountId,
     updateAccount,
     changeSharedAccountStatus,
-    getSharedAccounts
+    getSharedAccounts,
+    getSharedAccountsWithLastTenOrders
 };

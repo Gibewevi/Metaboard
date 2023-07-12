@@ -30,7 +30,7 @@ export default function Account({ accountData }) {
                     </div>
                     <div className="flex flex-col justify-center items-center">
                         <span className="text-white">Orders</span>
-                        <span className="text-white">{account.orders}</span>
+                        <span className="text-white">{account.orders_number}</span>
                     </div>
                     <div className="flex flex-col justify-center items-center">
                         <span className="text-white">P&L</span>

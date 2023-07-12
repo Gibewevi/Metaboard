@@ -27,7 +27,7 @@ const RiskRewardAverage = ({ risksRewards }) => {
                         {
                             data: data,
                             borderColor: 'rgba(75,192,192,1)',
-                            backgroundColor: 'rgba(75,192,192,0.2)',
+                            backgroundColor: 'rgba(53, 226, 247,0.3)',
                             fill: true,
                             tension: 0.4,
                         },
@@ -79,8 +79,8 @@ const RiskRewardAverage = ({ risksRewards }) => {
                 </div>
             </div>
             <div style={{ height: '90px', width: '100%' }}>  {/* Définissez la hauteur ici */}
-        <canvas ref={chartContainer} />
-      </div>
+                <canvas ref={chartContainer} />
+            </div>
         </div>
     );
 };

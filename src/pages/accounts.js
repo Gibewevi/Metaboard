@@ -13,6 +13,7 @@ export default function Accounts({ auth, API_URL, accounts }) {
   const AccountsComponent = () => {
     if (accounts.length > 0) {
       return accounts.map((account, key) => {
+        console.log(key)
         return (
           <Account key={key} accountData={account} />
         )

@@ -1,8 +1,8 @@
 import { accountModel } from "../models/accountModel";
 import { orderModel } from "../models/orderModel";
 
-const getSharedAccounts = async() => {
-    const accounts = accountModel.getSharedAccounts();
+const getSharedAccountsWithOrders = async() => {
+    const accounts = accountModel.getSharedAccountsWithLastTenOrders();
     return accounts;
 };
 
@@ -30,14 +30,14 @@ const updateAccountBalanceByOrders = async (account, orders) => {
     account.current_balance = account.initial_balance;
     account.profit_and_loss = 0;
     account.profit_and_loss_percent = 0;
-    account.orders = 0;
+    account.orders_number = 0;
     account.losing_trades = 0;
     account.winning_trades = 0;
     for (const order of orders) {
         account.current_balance = Number(account.current_balance) + Number(order.profit);
         account.profit_and_loss = account.current_balance - account.initial_balance;
         account.profit_and_loss_percent = (account.profit_and_loss / account.initial_balance) * 100;
-        account.orders += 1;
+        account.orders_number += 1;
         account.losing_trades += isNegative(order.profit);
         account.winning_trades += isPositive(order.profit);
         const accountUpdated = await accountModel.updateAccount(account);
@@ -50,7 +50,7 @@ const updateAccountBalanceFromOrder = async (account, order) => {
     account.current_balance = Number(account.current_balance) + Number(order.profit);
     account.profit_and_loss = account.current_balance - account.initial_balance;
     account.profit_and_loss_percent = (account.profit_and_loss / account.initial_balance) * 100;
-    account.orders += 1;
+    account.orders_number += 1;
     account.losing_trades += isNegative(order.profit);
     account.winning_trades += isPositive(order.profit);
     const accountUpdated = await accountModel.updateAccount(account);
@@ -101,5 +101,5 @@ export const accountController = {
     updateAccountBalanceFromOrder,
     updateAccountBalanceByOrders,
     changeSharedAccountStatus,
-    getSharedAccounts
+    getSharedAccountsWithOrders
 }

@@ -1,7 +1,6 @@
 import login from "@/services/Login";
 import { orderModel } from "../models/orderModel";
 
-
 const getRisksRewardsByOrders = (orders) => {
     let risksRewards = [];
     orders.forEach(order => {
@@ -46,14 +45,11 @@ const updateOrdersAfterOrderDelete = async (orders, account) => {
     return ordersUpdated;
 };
 
-const setOrdersByOrdersIntoDataBase = async (orders) => {
-    const ordersUpdated = await orderModel.setOrdersByOrders(orders);
-}
-
-
 const deleteOrderById = async (orderId) => {
     await orderModel.deleteOrder(orderId);
 };
+
+
 
 const calculProfitAndLoss = (orders) => {
     const sessionProfit = [];
