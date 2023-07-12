@@ -14,8 +14,7 @@ export default function Accounts({ auth, API_URL, accounts }) {
     if (accounts.length > 0) {
       return accounts.map((account, key) => {
         return (
-          <Account key={key} account_id={account.account_id} strategy={account.strategy} current_balance={account.current_balance} profit_and_loss={account.profit_and_loss} profit_and_loss_percent={`${account.profit_and_loss_percent}%`}
-            orders={account.orders} />
+          <Account key={key} accountData={account} />
         )
       });
     }

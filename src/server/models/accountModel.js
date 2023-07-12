@@ -2,6 +2,50 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 
+const getSharedAccounts = async() => {
+    try {
+        const accounts = await prisma.accounts.findMany({
+            where : {
+                shared : true,
+            }
+        });
+        return accounts;
+    } catch(error){
+
+    }
+}
+
+const changeSharedAccountStatus = async (accountId) => {
+
+    try {
+        // Obtenir d'abord le compte pour avoir accès à l'attribut 'shared'
+        const account = await prisma.accounts.findUnique({
+            where: {
+                account_id: accountId,
+            },
+        });
+
+        if (!account) throw new Error('Account not found');
+
+        // Mettre à jour le compte
+        const sharedAccount = await prisma.accounts.update({
+            where: {
+                account_id: accountId,
+            },
+            data: {
+                shared: !account.shared,
+            },
+        });
+
+        return sharedAccount.shared;
+
+    } catch (error) {
+        // Gérer l'erreur ici, par exemple en l'imprimant à la console
+        console.error(error);
+    };
+};
+
+
 const updateAccount = async (account) => {
     try {
         const updatedAccount = await prisma.accounts.update({
@@ -24,14 +68,15 @@ const updateAccount = async (account) => {
     }
 };
 
-
-
 const getAccountsFromUserId = async (user_id) => {
     console.log(typeof (user_id));
     try {
         const accounts = await prisma.accounts.findMany({
             where: {
                 user_id: user_id,
+            },
+            orderBy: {
+                account_id: 'asc',
             },
         });
 
@@ -94,5 +139,7 @@ export const accountModel = {
     insertAccount,
     getAccountsFromUserId,
     getAccountFromAccountId,
-    updateAccount
+    updateAccount,
+    changeSharedAccountStatus,
+    getSharedAccounts
 };

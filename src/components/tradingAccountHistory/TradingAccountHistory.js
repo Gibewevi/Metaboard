@@ -5,7 +5,14 @@ import { useCallback, useMemo } from 'react';
 
 export default function TradingAccountHistory(props) {
     const [orders, setOrders] = useState(props.orders);
+    const page = [5, 10, 25, 50, 100];
+    const [ordersPerPage, setOrdersPerPage] = useState(5);
+    const [pageSelect, setPageSelect] = useState(1);
 
+    const maxPage = useMemo(() => {
+        let maxPage = orders.length / ordersPerPage;
+        return Math.ceil(maxPage);
+    }, [orders, ordersPerPage]);
 
     const updateOrdersAfterRemoveOrder = (orders) => {
         let pendingOrders = [];
@@ -20,14 +27,7 @@ export default function TradingAccountHistory(props) {
         setOrders(props.orders);
     }, [props.orders]);
 
-    const page = [5, 10, 25, 50, 100];
-    const [ordersPerPage, setOrdersPerPage] = useState(5);
-    const [pageSelect, setPageSelect] = useState(1);
-    
-    const maxPage = useMemo(() => {
-        let maxPage = orders.length / ordersPerPage;
-        return Math.round(maxPage);
-    }, [orders, ordersPerPage]);
+
 
     const handleSelectChange = useCallback((event) => {
         setPageSelect(1);

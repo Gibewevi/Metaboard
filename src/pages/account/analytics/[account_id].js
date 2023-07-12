@@ -8,11 +8,15 @@ import Layout from "@/containers/Layout";
 import NewOrder from "@/components/button/NewOrder";
 import RiskRewardAverage from "@/components/chart/RiskRewardAverage";
 import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAccountHistory";
+import SocialHeader from "@/components/account/SocialHeader";
 
-export default function Performance({ account_id, profitLoss, account, risksRewards, ordersList }) {
+export default function Performance({ analytic }) {
+    const [account, setAccount] = useState(analytic.account);
+    const [risksRewards, setRiskRewards] = useState(analytic.risksRewards);
+    const [profitLoss, setProfitLoss] = useState(analytic.profitLoss);
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const [orderLoading, setOrderLoading] = useState(false);
-    const [orders, setOrders] = useState(ordersList);
+    const [orders, setOrders] = useState(analytic.orders);
 
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
@@ -36,14 +40,15 @@ export default function Performance({ account_id, profitLoss, account, risksRewa
         <div className="w-full">
             <Layout>
                 <div className="flex flex-col gap-y-5">
-                    <div className="flex flex-row items-center">
-                        <ContentHeader icon={'/CarbonHomeBlue.svg'} title={account.strategy} />
-                    </div>
+                   
+                        {/* <ContentHeader icon={'/CarbonHomeBlue.svg'} title={account.strategy} /> */}
+                        <SocialHeader />
+                
                     <div className="flex flex-row">
-                        <HeaderIndex account_id={account_id} />
+                        <HeaderIndex account_id={account.account_id} />
                         <NewOrder onClick={openNewOrderForm} />
                     </div>
-                    <NewOrderForm submit={handleFormNewOrder} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account_id} orderLoading={orderLoading} />
+                    <NewOrderForm submit={handleFormNewOrder} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={account.account_id} orderLoading={orderLoading} />
                     <div className=" flex flex-col w-full gap-y-6">
 
                         <ProfitLossChart profitLoss={profitLoss} account={account} />
@@ -72,28 +77,15 @@ export default function Performance({ account_id, profitLoss, account, risksRewa
 export async function getServerSideProps(context) {
     const account_id = context.query.account_id;
     const API_URL = process.env.API_URL;
-    const resProfitLosses = await fetch(`${API_URL}/api/account/profit-losses?account_id=${account_id}`, {
+
+    const resAnalytic = await fetch(`${API_URL}/api/account/analytics?account_id=${account_id}`, {
         method: 'GET'
     });
+    const analytic = await resAnalytic.json();
 
-    const resriskRewardOrders = await fetch(`${API_URL}/api/orders/stats/risksRewards/?account_id=${account_id}`, {
-        method: 'GET'
-    });
-
-    const resOrders = await fetch(`${API_URL}/api/account/orders?account_id=${account_id}`, {
-        method: 'GET'
-    });
-
-    const risksRewards = await resriskRewardOrders.json();
-    const orders = await resOrders.json();
-    const { profitLoss, account } = await resProfitLosses.json();
     return {
         props: {
-            account_id: account_id,
-            profitLoss,
-            account,
-            risksRewards,
-            ordersList: orders
+            analytic
         }
     };
 }

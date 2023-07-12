@@ -1,6 +1,16 @@
 import { accountModel } from "../models/accountModel";
 import { orderModel } from "../models/orderModel";
 
+const getSharedAccounts = async() => {
+    const accounts = accountModel.getSharedAccounts();
+    return accounts;
+};
+
+
+const changeSharedAccountStatus = async(accountId) => {
+    const accountShared = await accountModel.changeSharedAccountStatus(accountId);
+    return accountShared;
+};
 
 const insertAccount = async (account) => {
     try {
@@ -89,5 +99,7 @@ export const accountController = {
     getAccountsFromUserId,
     getAccountFromAccountId,
     updateAccountBalanceFromOrder,
-    updateAccountBalanceByOrders
+    updateAccountBalanceByOrders,
+    changeSharedAccountStatus,
+    getSharedAccounts
 }
