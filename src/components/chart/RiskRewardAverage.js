@@ -27,7 +27,7 @@ const RiskRewardAverage = ({ risksRewards }) => {
                         {
                             data: data,
                             borderColor: 'rgba(75,192,192,1)',
-                            backgroundColor: 'rgba(75,192,192,0.2)',
+                            backgroundColor: 'rgba(53, 226, 247,0.3)',
                             fill: true,
                             tension: 0.4,
                         },
@@ -71,16 +71,16 @@ const RiskRewardAverage = ({ risksRewards }) => {
             <div className="w-full flex flex-row justify-between p-4">
                 <div className='flex flex-col justify-center items-center'>
                     <span className="text-xl font-extralight text-white">Average RR</span>
-                    <span className="text-3xl font-black text-white">{average}</span>
+                    <span className="text-2xl font-black text-white">{average}</span>
                 </div>
                 <div className='flex flex-col justify-center items-center'>
                     <span className="text-xl font-extralight text-white">Max RR</span>
-                    <span className="text-3xl font-black text-white">{max}</span>
+                    <span className="text-2xl font-black text-white">{max}</span>
                 </div>
             </div>
             <div style={{ height: '90px', width: '100%' }}>  {/* Définissez la hauteur ici */}
-        <canvas ref={chartContainer} />
-      </div>
+                <canvas ref={chartContainer} />
+            </div>
         </div>
     );
 };

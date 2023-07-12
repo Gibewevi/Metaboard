@@ -28,7 +28,7 @@ const ProfitLossChart = ({ profitLoss, account }) => {
             label: 'Profit/Loss',
             data: data,
             borderColor: 'rgba(75,192,192,1)',
-            backgroundColor: 'rgba(75,192,192,0.2)',
+            backgroundColor: 'rgba(53, 226, 247,0.3)',
             fill: true,
             tension: 0.4,
           }],
