@@ -14,6 +14,20 @@ const getUserFavoriteAccounts = async () => {
     };
 };
 
+const deleteFavoriteAccount = async(userId, accountId) => {
+    try {
+        const res = await fetch(`/api/user/${userId}/favorites/${accountId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const isDelete = await res.json();
+        return isDelete;
+    } catch (error) {
+
+    };
+};
 
 const addFavoriteAccountByAccountId = async (userId, accountId) => {
     try {
@@ -23,6 +37,8 @@ const addFavoriteAccountByAccountId = async (userId, accountId) => {
                 'Content-Type': 'application/json'
             },
         });
+        const isFavorite = await res.json();
+        return isFavorite;
     } catch (error) {
 
     };
@@ -47,7 +63,8 @@ const setAccountShared = async (accountId) => {
 const account = {
     setAccountShared,
     addFavoriteAccountByAccountId,
-    getUserFavoriteAccounts
+    getUserFavoriteAccounts,
+    deleteFavoriteAccount
 }
 
 export default account;
