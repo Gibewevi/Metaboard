@@ -1,17 +1,17 @@
+import { userController } from "@/server/controllers/userController";
+
 export default async function handler(req, res) {
-    const {
-        query: { userId, accountId },
-    } = req;
-    console.log('userId : ',userId);
-    console.log('accountId : ',accountId);
-    // Traiter la requête en fonction de `req.method` (par exemple, GET, POST, etc.)
-    switch (req.method) {
-        case 'POST':
-            // Ajoutez le compte aux favoris de l'utilisateur ici.
-            break;
-        // Gérez les autres méthodes HTTP au besoin.
-        default:
-            res.setHeader('Allow', ['POST']);
-            res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-}
+    // Récupération des valeurs userId et accountId depuis la requête
+    const userId = req.query.userId;
+    const accountId = req.query.accountId;
+
+    // Conversion des valeurs en entiers
+    const user_id = parseInt(userId);
+    const account_id = parseInt(accountId);
+
+    // Appel à la méthode du contrôleur pour ajouter un compte favori
+    const newFavoriteAccount = await userController.addFavoriteAccount(user_id, account_id);
+
+    // Affichage du nouveau compte favori
+    console.log('favorite account : ', newFavoriteAccount);
+};

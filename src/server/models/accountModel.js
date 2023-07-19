@@ -2,19 +2,37 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 
-const getSharedAccounts = async () => {
+const getSharedAccounts = async (userId) => {
     try {
-        const accounts = await prisma.users_accounts.findMany({
-            where: {
-                shared: true,
-            }
-        });
-        return accounts;
+      const favoritedAccountIds = await prisma.favorites_accounts.findMany({
+        where: {
+          user_id: userId,
+        },
+        select: {
+          account_id: true,
+        },
+      });
+  
+      const favoritedAccountIdsSet = new Set(
+        favoritedAccountIds.map((favorite) => favorite.account_id)
+      );
+  
+      const accounts = await prisma.users_accounts.findMany({
+        where: {
+          shared: true,
+        },
+      });
+  
+      return accounts.map((account) => ({
+        ...account,
+        isFavoritedByUser: favoritedAccountIdsSet.has(account.account_id),
+      }));
     } catch (error) {
-
+      // Gérez l'erreur ici
     }
-}
-
+  };
+  
+  
 const changeSharedAccountStatus = async (accountId) => {
 
     try {
@@ -59,6 +77,7 @@ const updateAccount = async (account) => {
                 orders_number: account.orders_number,
                 losing_trades: account.losing_trades,
                 winning_trades: account.winning_trades,
+                likes: account.likes
             }
         });
         return updatedAccount;
@@ -86,26 +105,6 @@ const getAccountsFromUserId = async (user_id) => {
     } catch (error) {
         console.error(error);
         throw error;
-    }
-};
-
-const getSharedAccountsWithLastTenOrders = async () => {
-    try {
-        // Recherche de comptes avec shared : true
-        const accounts = await prisma.users_accounts.findMany({
-            where: { shared: true },
-            include: { orders: true } // Cette ligne inclut les ordres liés à chaque compte
-        });
-
-        // Limite les ordres pour chaque compte aux 10 derniers
-        const accountsWithLimitedOrders = accounts.map(account => {
-            const limitedOrders = account.orders.slice(-10); // récupère les 10 derniers ordres
-            return { ...account, orders: limitedOrders };
-        });
-
-        return accountsWithLimitedOrders;
-    } catch (err) {
-        console.error(err);
     }
 };
 
@@ -149,7 +148,8 @@ const insertAccount = async (account) => {
                 shared: false,
                 profit_and_loss: 0,
                 profit_and_loss_percent: 0,
-                orders_number: 0
+                orders_number: 0,
+                likes: 0,
             },
         });
 
@@ -168,5 +168,4 @@ export const accountModel = {
     updateAccount,
     changeSharedAccountStatus,
     getSharedAccounts,
-    getSharedAccountsWithLastTenOrders
 };

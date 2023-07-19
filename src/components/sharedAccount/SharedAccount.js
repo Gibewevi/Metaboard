@@ -14,7 +14,7 @@ export default function SharedAccount({ account, user_id }) {
     };
 
     return (
-        <div className="flex flex-col gap-y-4 bg-[#1A1D1F] rounded-2xl w-[320px] p-4">
+        <div className="flex flex-col gap-y-4 bg-[#1A1D1F] rounded-2xl min-w-[290px] p-4">
             <div className="flex flex-row justify-between items-center">
                 <div className="flex justify-center items-center h-[30px] bg-[#282C2E] rounded-lg p-4">
                     <span className="text-sm text-[#8E9AAB]">strategy</span>

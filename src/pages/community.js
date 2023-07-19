@@ -31,17 +31,20 @@ export async function getServerSideProps(context) {
   const userId = parseInt(auth.user_id);
 
   const API_URL = process.env.API_URL;
+  // récupérer les favoris de l'utilisateur
+
+
   // récupérer les comptes partagés
-  const res = await fetch(`${API_URL}/api/accounts/shared`, {
+  const resAccountsShared = await fetch(`${API_URL}/api/accounts/shared?userId=${userId}`, {
     method: 'GET',
     credentials: 'include' // Ajoutez cette ligne
   });
 
   // Changez le nom de la variable ici
-  const data = await res.json();
+  const accountsShared = await resAccountsShared.json();
   
   return {
-    props: {accounts: data.accounts, userId}
+    props: {accounts: accountsShared.accounts, userId}
   }
 }
 

@@ -8,9 +8,17 @@ datasource db {
 }
 
 model users_credentials {
-  user_id       Int    @id @default(autoincrement())
-  user_email    String @unique
+  user_id       Int           @id @default(autoincrement())
+  user_email    String        @unique
   user_password String
+}
+
+model favorites_accounts {
+  id         Int            @id @default(autoincrement())
+  account_id Int
+  user_id    Int
+  account    users_accounts @relation(fields: [account_id], references: [account_id])
+  @@unique([account_id, user_id])
 }
 
 model users_accounts {
@@ -26,15 +34,10 @@ model users_accounts {
   winning_trades          Int       @default(0)
   losing_trades           Int       @default(0)
   orders_number           Int       @default(0)
+  likes                   Int @default(0)
   orders                  accounts_orders[] 
+  favorites  favorites_accounts[]
 }
-
-model favorites_accounts {
-  id           Int       @id @default(autoincrement())
-  account_id   Int
-  user_id      Int
-}
-
 
 model accounts_orders {
   order_id       Int       @id @default(autoincrement())
