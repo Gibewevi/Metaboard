@@ -7,13 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model users_credentials {
   user_id       Int    @id @default(autoincrement())
   user_email    String @unique
   user_password String
 }
 
-model accounts {
+model users_accounts {
   account_id              Int       @id @default(autoincrement())
   user_id                 Int
   strategy                String
@@ -26,13 +26,20 @@ model accounts {
   winning_trades          Int       @default(0)
   losing_trades           Int       @default(0)
   orders_number           Int       @default(0)
-  orders                  orders[]  // List of all orders related to this account
+  orders                  accounts_orders[] 
 }
 
-model orders {
+model favorites_accounts {
+  id           Int       @id @default(autoincrement())
+  account_id   Int
+  user_id      Int
+}
+
+
+model accounts_orders {
   order_id       Int       @id @default(autoincrement())
   account_id     Int
-  account        accounts  @relation(fields: [account_id], references: [account_id])
+  account        users_accounts  @relation(fields: [account_id], references: [account_id])
   asset          String    @db.VarChar(255)
   type           String    @db.VarChar(255)
   open           Decimal   @db.Decimal(10, 2)

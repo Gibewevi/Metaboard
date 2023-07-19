@@ -1,3 +1,9 @@
+
+17/07/23
+    - favorites
+        account_id  user_id favorite(bol)
+
+
 Creer un middleware capable de sécuriser les routes avec une authentification JWT et une redirection sur le client de la route pour signin.
 
 10/07/23

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getUserIdFromEmail = async (email) => {
     try {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.users_credentials.findUnique({
             where: {
                 user_email: email,
             },
@@ -32,7 +32,7 @@ const getUserIdFromEmail = async (email) => {
 
 const verifyEmailIntoDataBase = async (email) => {
     try {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.users_credentials.findUnique({
             where: {
                 user_email: email
             },
@@ -50,7 +50,7 @@ const verifyEmailIntoDataBase = async (email) => {
 
 const getHashPasswordByEmail = async (email) => {
     try {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.users_credentials.findUnique({
             where: {
                 user_email: email,
             },
@@ -73,7 +73,7 @@ const getHashPasswordByEmail = async (email) => {
 
 const insertUser = async (account) => {
     try {
-        const newUser = await prisma.users.create({
+        const newUser = await prisma.users_credentials.create({
             data: {
                 user_email: account.email,
                 user_password: account.password,

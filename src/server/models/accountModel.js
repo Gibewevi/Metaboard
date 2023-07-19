@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getSharedAccounts = async () => {
     try {
-        const accounts = await prisma.accounts.findMany({
+        const accounts = await prisma.users_accounts.findMany({
             where: {
                 shared: true,
             }
@@ -19,7 +19,7 @@ const changeSharedAccountStatus = async (accountId) => {
 
     try {
         // Obtenir d'abord le compte pour avoir accès à l'attribut 'shared'
-        const account = await prisma.accounts.findUnique({
+        const account = await prisma.users_accounts.findUnique({
             where: {
                 account_id: accountId,
             },
@@ -28,7 +28,7 @@ const changeSharedAccountStatus = async (accountId) => {
         if (!account) throw new Error('Account not found');
 
         // Mettre à jour le compte
-        const sharedAccount = await prisma.accounts.update({
+        const sharedAccount = await prisma.users_accounts.update({
             where: {
                 account_id: accountId,
             },
@@ -48,7 +48,7 @@ const changeSharedAccountStatus = async (accountId) => {
 
 const updateAccount = async (account) => {
     try {
-        const updatedAccount = await prisma.accounts.update({
+        const updatedAccount = await prisma.users_accounts.update({
             where: {
                 account_id: account.account_id,
             },
@@ -70,7 +70,7 @@ const updateAccount = async (account) => {
 
 const getAccountsFromUserId = async (user_id) => {
     try {
-        const accounts = await prisma.accounts.findMany({
+        const accounts = await prisma.users_accounts.findMany({
             where: {
                 user_id: user_id,
             },
@@ -92,7 +92,7 @@ const getAccountsFromUserId = async (user_id) => {
 const getSharedAccountsWithLastTenOrders = async () => {
     try {
         // Recherche de comptes avec shared : true
-        const accounts = await prisma.accounts.findMany({
+        const accounts = await prisma.users_accounts.findMany({
             where: { shared: true },
             include: { orders: true } // Cette ligne inclut les ordres liés à chaque compte
         });
@@ -112,7 +112,7 @@ const getSharedAccountsWithLastTenOrders = async () => {
 
 const getAccountFromAccountId = async (account_id) => {
     try {
-        const account = await prisma.accounts.findUnique({
+        const account = await prisma.users_accounts.findUnique({
             where: {
                 account_id: account_id,
             },
@@ -129,7 +129,7 @@ const getAccountFromAccountId = async (account_id) => {
 
 const insertAccount = async (account) => {
     try {
-        const user = await prisma.users.findUnique({
+        const user = await prisma.users_credentials.findUnique({
             where: {
                 user_email: account.user
             }
@@ -139,7 +139,7 @@ const insertAccount = async (account) => {
             throw new Error("Utilisateur introuvable");
         }
 
-        const newAccount = await prisma.accounts.create({
+        const newAccount = await prisma.users_accounts.create({
             data: {
                 user_id: user.user_id,
                 strategy: account.strategy,

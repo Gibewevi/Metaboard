@@ -62,7 +62,13 @@ export default function Accounts({ auth, API_URL, accounts }) {
             </div>
           </div>
           <FormAccount isVisible={newAccountIsVisible} submit={addAccountToDatabase} user={user} API_URL={API_URL} />
-          <AccountsComponent />
+          <div className="flex flex-col gap-y-4">
+          <span className="text-xl text-slate-300">My accounts</span>
+            <AccountsComponent />
+          </div>
+          <div className="flex flex-col gap-y-4">
+            <span className="text-xl text-slate-300">My favorite</span>
+          </div>  
         </div>
       </div>
     </div>
@@ -86,16 +92,16 @@ export async function getServerSideProps(context) {
     }
   };
 
-    const response = await fetch(`${API_URL}/api/accounts?user_id=${auth.user_id}`, {
-      method: 'GET',
-      credentials: 'include' // Ajoutez cette ligne
-    });
+  const response = await fetch(`${API_URL}/api/accounts?user_id=${auth.user_id}`, {
+    method: 'GET',
+    credentials: 'include' // Ajoutez cette ligne
+  });
 
-    const data = await response.json();
-    const accounts = data.accounts;
+  const data = await response.json();
+  const accounts = data.accounts;
 
-    // Si la vérification du token est un succès, continuez comme d'habitude
-    return {
-      props: { auth, API_URL, accounts }, 
-    }
+  // Si la vérification du token est un succès, continuez comme d'habitude
+  return {
+    props: { auth, API_URL, accounts },
   }
+}

@@ -32,7 +32,7 @@ const SharedAccountPL = ({ profitLoss }) => {
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: gradient,
                             fill: true,
-                            tension: 0.4,
+                            tension: 0.5,
                         },
                     ],
                 },

@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 const setOrdersByOrders = async (orders) => {
     try {
         for (const order of orders) {
-            await prisma.orders.update({
+            await prisma.accounts_orders.update({
                 where: {
                     order_id: order.order_id
                 },
@@ -40,7 +40,7 @@ const setOrdersByOrders = async (orders) => {
 
 const getOrdersByAccountId = async (account_id) => {
     try {
-        const orders = await prisma.orders.findMany({
+        const orders = await prisma.accounts_orders.findMany({
             where: {
                 account_id: account_id,
             },
@@ -57,7 +57,7 @@ const getOrdersByAccountId = async (account_id) => {
 const deleteOrder = async (orderId) => {
     try {
         // Supprimer l'ordre par son ID
-        const deletedOrder = await prisma.orders.delete({
+        const deletedOrder = await prisma.accounts_orders.delete({
             where: {
                 order_id: orderId
             }
@@ -72,7 +72,7 @@ const deleteOrder = async (orderId) => {
 
 const insertOrderByAccountId = async (order) => {
     try {
-        const newOrder = await prisma.orders.create({
+        const newOrder = await prisma.accounts_orders.create({
             data: {
                 account_id: parseInt(order.account_id),
                 asset: order.asset,
