@@ -57,3 +57,10 @@ model accounts_orders {
   risk_reward    Decimal   @db.Decimal(10, 2)
   picture        String?
 }
+
+model accounts_likes {
+  id          Int            @id @default(autoincrement())
+  account_id  Int
+  user_id     Int
+  @@unique([account_id, user_id])
+}
