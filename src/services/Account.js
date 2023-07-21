@@ -1,6 +1,19 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+const likeAccount = async (userId, accountId) => {
+    try {
+        const res = await fetch(`/api/user/${userId}/likes/${accountId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+    } catch (error) {
+
+    };
+};
+
 const getUserFavoriteAccounts = async () => {
     try {
         const res = await fetch(`/api/user/${userId}/favorites`, {
@@ -14,6 +27,20 @@ const getUserFavoriteAccounts = async () => {
     };
 };
 
+const deleteFavoriteAccount = async (userId, accountId) => {
+    try {
+        const res = await fetch(`/api/user/${userId}/favorites/${accountId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const isDelete = await res.json();
+        return isDelete;
+    } catch (error) {
+
+    };
+};
 
 const addFavoriteAccountByAccountId = async (userId, accountId) => {
     try {
@@ -23,6 +50,8 @@ const addFavoriteAccountByAccountId = async (userId, accountId) => {
                 'Content-Type': 'application/json'
             },
         });
+        const isFavorite = await res.json();
+        return isFavorite;
     } catch (error) {
 
     };
@@ -47,7 +76,9 @@ const setAccountShared = async (accountId) => {
 const account = {
     setAccountShared,
     addFavoriteAccountByAccountId,
-    getUserFavoriteAccounts
+    getUserFavoriteAccounts,
+    deleteFavoriteAccount,
+    likeAccount
 }
 
 export default account;

@@ -1,38 +1,70 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const addLike = async(userId, accountId) => {
+    try {
+        const like = await prisma.accounts_likes.create({
+            data : {
+                account_id : accountId,
+                user_id : userId
+            }
+        });
+        return like;
+    } catch(error){
+        throw new Error(`Failed to add like: ${error}`);
+    }
+};
+
+
+const getFavoriteAccountByUserId = async (userId) => {
+    try {
+        const favoriteAccounts = await prisma.favorites_accounts.findMany({
+            where: {
+                user_id: userId,
+            },
+            include: {
+                account: true, // Include related account data
+            },
+        });
+
+        return favoriteAccounts;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des comptes favoris : ", error);
+        throw error;
+    }
+};
 
 const getSharedAccounts = async (userId) => {
     try {
-      const favoritedAccountIds = await prisma.favorites_accounts.findMany({
-        where: {
-          user_id: userId,
-        },
-        select: {
-          account_id: true,
-        },
-      });
-  
-      const favoritedAccountIdsSet = new Set(
-        favoritedAccountIds.map((favorite) => favorite.account_id)
-      );
-  
-      const accounts = await prisma.users_accounts.findMany({
-        where: {
-          shared: true,
-        },
-      });
-  
-      return accounts.map((account) => ({
-        ...account,
-        isFavoritedByUser: favoritedAccountIdsSet.has(account.account_id),
-      }));
+        const favoritedAccountIds = await prisma.favorites_accounts.findMany({
+            where: {
+                user_id: userId,
+            },
+            select: {
+                account_id: true,
+            },
+        });
+
+        const favoritedAccountIdsSet = new Set(
+            favoritedAccountIds.map((favorite) => favorite.account_id)
+        );
+
+        const accounts = await prisma.users_accounts.findMany({
+            where: {
+                shared: true,
+            },
+        });
+
+        return accounts.map((account) => ({
+            ...account,
+            isFavoritedByUser: favoritedAccountIdsSet.has(account.account_id),
+        }));
     } catch (error) {
-      // Gérez l'erreur ici
+        // Gérez l'erreur ici
     }
-  };
-  
-  
+};
+
+
 const changeSharedAccountStatus = async (accountId) => {
 
     try {
@@ -168,4 +200,6 @@ export const accountModel = {
     updateAccount,
     changeSharedAccountStatus,
     getSharedAccounts,
+    getFavoriteAccountByUserId,
+    addLike
 };

@@ -1,3 +1,4 @@
+import account from '@/services/Account';
 
 const { PrismaClient, Prisma } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -10,6 +11,20 @@ const isUserAccount = async (userId, accountId) => {
     return Boolean(account && account.user_id === userId);
 };
 
+const deleteFavoriteAccount = async (userId, accountId) => {
+    try {
+        const deletedFavoriteAccount = await prisma.favorites_accounts.delete({
+            where: { account_id_user_id: { account_id: accountId, user_id: userId } }
+        });
+        console.log("Le compte a été retiré des favoris.");
+        return false;
+    } catch (error) {
+        console.error("Une erreur est survenue lors de la suppression du compte des favoris : ", error);
+        throw error;
+    }
+};
+
+
 const addFavoriteAccount = async (userId, accountId) => {
     try {
         if (await isUserAccount(userId, accountId)) {
@@ -21,7 +36,7 @@ const addFavoriteAccount = async (userId, accountId) => {
             data: { account_id: accountId, user_id: userId }
         });
 
-        return newFavoriteAccount;
+        return true;
     } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
             console.log("Favorite account already exists");
@@ -129,5 +144,6 @@ export const userModel = {
     verifyEmailIntoDataBase,
     getHashPasswordByEmail,
     getUserIdFromEmail,
-    addFavoriteAccount
+    addFavoriteAccount,
+    deleteFavoriteAccount
 };
