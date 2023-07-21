@@ -42,7 +42,7 @@ export async function getServerSideProps(context) {
 
   // Changez le nom de la variable ici
   const accountsShared = await resAccountsShared.json();
-  
+ 
   return {
     props: {accounts: accountsShared.accounts, userId}
   }

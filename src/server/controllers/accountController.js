@@ -1,5 +1,4 @@
 import { accountModel } from "../models/accountModel";
-import { orderModel } from "../models/orderModel";
 
 const getFavoriteAccountsByUserId = async(userId) => {
     const favoriteAccounts = accountModel.getFavoriteAccountByUserId(userId);
@@ -98,6 +97,12 @@ const getAccountFromAccountId = async (account_id) => {
     }
 };
 
+const addLike = async(userId, accountId) => {
+    const like = await accountModel.addLike(userId, accountId);
+    return like;
+};
+
+
 export const accountController = {
     insertAccount,
     getAccountsFromUserId,
@@ -106,5 +111,6 @@ export const accountController = {
     updateAccountBalanceByOrders,
     changeSharedAccountStatus,
     getSharedAccounts,
-    getFavoriteAccountsByUserId
+    getFavoriteAccountsByUserId,
+    addLike
 }

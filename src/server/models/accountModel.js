@@ -1,6 +1,21 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const addLike = async(userId, accountId) => {
+    try {
+        const like = await prisma.accounts_likes.create({
+            data : {
+                account_id : accountId,
+                user_id : userId
+            }
+        });
+        return like;
+    } catch(error){
+        throw new Error(`Failed to add like: ${error}`);
+    }
+};
+
+
 const getFavoriteAccountByUserId = async (userId) => {
     try {
         const favoriteAccounts = await prisma.favorites_accounts.findMany({
@@ -185,5 +200,6 @@ export const accountModel = {
     updateAccount,
     changeSharedAccountStatus,
     getSharedAccounts,
-    getFavoriteAccountByUserId
+    getFavoriteAccountByUserId,
+    addLike
 };
