@@ -9,15 +9,16 @@ export default async function handler(req, res) {
     const user_id = parseInt(userId);
     const account_id = parseInt(accountId);
 
-    //POST
-    const like = await accountController.addLike(user_id, account_id);
-    
-    // ajouter un like dans la table account_like
-    // incrementer le like dans la table user_account
-
-    //PUT
-    // supprimer le like dans la table account_like
-    // decrementer le like dans la table user_account
-
-    res.status(200).json({mess:'like is valide'});
+    if (req.method === 'POST') {
+        // ajouter un like dans la table account_like
+        const likes = await accountController.addAccountsLikes(user_id, account_id);
+        res.status(200).json(likes);
+    } 
+    else if (req.method === 'DELETE') {
+        console.log('DELETE');
+        // supprimer le like dans la table account_like
+        const likes = await accountController.removeAccountsLikes(user_id, account_id);
+        console.log('likes : ', likes);
+        res.status(200).json(likes);
+    }
 };

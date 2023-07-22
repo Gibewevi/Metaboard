@@ -4,11 +4,28 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const likeAccount = async (userId, accountId) => {
     try {
         const res = await fetch(`/api/user/${userId}/likes/${accountId}`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
         });
+        const likes = await res.json();
+        return likes;
+    } catch (error) {
+
+    };
+};
+
+const unlikeAccount = async (userId, accountId) => {
+    try {
+        const res = await fetch(`/api/user/${userId}/likes/${accountId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const likes = await res.json();
+        return likes;
     } catch (error) {
 
     };
@@ -78,7 +95,8 @@ const account = {
     addFavoriteAccountByAccountId,
     getUserFavoriteAccounts,
     deleteFavoriteAccount,
-    likeAccount
+    likeAccount,
+    unlikeAccount
 }
 
 export default account;

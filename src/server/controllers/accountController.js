@@ -97,11 +97,32 @@ const getAccountFromAccountId = async (account_id) => {
     }
 };
 
-const addLike = async(userId, accountId) => {
-    const like = await accountModel.addLike(userId, accountId);
+const addAccountsLikes = async(userId, accountId) => {
+    const isLike = await accountModel.addAccountsLikes(userId, accountId);
+    if(isLike){
+        const likes = await accountModel.addLikeToUserAccount(accountId);
+        return likes;
+    };
+    return isLike;
+};
+
+const removeAccountsLikes = async(userId, accountId) => {
+    const isRemove = await accountModel.removeAccountsLikes(userId, accountId);
+    if(isRemove){
+        const likes = await accountModel.removeLikeFromUserAccount(accountId);
+        return likes;
+    }
+};
+
+const addLikeToUserAccount = async(accountId) => {
+    const like = await accountModel.addLikeToUserAccount();
     return like;
 };
 
+const removeLikeFromUserAccount = async() => {
+    const like = await accountModel.removeLikeFromUserAccount();
+    return like;
+};
 
 export const accountController = {
     insertAccount,
@@ -112,5 +133,8 @@ export const accountController = {
     changeSharedAccountStatus,
     getSharedAccounts,
     getFavoriteAccountsByUserId,
-    addLike
+    addAccountsLikes,
+    addLikeToUserAccount,
+    removeLikeFromUserAccount,
+    removeAccountsLikes
 }
