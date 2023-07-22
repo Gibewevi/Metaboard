@@ -12,11 +12,23 @@ export default function SharedAccount({ account, user_id }) {
     const [profitLoss, setProfitLoss] = useState(account.profitLoss);
 
 
-    const handleAddLike = async() => {
-        const isLike = await accountService.likeAccount(userId, accountId);
+    const handleAddLike = async () => {
+        const likes = await accountService.likeAccount(userId, accountId);
+        if (Boolean(likes)) {
+            setUserIsLiked(true);
+            setLikes(likes);
+        }
     };
 
-    const handleRemoveFavorite = async() => {
+    const handleRemoveLike = async () => {
+        const likes = await accountService.unlikeAccount(userId, accountId);
+        if(Boolean(likes)){
+            setUserIsLiked(false);
+            setLikes(likes);
+        }
+    }
+
+    const handleRemoveFavorite = async () => {
         const isDelete = await accountService.deleteFavoriteAccount(userId, accountId);
         setIsFavoritedByUser(isDelete);
     };
@@ -37,7 +49,7 @@ export default function SharedAccount({ account, user_id }) {
                     {isFavoritedByUser ?
                         <div className="group">
                             <div onClick={handleRemoveFavorite} className="fill-[#00cfe8] cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path d="m16 2l-4.55 9.22l-10.17 1.47l7.36 7.18L6.9 30l9.1-4.78L25.1 30l-1.74-10.13l7.36-7.17l-10.17-1.48Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path d="m16 2l-4.55 9.22l-10.17 1.47l7.36 7.18L6.9 30l9.1-4.78L25.1 30l-1.74-10.13l7.36-7.17l-10.17-1.48Z" /></svg>
                             </div>
                         </div>
                         :
@@ -50,17 +62,24 @@ export default function SharedAccount({ account, user_id }) {
                             </div>
                         </div>
                     }
-
-                    <div className="group flex flex-row justify-items-center items-center gap-x-1">
-                        <div className="fill-slate-200 group-hover:hidden">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M22.45 6a5.47 5.47 0 0 1 3.91 1.64a5.7 5.7 0 0 1 0 8L16 26.13L5.64 15.64a5.7 5.7 0 0 1 0-8a5.48 5.48 0 0 1 7.82 0l2.54 2.6l2.53-2.58A5.44 5.44 0 0 1 22.45 6m0-2a7.47 7.47 0 0 0-5.34 2.24L16 7.36l-1.11-1.12a7.49 7.49 0 0 0-10.68 0a7.72 7.72 0 0 0 0 10.82L16 29l11.79-11.94a7.72 7.72 0 0 0 0-10.82A7.49 7.49 0 0 0 22.45 4Z" /></svg>
+                    {userIsLiked ?
+                        <div className="group flex flex-row justify-items-center items-center gap-x-1">
+                            <div onClick={handleRemoveLike} className="fill-[#00cfe8]">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path d="M22.5 4c-2 0-3.9.8-5.3 2.2L16 7.4l-1.1-1.1c-2.9-3-7.7-3-10.6-.1l-.1.1c-3 3-3 7.8 0 10.8L16 29l11.8-11.9c3-3 3-7.8 0-10.8C26.4 4.8 24.5 4 22.5 4z" /></svg>
+                            </div>
+                            <span className="text-[#8E9AAB]">{likes}</span>
                         </div>
-                        <div onClick={handleAddLike} className="hidden group-hover:block group-hover:fill-[#00cfe8]">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M22.5 4c-2 0-3.9.8-5.3 2.2L16 7.4l-1.1-1.1c-2.9-3-7.7-3-10.6-.1l-.1.1c-3 3-3 7.8 0 10.8L16 29l11.8-11.9c3-3 3-7.8 0-10.8C26.4 4.8 24.5 4 22.5 4z" /></svg>
+                        :
+                        <div className="group flex flex-row justify-items-center items-center gap-x-1">
+                            <div className="fill-slate-200 group-hover:hidden">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path d="M22.45 6a5.47 5.47 0 0 1 3.91 1.64a5.7 5.7 0 0 1 0 8L16 26.13L5.64 15.64a5.7 5.7 0 0 1 0-8a5.48 5.48 0 0 1 7.82 0l2.54 2.6l2.53-2.58A5.44 5.44 0 0 1 22.45 6m0-2a7.47 7.47 0 0 0-5.34 2.24L16 7.36l-1.11-1.12a7.49 7.49 0 0 0-10.68 0a7.72 7.72 0 0 0 0 10.82L16 29l11.79-11.94a7.72 7.72 0 0 0 0-10.82A7.49 7.49 0 0 0 22.45 4Z" /></svg>
+                            </div>
+                            <div onClick={handleAddLike} className="hidden group-hover:block group-hover:fill-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path d="M22.5 4c-2 0-3.9.8-5.3 2.2L16 7.4l-1.1-1.1c-2.9-3-7.7-3-10.6-.1l-.1.1c-3 3-3 7.8 0 10.8L16 29l11.8-11.9c3-3 3-7.8 0-10.8C26.4 4.8 24.5 4 22.5 4z" /></svg>
+                            </div>
+                            <span className="text-[#8E9AAB]">{likes}</span>
                         </div>
-                        <span className="text-[#8E9AAB]">{likes}</span>
-                    </div>
-
+                    }
                 </div>
             </div>
             <div className="flex flex-row gap-x-3 justify-between">

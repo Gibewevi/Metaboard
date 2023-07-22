@@ -1,3 +1,7 @@
+22/07/23
+    - like [refactoriser]
+    - like animation lors du like (compteur haut/bas)
+    - fix:récuperer l'information de l'utilisateur qui like au chargement de la page
 
 17/07/23
     - favorites

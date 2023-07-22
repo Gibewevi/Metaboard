@@ -1,17 +1,71 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const addLike = async(userId, accountId) => {
+
+const addLikeToUserAccount = async (accountId) => {
     try {
-        const like = await prisma.accounts_likes.create({
-            data : {
-                account_id : accountId,
-                user_id : userId
+        const account = await prisma.users_accounts.update({
+            where: {
+                account_id: accountId
+            },
+            data: {
+                likes: {
+                    increment: 1 // increments likes by 1
+                }
             }
         });
-        return like;
-    } catch(error){
+        return account.likes;
+    } catch (error) {
         throw new Error(`Failed to add like: ${error}`);
+    }
+};
+
+const removeLikeFromUserAccount = async(accountId) => {
+    try {
+        const account = await prisma.users_accounts.update({
+            where: {
+                account_id: accountId
+            },
+            data: {
+                likes: {
+                    increment: -1 // decrements likes by 1
+                }
+            }
+        });
+        return account.likes;
+    } catch (error) {
+        throw new Error(`Failed to remove like: ${error}`);
+    }
+};
+
+const addAccountsLikes = async (userId, accountId) => {
+    try {
+        const like = await prisma.accounts_likes.create({
+            data: {
+                account_id: accountId,
+                user_id: userId
+            }
+        });
+        return true;
+    } catch (error) {
+        throw new Error(`Failed to add like: ${error}`);
+        return false;
+    }
+};
+
+const removeAccountsLikes = async (userId, accountId) => {
+    try {
+        const deletedAccount = await prisma.accounts_likes.delete({
+            where: {
+                account_id_user_id: {
+                    account_id: accountId,
+                    user_id: userId
+                }
+            }
+        });
+        return true;
+    } catch (error) {
+        return false;
     }
 };
 
@@ -201,5 +255,8 @@ export const accountModel = {
     changeSharedAccountStatus,
     getSharedAccounts,
     getFavoriteAccountByUserId,
-    addLike
+    addAccountsLikes,
+    addLikeToUserAccount,
+    removeAccountsLikes,
+    removeLikeFromUserAccount
 };
