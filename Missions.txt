@@ -2,6 +2,8 @@
     - like [refactoriser]
     - like animation lors du like (compteur haut/bas)
     - fix:récuperer l'information de l'utilisateur qui like au chargement de la page
+    - ajout de la certification (BDD/icone)
+    - ajout onglet déroulant dans accounts overview pour cacher les différentes rubriques (comptes personnels, comptes partagés, comptes achetés);
 
 17/07/23
     - favorites

@@ -5,7 +5,7 @@ require('dotenv').config();
 
 export default function Community({accounts, userId}) {
   const [sharedAccounts, setSharedAccounts] = useState(accounts);
-
+console.log(accounts)
   const ListSharedAccounts = () => {
     return sharedAccounts.map((account, key) => {
       return (<SharedAccount account={account} key={key} user_id={userId}/>)

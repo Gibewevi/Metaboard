@@ -34,9 +34,9 @@ model users_accounts {
   winning_trades          Int       @default(0)
   losing_trades           Int       @default(0)
   orders_number           Int       @default(0)
-  likes                   Int @default(0)
-  orders                  accounts_orders[] 
-  favorites  favorites_accounts[]
+  likes                   Int       @default(0)
+  orders                  accounts_orders[]
+  favorites               favorites_accounts[]
 }
 
 model accounts_orders {
