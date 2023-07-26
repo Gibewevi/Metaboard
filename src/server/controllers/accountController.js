@@ -6,7 +6,8 @@ const getFavoriteAccountsByUserId = async(userId) => {
 };
 
 const getSharedAccounts = async(userId) => {
-    const sharedAccount = await accountModel.getSharedAccounts(userId);
+    const sharedAccount = await accountModel.getCommunityAccounts(userId);
+    
     return sharedAccount;
 }
 
@@ -97,30 +98,29 @@ const getAccountFromAccountId = async (account_id) => {
     }
 };
 
-const addAccountsLikes = async(userId, accountId) => {
+const addAccountsLikes = async (userId, accountId) => {
     const isLike = await accountModel.addAccountsLikes(userId, accountId);
-    if(isLike){
-        const likes = await accountModel.addLikeToUserAccount(accountId);
-        return likes;
+    if (isLike) {
+        return accountModel.addLikeToUserAccount(accountId);
     };
     return isLike;
 };
 
-const removeAccountsLikes = async(userId, accountId) => {
+const removeAccountsLikes = async (userId, accountId) => {
     const isRemove = await accountModel.removeAccountsLikes(userId, accountId);
-    if(isRemove){
-        const likes = await accountModel.removeLikeFromUserAccount(accountId);
-        return likes;
-    }
+    if (isRemove) {
+        return accountModel.removeLikeFromUserAccount(accountId);
+    };
+    return isRemove;
 };
 
 const addLikeToUserAccount = async(accountId) => {
-    const like = await accountModel.addLikeToUserAccount();
+    const like = await accountModel.addLikeToUserAccount(accountId);
     return like;
 };
 
-const removeLikeFromUserAccount = async() => {
-    const like = await accountModel.removeLikeFromUserAccount();
+const removeLikeFromUserAccount = async(accountId) => {
+    const like = await accountModel.removeLikeFromUserAccount(accountId);
     return like;
 };
 

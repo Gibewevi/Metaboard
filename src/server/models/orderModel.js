@@ -2,9 +2,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// const getLastTenOrdersByAccounts = async(accounts){
-
-// };
 
 const setOrdersByOrders = async (orders) => {
     try {
@@ -23,10 +20,10 @@ const setOrdersByOrders = async (orders) => {
                     profit: order.profit,
                     stop_loss: order.stop_loss,
                     risk: order.risk,
-                    risk_percent : order.risk_percent,
-                    risk_method : order.risk_method,
+                    risk_percent: order.risk_percent,
+                    risk_method: order.risk_method,
                     profit_percent: order.profit_percent,
-                    risk_reward : order.risk_reward,
+                    risk_reward: order.risk_reward,
                     picture: order.picture,
                 }
             });
@@ -85,8 +82,8 @@ const insertOrderByAccountId = async (order) => {
                 stop_loss: order.stop_loss,
                 risk: order.risk,
                 risk_method: order.risk_method,
-                risk_percent : order.risk_percent,
-                risk_reward : order.risk_reward,
+                risk_percent: order.risk_percent,
+                risk_reward: order.risk_reward,
                 picture: order.picture || null
             }
         });

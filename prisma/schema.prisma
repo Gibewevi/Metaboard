@@ -29,14 +29,15 @@ model users_accounts {
   initial_balance         Decimal   @db.Decimal(10, 2)
   current_balance         Decimal   @db.Decimal(10, 2)
   shared                  Boolean
+  certified               Boolean   @default(false)
   profit_and_loss         Decimal   @default(0) @db.Decimal(10, 2)
   profit_and_loss_percent Decimal   @default(0) @db.Decimal(10, 2)
   winning_trades          Int       @default(0)
   losing_trades           Int       @default(0)
   orders_number           Int       @default(0)
-  likes                   Int @default(0)
-  orders                  accounts_orders[] 
-  favorites  favorites_accounts[]
+  likes                   Int       @default(0)
+  orders                  accounts_orders[]
+  favorites               favorites_accounts[]
 }
 
 model accounts_orders {

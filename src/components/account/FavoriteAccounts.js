@@ -4,7 +4,7 @@ import serviceAccount from "@/services/Account";
 
 export default function FavoriteAccount({ accountData }) {
     const [account, setAccount] = useState(accountData);
-console.log('account : ', account);
+
     return (
         <div className={`bg-[#1A1D1F] flex flex-row w-full h-[90px] bg-[#1A1D1F] rounded-md transition-all ease-in duration-800 hover:scale-105 hover:border hover:border-2 hover:border-[#35E2F7]`}>
 
@@ -34,7 +34,7 @@ console.log('account : ', account);
                         <span className="text-green-600">{account.profit_and_loss_percent}</span>
                     </div>
                     <div className="flex gap-x-3 items-center justify-center">
-                        <Link href={`account/analytics/${account.account_id}`}>
+                        <Link href={`account/favorite/${account.account_id}`}>
                             <button className="h-[35px] border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">dashboard</button>
                         </Link>               
                     </div>

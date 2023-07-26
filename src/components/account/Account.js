@@ -41,7 +41,7 @@ export default function Account({ accountData }) {
                         <span className="text-green-600">{account.profit_and_loss_percent}</span>
                     </div>
                     <div className="flex gap-x-3 items-center justify-center">
-                        <Link href={`account/analytics/${account.account_id}`}>
+                        <Link href={`account/private/${account.account_id}`}>
                             <button className="h-[35px] border border-1 border-[#35E2F7] p-2 pt-1 pb-1 rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white">dashboard</button>
                         </Link>
                         <button onClick={handleShared} className={`${isShared ? 'fill-white bg-[#35E2F7]' : 'fill-[#35E2F7] hover:fill-white'} h-[35px] border border-1 border-[#35E2F7] p-2 pt-1 pb-1 fill-[#35E2F7] rounded-md text-[#35E2F7] transition-all ease-in duration-800 hover:bg-[#35E2F7] hover:text-white`}>

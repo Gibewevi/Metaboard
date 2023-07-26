@@ -1,24 +1,21 @@
 import { accountController } from "@/server/controllers/accountController";
 
 export default async function handler(req, res) {
-    // Récupération des valeurs userId et accountId depuis la requête
-    const userId = req.query.userId;
-    const accountId = req.query.accountId;
+    const userId = parseInt(req.query.userId);
+    const accountId = parseInt(req.query.accountId);
 
-    // Conversion des valeurs en entiers
-    const user_id = parseInt(userId);
-    const account_id = parseInt(accountId);
-
-    if (req.method === 'POST') {
-        // ajouter un like dans la table account_like
-        const likes = await accountController.addAccountsLikes(user_id, account_id);
-        res.status(200).json(likes);
-    } 
-    else if (req.method === 'DELETE') {
-        console.log('DELETE');
-        // supprimer le like dans la table account_like
-        const likes = await accountController.removeAccountsLikes(user_id, account_id);
-        console.log('likes : ', likes);
-        res.status(200).json(likes);
+    try {
+        if (req.method === 'POST') {
+            const likes = await accountController.addAccountsLikes(userId, accountId);
+            res.status(200).json(likes);
+        } else if (req.method === 'DELETE') {
+            const likes = await accountController.removeAccountsLikes(userId, accountId);
+            res.status(200).json(likes);
+        } else {
+            throw new Error('Method not allowed');
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
+
