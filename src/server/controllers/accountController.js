@@ -1,17 +1,12 @@
 import { accountModel } from "../models/accountModel";
 
-const getEntryExitDateByAccountId = async(accountId) => {
-    const date = accountModel.getEntryAndExitDateByAccountId(accountId);
-    return date;
-};
-
 const getFavoriteAccountsByUserId = async(userId) => {
     const favoriteAccounts = accountModel.getFavoriteAccountByUserId(userId);
     return favoriteAccounts;
 };
 
 const getSharedAccounts = async(userId) => {
-    const sharedAccount = await accountModel.getSharedAccounts(userId);
+    const sharedAccount = await accountModel.getCommunityAccounts(userId);
     
     return sharedAccount;
 }

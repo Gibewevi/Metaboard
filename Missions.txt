@@ -1,9 +1,21 @@
+25/07/23
+    - IDEES
+        -- fil twitter 
+            -- nouvelles stratégies partagées (tout le monde)
+                -- possibilité de like le "tweet" -> le like seras comptabilisée dans la stratégie
+            -- stratégies partagés par des amis
+            -- nouvelle formation en ligne
+
+23/07/23
+    - ajout de la certification (BDD/icone) -- check
+    - ajout onglet déroulant dans accounts overview pour cacher les différentes rubriques (comptes personnels, comptes partagés, comptes achetés)
+    - fix: mauvais nombres de likes a l'update de la page
+    - ajout de la description dans le compte (description, indicateurs, etc)
+    - ajout d'une icone formation dans le compte pour acceder aux videos (projet long terme)
 22/07/23
-    - like [refactoriser]
-    - like animation lors du like (compteur haut/bas)
-    - fix:récuperer l'information de l'utilisateur qui like au chargement de la page
-    - ajout de la certification (BDD/icone)
-    - ajout onglet déroulant dans accounts overview pour cacher les différentes rubriques (comptes personnels, comptes partagés, comptes achetés);
+    - like [refactoriser] -> check
+    - like animation lors du like (compteur haut/bas) -> check
+    - fix:récuperer l'information de l'utilisateur qui like au chargement de la page -> check
 
 17/07/23
     - favorites
@@ -25,31 +37,31 @@ Creer un middleware capable de sécuriser les routes avec une authentification J
         * supprimer trade
 
 * supprimer trade 
-    - clique sur l'ordre
-    - petit volet déroulant a droite a l'interieur de la div par dessus les infos
-    - poubelle pour supprimer
+    - clique sur l'ordre -- check
+    - petit volet déroulant a droite a l'interieur de la div par dessus les infos -- check
+    - poubelle pour supprimer -- check
 
 - middleware 
     * sécuriser les routes avec vérification JWT
     * vérifier le hostname du JWT et de l'URL
     * rajouter l'id de l'utilisateur dans le JWT
 - back-end
-    * calcul PL (avec initiale balance et current balance)
-    * calcul PL% (avec initiale balance et current balance)
-    * ajouter un trade 
+    * calcul PL (avec initiale balance et current balance) -- check
+    * calcul PL% (avec initiale balance et current balance) -- check
+    * ajouter un trade -- check
 - front 
-    * intégration des comptes
-    * page compte
-    * ajouter des trades (formulaire)
+    * intégration des comptes -- check
+    * page compte -- check
+    * ajouter des trades (formulaire) -- check
 
 - formulaire order
-    - utiliser le select dans formik pour choisir la methode de calcul
-    - et ne recuperer qu'un seul input positionAmount
+    - utiliser le select dans formik pour choisir la methode de calcul -- check
+    - et ne recuperer qu'un seul input positionAmount -- check
 
 - page ordres
-    - win rate ( argent gagné / argent perdu)
-    - win rate ( trade gagnant / trade perdu)
-    - ratio (short / long)
+    - win rate ( argent gagné / argent perdu) -- check
+    - win rate ( trade gagnant / trade perdu) -- check
+    - ratio (short / long) -- check
 
 
 

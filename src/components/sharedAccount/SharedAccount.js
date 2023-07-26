@@ -3,24 +3,37 @@ import SharedAccountPL from "../chart/sharedAccountPL";
 import accountService from "@/services/Account";
 import LikeCounter from "./LikeCounter";
 import Favorite from "./Favorite";
+import Link from "next/link";
 
-export default function SharedAccount({ account, user_id }) {
+export default function SharedAccount({ account, user_id, link }) {
     const [sharedAccount, setSharedAccount] = useState(account);
+    const [isCertified, setIsCertified] = useState(account.certified);
     const accountId = sharedAccount.account_id;
     const userId = user_id;
 
     return (
-        <div className="flex flex-col gap-y-4 bg-[#1A1D1F] rounded-2xl min-w-[290px] min-h-[280px] p-3">
+        <div className="flex flex-col justify-around gap-y-4 bg-[#1A1D1F] rounded-2xl min-w-[290px] max-w-[290px] min-h-[300px] max-h-[300px] p-3 ">
 
             <div className="flex flex-row justify-between items-center mt-2">
-                <div className="flex justify-center items-center h-[30px] bg-[#282C2E] rounded-lg p-4">
-                    <span className="text-sm text-[#8E9AAB]">strategy</span>
+                <div className="flex flex-row justify-center items-center gap-x-1 max-w-[100px] h-[30px] bg-[#282C2E] rounded-lg p-4 fill-[#00cfe8]">
+                    {isCertified ?
+                        <div className="flex flex-row items-center gap-x-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 0 0 1.745-.723a3.066 3.066 0 0 1 3.976 0a3.066 3.066 0 0 0 1.745.723a3.066 3.066 0 0 1 2.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 0 1 0 3.976a3.066 3.066 0 0 0-.723 1.745a3.066 3.066 0 0 1-2.812 2.812a3.066 3.066 0 0 0-1.745.723a3.066 3.066 0 0 1-3.976 0a3.066 3.066 0 0 0-1.745-.723a3.066 3.066 0 0 1-2.812-2.812a3.066 3.066 0 0 0-.723-1.745a3.066 3.066 0 0 1 0-3.976a3.066 3.066 0 0 0 .723-1.745a3.066 3.066 0 0 1 2.812-2.812Zm7.44 5.252a1 1 0 0 0-1.414-1.414L9 10.586L7.707 9.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4Z" clip-rule="evenodd" /></svg>
+                            <span className="text-sm text-[#8E9AAB]">Certified</span>
+                        </div>
+                        :
+                        <div>
+                            <span className="text-sm text-[#8E9AAB]">Strategy</span>
+                        </div>
+                    }
                 </div>
                 <div className="flex flex-row gap-x-4">
                     <Favorite userId={userId} sharedAccount={sharedAccount} accountId={accountId} />
-                    <div className="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M13 15c1.485 0 2.554 1.497 3.686 3.081C17.998 19.918 19.486 22 22 22c5.67 0 7.78-10.79 8-12l-1.968-.358C27.55 12.282 25.394 20 22 20c-1.485 0-2.554-1.497-3.686-3.081C17.002 15.082 15.514 13 13 13c-4.186 0-7.445 7.404-9 11.762V2H2v26a2.002 2.002 0 0 0 2 2h26v-2H5.044c1.51-5.143 4.92-13 7.956-13Z" /></svg>
-                    </div>
+                    <Link href={link} >
+                        <div className="fill-[#8E9AAB] hover:fill-slate-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path d="M13 15c1.485 0 2.554 1.497 3.686 3.081C17.998 19.918 19.486 22 22 22c5.67 0 7.78-10.79 8-12l-1.968-.358C27.55 12.282 25.394 20 22 20c-1.485 0-2.554-1.497-3.686-3.081C17.002 15.082 15.514 13 13 13c-4.186 0-7.445 7.404-9 11.762V2H2v26a2.002 2.002 0 0 0 2 2h26v-2H5.044c1.51-5.143 4.92-13 7.956-13Z" /></svg>
+                        </div>
+                    </Link>
                 </div>
             </div>
 

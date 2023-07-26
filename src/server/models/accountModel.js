@@ -111,6 +111,74 @@ const getFavoriteAccountByUserId = async (userId) => {
     }
 };
 
+const getCommunityAccounts = async(userId)=>{
+    const accounts = {
+        certified : await getSharedCertifiedAccounts(userId),
+        shared : await getSharedAccounts(userId)
+    };
+    return accounts;
+}
+
+const getSharedCertifiedAccounts = async (userId) => {
+    try {
+        const favoritedAccountIds = await prisma.favorites_accounts.findMany({
+            where: {
+                user_id: userId,
+            },
+            select: {
+                account_id: true,
+            },
+        });
+
+        const favoritedAccountIdsSet = new Set(
+            favoritedAccountIds.map((favorite) => favorite.account_id)
+        );
+
+        // Récupère les identifiants des comptes que l'utilisateur a aimés
+        const likedAccountIds = await prisma.accounts_likes.findMany({
+            where: {
+                user_id: userId,
+            },
+            select: {
+                account_id: true,
+            },
+        });
+
+        // Convertit le tableau des identifiants des comptes aimés en un Set
+        const likedAccountIdsSet = new Set(
+            likedAccountIds.map((like) => like.account_id)
+        );
+
+        const accounts = await prisma.users_accounts.findMany({
+            where: {
+                shared: true,
+                certified: true
+            },
+        });
+
+        const format = require('date-fns/format')
+
+        const accountsWithDates = await Promise.all(accounts.map(async (account) => {
+            const { entry_date, exit_date } = await getEntryAndExitDateByAccountId(account.account_id);
+            const entry_date_formatted = entry_date ? format(entry_date, "MMM dd ''yy").toUpperCase() : null;
+            const exit_date_formatted = exit_date ? format(exit_date, "MMM dd ''yy").toUpperCase() : null;
+
+            return {
+                ...account,
+                entry_date: entry_date_formatted,
+                exit_date: exit_date_formatted,
+                isFavoritedByUser: favoritedAccountIdsSet.has(account.account_id),
+                isLikedByUser: likedAccountIdsSet.has(account.account_id),
+            };
+        }));
+
+        return accountsWithDates;
+    } catch (error) {
+        // Gérez l'erreur ici
+    }
+};
+
+
 const getSharedAccounts = async (userId) => {
     try {
         const favoritedAccountIds = await prisma.favorites_accounts.findMany({
@@ -144,6 +212,7 @@ const getSharedAccounts = async (userId) => {
         const accounts = await prisma.users_accounts.findMany({
             where: {
                 shared: true,
+                certified: false
             },
         });
 
@@ -168,9 +237,6 @@ const getSharedAccounts = async (userId) => {
         // Gérez l'erreur ici
     }
 };
-
-
-
 
 
 const changeSharedAccountStatus = async (accountId) => {
@@ -313,5 +379,6 @@ export const accountModel = {
     addLikeToUserAccount,
     removeAccountsLikes,
     removeLikeFromUserAccount,
-    getEntryAndExitDateByAccountId
+    getEntryAndExitDateByAccountId,
+    getCommunityAccounts
 };

@@ -1,5 +1,6 @@
 import { orderController } from "@/server/controllers/orderController";
 import { accountController } from "@/server/controllers/accountController";
+import { statisticController } from "@/server/controllers/statisticController";
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
@@ -7,6 +8,7 @@ export default async function handler(req, res) {
     };
 
     const account_id = parseInt(req.query.account_id, 10);
+
     try {
         // account
         const account = await accountController.getAccountFromAccountId(account_id);
@@ -17,11 +19,23 @@ export default async function handler(req, res) {
         // risksRewards 
         const riskRewards = getRisksRewardByOrders(orders);
 
+        const ordersProfitsWithDateObject = statisticController.convertDatesToObjects(orders);
+        
+        const profitsPerWeek = statisticController.calculProfitsPerWeek(ordersProfitsWithDateObject);
+        const profitsPerMonth = statisticController.calculProfitsPerMonth(ordersProfitsWithDateObject);
+        const profitsPerYear = statisticController.calculProfitsPerYear(ordersProfitsWithDateObject);
+
         const analytic = {
             orders : orders,
             profitLoss: profitLoss,
             account: account,
-            risksRewards: riskRewards
+            risksRewards: riskRewards,
+            dateProfits : {
+                perWeek : profitsPerWeek,
+                perMonth : profitsPerMonth,
+                perYear : profitsPerYear,
+                
+            }
         };
         
         res.status(200).json(analytic);
