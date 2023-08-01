@@ -41,7 +41,7 @@ export default function Sidebar() {
                 <Menu title='Accounts overview' image='/CarbonHome.svg' link='/accounts' unfold={unfold} />
                 <Menu title='Profil' image='/CarbonUser.svg' link='profil' unfold={unfold} />
                 <Menu title='Trading view +' image='/CarbonAnalyticsCustom.svg' link='tradingview' unfold={unfold} />
-                <Menu title='community' image='/CarbonStore.svg' link='community' unfold={unfold} />
+                <Menu title='community' image='/CarbonStore.svg' link='/community' unfold={unfold} />
                 <Menu title='Leaderboard' image='/CarbonBookmarkAdd.svg' link='leaderboard' unfold={unfold} />
             </div>
         </div>

@@ -67,15 +67,15 @@ const RiskRewardAverage = ({ risksRewards }) => {
     }, [risksRewards]);
 
     return (
-        <div className="bg-[#1A1D1F] p-4 rounded-lg">
+        <div className="bg-[#1A1D1F] p-4 rounded-lg h-[225px]">
             <div className="w-full flex flex-row justify-between p-4">
                 <div className='flex flex-col justify-center items-center'>
-                    <span className="text-xl font-extralight text-white">Average RR</span>
-                    <span className="text-2xl font-black text-white">{average}</span>
+                    <span className="text-xl font-extralight text-[#ADB6C2]">Average RR</span>
+                    <span className="text-2xl font-black text-[#ADB6C2]">{average}</span>
                 </div>
                 <div className='flex flex-col justify-center items-center'>
-                    <span className="text-xl font-extralight text-white">Max RR</span>
-                    <span className="text-2xl font-black text-white">{max}</span>
+                    <span className="text-xl font-extralight text-[#ADB6C2]">Max RR</span>
+                    <span className="text-2xl font-black text-[#ADB6C2]">{max}</span>
                 </div>
             </div>
             <div style={{ height: '90px', width: '100%' }}>  {/* Définissez la hauteur ici */}

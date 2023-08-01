@@ -1,11 +1,30 @@
 import { accountModel } from "../models/accountModel";
-import { orderModel } from "../models/orderModel";
 
-const getSharedAccountsWithOrders = async() => {
-    const accounts = accountModel.getSharedAccountsWithLastTenOrders();
-    return accounts;
+const addFavoriteAccount = async(accountId, userId) => {
+    await accountModel.addFavoriteAccount(accountId, userId);
+    return;
+}
+
+const removeFavoriteAccount = async(accountId, userId) => {
+    await accountModel.removeFavoriteAccount(accountId, userId);
+    return;
 };
 
+const addViewIfNotUserAccount  = async(accountId, userId) => {
+    const views = await accountModel.addViewIfNotUserAccount(accountId, userId);
+    return views;
+}
+
+const getFavoriteAccountsByUserId = async(userId) => {
+    const favoriteAccounts = accountModel.getFavoriteAccountByUserId(userId);
+    return favoriteAccounts;
+};
+
+const getSharedAccounts = async(userId) => {
+    const sharedAccount = await accountModel.getCommunityAccounts(userId);
+    
+    return sharedAccount;
+}
 
 const changeSharedAccountStatus = async(accountId) => {
     const accountShared = await accountModel.changeSharedAccountStatus(accountId);
@@ -94,6 +113,32 @@ const getAccountFromAccountId = async (account_id) => {
     }
 };
 
+const addAccountsLikes = async (userId, accountId) => {
+    const isLike = await accountModel.addAccountsLikes(userId, accountId);
+    if (isLike) {
+        return accountModel.addLikeToUserAccount(accountId);
+    };
+    return isLike;
+};
+
+const removeAccountsLikes = async (userId, accountId) => {
+    const isRemove = await accountModel.removeAccountsLikes(userId, accountId);
+    if (isRemove) {
+        return accountModel.removeLikeFromUserAccount(accountId);
+    };
+    return isRemove;
+};
+
+const addLikeToUserAccount = async(accountId) => {
+    const like = await accountModel.addLikeToUserAccount(accountId);
+    return like;
+};
+
+const removeLikeFromUserAccount = async(accountId) => {
+    const like = await accountModel.removeLikeFromUserAccount(accountId);
+    return like;
+};
+
 export const accountController = {
     insertAccount,
     getAccountsFromUserId,
@@ -101,5 +146,13 @@ export const accountController = {
     updateAccountBalanceFromOrder,
     updateAccountBalanceByOrders,
     changeSharedAccountStatus,
-    getSharedAccountsWithOrders
+    getSharedAccounts,
+    getFavoriteAccountsByUserId,
+    addAccountsLikes,
+    addLikeToUserAccount,
+    removeLikeFromUserAccount,
+    removeAccountsLikes,
+    addViewIfNotUserAccount,
+    addFavoriteAccount,
+    removeFavoriteAccount
 }

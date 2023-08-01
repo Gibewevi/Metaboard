@@ -2,14 +2,11 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// const getLastTenOrdersByAccounts = async(accounts){
-
-// };
 
 const setOrdersByOrders = async (orders) => {
     try {
         for (const order of orders) {
-            await prisma.orders.update({
+            await prisma.accounts_orders.update({
                 where: {
                     order_id: order.order_id
                 },
@@ -23,10 +20,10 @@ const setOrdersByOrders = async (orders) => {
                     profit: order.profit,
                     stop_loss: order.stop_loss,
                     risk: order.risk,
-                    risk_percent : order.risk_percent,
-                    risk_method : order.risk_method,
+                    risk_percent: order.risk_percent,
+                    risk_method: order.risk_method,
                     profit_percent: order.profit_percent,
-                    risk_reward : order.risk_reward,
+                    risk_reward: order.risk_reward,
                     picture: order.picture,
                 }
             });
@@ -40,9 +37,12 @@ const setOrdersByOrders = async (orders) => {
 
 const getOrdersByAccountId = async (account_id) => {
     try {
-        const orders = await prisma.orders.findMany({
+        const orders = await prisma.accounts_orders.findMany({
             where: {
                 account_id: account_id,
+            },
+            orderBy: {
+                closed_date: 'asc',  // Trier par 'closed_date' en ordre croissant
             },
         });
 
@@ -54,10 +54,11 @@ const getOrdersByAccountId = async (account_id) => {
     }
 };
 
+
 const deleteOrder = async (orderId) => {
     try {
         // Supprimer l'ordre par son ID
-        const deletedOrder = await prisma.orders.delete({
+        const deletedOrder = await prisma.accounts_orders.delete({
             where: {
                 order_id: orderId
             }
@@ -72,7 +73,7 @@ const deleteOrder = async (orderId) => {
 
 const insertOrderByAccountId = async (order) => {
     try {
-        const newOrder = await prisma.orders.create({
+        const newOrder = await prisma.accounts_orders.create({
             data: {
                 account_id: parseInt(order.account_id),
                 asset: order.asset,
@@ -85,8 +86,8 @@ const insertOrderByAccountId = async (order) => {
                 stop_loss: order.stop_loss,
                 risk: order.risk,
                 risk_method: order.risk_method,
-                risk_percent : order.risk_percent,
-                risk_reward : order.risk_reward,
+                risk_percent: order.risk_percent,
+                risk_reward: order.risk_reward,
                 picture: order.picture || null
             }
         });

@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "users_accounts" ADD COLUMN     "comments" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "favoris" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "views" INTEGER NOT NULL DEFAULT 0;

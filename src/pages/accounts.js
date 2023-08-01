@@ -1,19 +1,30 @@
 import ContentHeader from "@/components/contentHeader/contentHeader";
 import jwt from 'jsonwebtoken';
 import Account from "@/components/account/Account";
+import FavoriteAccount from "@/components/account/FavoriteAccounts";
 import { useState } from "react";
 import FormAccount from "@/components/account/FormAccount";
 require('dotenv').config();
 
 
-export default function Accounts({ auth, API_URL, accounts }) {
+export default function Accounts({ auth, API_URL, accounts, favoriteAccounts }) {
   const [newAccountIsVisible, setNewAccountIsVisible] = useState(false);
   const user = auth;
+
+  const MyFavoriteAccounts = () => {
+    if (favoriteAccounts.length > 0) {
+      return favoriteAccounts.map((account, key) => {
+        return (
+          <FavoriteAccount key={key} accountData={account.account} />
+        )
+      });
+    }
+  }
+
 
   const AccountsComponent = () => {
     if (accounts.length > 0) {
       return accounts.map((account, key) => {
-        console.log(key)
         return (
           <Account key={key} accountData={account} />
         )
@@ -62,7 +73,14 @@ export default function Accounts({ auth, API_URL, accounts }) {
             </div>
           </div>
           <FormAccount isVisible={newAccountIsVisible} submit={addAccountToDatabase} user={user} API_URL={API_URL} />
-          <AccountsComponent />
+          <div className="flex flex-col gap-y-4">
+            <span className="text-xl text-slate-300">My accounts</span>
+            <AccountsComponent />
+          </div>
+          <div className="flex flex-col gap-y-4">
+            <span className="text-xl text-slate-300">My favorite</span>
+            <MyFavoriteAccounts />
+          </div>
         </div>
       </div>
     </div>
@@ -86,16 +104,23 @@ export async function getServerSideProps(context) {
     }
   };
 
-    const response = await fetch(`${API_URL}/api/accounts?user_id=${auth.user_id}`, {
-      method: 'GET',
-      credentials: 'include' // Ajoutez cette ligne
-    });
+  const resAccounts = await fetch(`${API_URL}/api/accounts?user_id=${auth.user_id}`, {
+    method: 'GET',
+    credentials: 'include' // Ajoutez cette ligne
+  });
 
-    const data = await response.json();
-    const accounts = data.accounts;
+  const dataAccounts = await resAccounts.json();
+  const accounts = dataAccounts.accounts;
 
-    // Si la vérification du token est un succès, continuez comme d'habitude
-    return {
-      props: { auth, API_URL, accounts }, 
-    }
+  const resFavoriteAccounts = await fetch(`${API_URL}/api/user/${auth.user_id}/my-favorites`, {
+    method: 'GET',
+    credentials: 'include' // Ajoutez cette ligne
+  });
+
+  const favoriteAccounts = await resFavoriteAccounts.json();
+
+  // Si la vérification du token est un succès, continuez comme d'habitude
+  return {
+    props: { auth, API_URL, accounts, favoriteAccounts },
   }
+}

@@ -31,8 +31,15 @@ const userIsExist = async (email) => {
     return false;
 }
 
-const util = require('util');
-const bcryptCompare = util.promisify(bcrypt.compare);
+const addFavoriteAccount = async(userId, accountId) => {
+    const newFavoriteAccount = await userModel.addFavoriteAccount(userId, accountId);
+    return newFavoriteAccount;
+};
+
+const deleteFavoriteAccount = async(userId, accountId) => {
+    const deleteFavorite = await userModel.deleteFavoriteAccount(userId, accountId);
+    return deleteFavorite;
+};
 
 const signin = async (userAccount) => {
     if (await userIsExist(userAccount.email)) {
@@ -77,5 +84,7 @@ const insertUser = async (account) => {
 export const userController = {
     insertUser,
     signin,
-    getUserIdFromEmail
+    getUserIdFromEmail,
+    addFavoriteAccount,
+    deleteFavoriteAccount
 }
