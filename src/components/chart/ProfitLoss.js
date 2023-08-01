@@ -3,6 +3,7 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 
 const ProfitLossChart = ({ profitLoss, account }) => {
+
   const winrate = Math.round((account.winning_trades / (account.winning_trades+account.losing_trades)) * 100);
   const chartContainer = useRef(null);
   const chartInstance = useRef(null);  // utilisez useRef pour une valeur persistante

@@ -36,6 +36,9 @@ model users_accounts {
   losing_trades           Int       @default(0)
   orders_number           Int       @default(0)
   likes                   Int       @default(0)
+  views                   Int       @default(0)
+  comments                Int       @default(0)
+  favorite_count          Int       @default(0)
   orders                  accounts_orders[]
   favorites               favorites_accounts[]
 }

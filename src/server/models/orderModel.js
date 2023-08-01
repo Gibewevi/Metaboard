@@ -41,6 +41,9 @@ const getOrdersByAccountId = async (account_id) => {
             where: {
                 account_id: account_id,
             },
+            orderBy: {
+                closed_date: 'asc',  // Trier par 'closed_date' en ordre croissant
+            },
         });
 
         return orders;
@@ -50,6 +53,7 @@ const getOrdersByAccountId = async (account_id) => {
         throw error;
     }
 };
+
 
 const deleteOrder = async (orderId) => {
     try {

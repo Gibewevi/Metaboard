@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         await orderController.deleteOrderById(orderId);
 
         // actualise toutes les données de profits
+
         // récupère tous les ordres
         let orders = await orderController.getOrdersByAccountId(accountId);
         // récupère le compte
@@ -19,6 +20,7 @@ export default async function handler(req, res) {
         let orderHasUpdated = await orderController.updateOrdersAfterOrderDelete(orders, account);
 
         let ordersUpdated = await orderModel.setOrdersByOrders(orderHasUpdated);
+        // console.log('orders updated : ', ordersUpdated);
         let accountUpdated = await accountController.updateAccountBalanceByOrders(account, ordersUpdated);
         res.status(200).json(ordersUpdated);
     } catch (error) {

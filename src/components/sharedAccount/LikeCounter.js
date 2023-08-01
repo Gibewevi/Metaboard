@@ -1,9 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import accountService from "@/services/Account";
+import numeral from 'numeral';
+
 export default function LikeCounter({ sharedAccount, userId, accountId }) {
     const [likes, setLikes] = useState([sharedAccount.likes + 1, sharedAccount.likes, sharedAccount.likes - 1]);
     const [isLikedByUser, setIsLikedByUser] = useState(sharedAccount.isLikedByUser);
 
+    function formatNumber(number) {
+        if (number >= 1000) {
+            return numeral(number).format('0.0a');
+        } else {
+            return number;
+        }
+    }
+    
     const handleAddLike = async () => {
         const likes = await accountService.likeAccount(userId, accountId);
         if (Boolean(likes)) {
@@ -24,7 +34,7 @@ export default function LikeCounter({ sharedAccount, userId, accountId }) {
     const ListLike = () => {
         return (
             <div
-                className=' overflow-hidden w-[30px] h-[20px] relative'
+                className=' overflow-hidden w-[33px] h-[20px] relative'
             >
                 <div  className={`like-container ${isLikedByUser ? 'translate-y-20' : 'translate-y-0'}`}>
                 {likes.map((like, key) => (
@@ -32,7 +42,7 @@ export default function LikeCounter({ sharedAccount, userId, accountId }) {
                         className={`h-[20px] w-[20px]`}
                         key={key}
                     >
-                        {like}
+                        {formatNumber(like)}
                     </span>
                 ))}
                 </div>

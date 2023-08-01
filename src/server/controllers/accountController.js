@@ -1,5 +1,20 @@
 import { accountModel } from "../models/accountModel";
 
+const addFavoriteAccount = async(accountId, userId) => {
+    await accountModel.addFavoriteAccount(accountId, userId);
+    return;
+}
+
+const removeFavoriteAccount = async(accountId, userId) => {
+    await accountModel.removeFavoriteAccount(accountId, userId);
+    return;
+};
+
+const addViewIfNotUserAccount  = async(accountId, userId) => {
+    const views = await accountModel.addViewIfNotUserAccount(accountId, userId);
+    return views;
+}
+
 const getFavoriteAccountsByUserId = async(userId) => {
     const favoriteAccounts = accountModel.getFavoriteAccountByUserId(userId);
     return favoriteAccounts;
@@ -136,5 +151,8 @@ export const accountController = {
     addAccountsLikes,
     addLikeToUserAccount,
     removeLikeFromUserAccount,
-    removeAccountsLikes
+    removeAccountsLikes,
+    addViewIfNotUserAccount,
+    addFavoriteAccount,
+    removeFavoriteAccount
 }

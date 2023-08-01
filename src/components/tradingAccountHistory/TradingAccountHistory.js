@@ -3,8 +3,8 @@ import Order from "./order";
 import ordersService from "@/services/Orders";
 import { useCallback, useMemo } from 'react';
 
-export default function TradingAccountHistory(props) {
-    const [orders, setOrders] = useState(props.orders);
+export default function TradingAccountHistory({isPrivacy, orders, setOrders, updateAnalyticAccount}) {
+
     const page = [5, 10, 25, 50, 100];
     const [ordersPerPage, setOrdersPerPage] = useState(5);
     const [pageSelect, setPageSelect] = useState(1);
@@ -13,21 +13,6 @@ export default function TradingAccountHistory(props) {
         let maxPage = orders.length / ordersPerPage;
         return Math.ceil(maxPage);
     }, [orders, ordersPerPage]);
-
-    const updateOrdersAfterRemoveOrder = (orders) => {
-        let pendingOrders = [];
-        orders.forEach(order => {
-            let pendingOrder = ordersService.format(order);
-            pendingOrders.push(order);
-        });
-        setOrders(pendingOrders);
-    };
-
-    useEffect(() => {
-        setOrders(props.orders);
-    }, [props.orders]);
-
-
 
     const handleSelectChange = useCallback((event) => {
         setPageSelect(1);
@@ -56,7 +41,7 @@ export default function TradingAccountHistory(props) {
         const endIndex = Math.min(startIndex + ordersPerPage, orders.length);
         return orders.slice(startIndex, endIndex).map((order, key) => {
             return (
-                <Order data={order} id={key} key={key} updateOrdersAfterRemoveOrder={updateOrdersAfterRemoveOrder} isPrivacy={props.isPrivacy}/>
+                <Order data={order} id={key} key={key} updateAnalyticAccount={updateAnalyticAccount} isPrivacy={isPrivacy}/>
             )
         })
     }

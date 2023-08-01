@@ -65,7 +65,7 @@ export default function SharedAccount({ account, user_id, link }) {
                 </div>
             </div>
 
-            <div className="w-full flex justify-between items-center">
+            <div className="w-full flex justify-between items-center ">
                 <div>
                     <span className="text-[#8E9AAB]">Gain/Loss : </span>
                     <span className="text-[#00cfe8]">{sharedAccount.profit_and_loss}$</span>

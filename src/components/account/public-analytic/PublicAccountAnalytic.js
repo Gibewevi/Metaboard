@@ -10,7 +10,7 @@ import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAcc
 import SocialHeader from "@/components/account/SocialHeader";
 import DateProfits from "@/components/chart/dateProfits";
 
-export default function PublicAccountAnalytic({ analytic }) {
+export default function PublicAccountAnalytic({ headerTitle, analytic }) {
 
     const [dateProfits, setDateProfits] = useState(analytic.dateProfits.perWeek);
     const [account, setAccount] = useState(analytic.account);
@@ -23,7 +23,7 @@ export default function PublicAccountAnalytic({ analytic }) {
             <Layout>
                 <div className="flex flex-col gap-y-5">
 
-                    <SocialHeader strategy={account.strategy} />
+                    <SocialHeader account={account} headerTitle={headerTitle} />
 
                     <div className="flex flex-row">
                         <HeaderIndex account_id={account.account_id} />

@@ -12,7 +12,6 @@ export default function Community({ accounts, userId }) {
 
   const ListSharedAccounts = () => {
     return sharedAccounts.map((account, key) => {
-      console.log(account)
       if (key < 4) {
         return (<SharedAccount account={account} key={key} user_id={userId} link={`/community/collaborative-accounts/${account.account_id}`} />)
       }
@@ -76,7 +75,6 @@ export async function getServerSideProps(context) {
 
   const API_URL = process.env.API_URL;
   // récupérer les favoris de l'utilisateur
-
 
   // récupérer les comptes partagés
   const resAccountsShared = await fetch(`${API_URL}/api/accounts/shared?userId=${userId}`, {

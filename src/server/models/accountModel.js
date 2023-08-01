@@ -62,6 +62,31 @@ const removeLikeFromUserAccount = async (accountId) => {
     }
 };
 
+const addViewIfNotUserAccount = async (accountId, userId) => {
+    try {
+        // Récupérer le compte
+        const account = await prisma.users_accounts.findUnique({
+            where: { account_id: accountId },
+        });
+
+        // Vérifier si le userId n'est pas celui du accountId
+        if (account && account.user_id !== userId) {
+            // Ajouter un view
+            const updatedAccount = await prisma.users_accounts.update({
+                where: { account_id: accountId },
+                data: { views: { increment: 1 } },
+            });
+
+            return updatedAccount.views;
+        } else {
+            return account.views;
+        }
+    } catch (error) {
+        throw new Error(`Failed to add view: ${error}`);
+    }
+};
+
+
 const addAccountsLikes = async (userId, accountId) => {
     try {
         await prisma.accounts_likes.create({
@@ -111,10 +136,10 @@ const getFavoriteAccountByUserId = async (userId) => {
     }
 };
 
-const getCommunityAccounts = async(userId)=>{
+const getCommunityAccounts = async (userId) => {
     const accounts = {
-        certified : await getSharedCertifiedAccounts(userId),
-        shared : await getSharedAccounts(userId)
+        certified: await getSharedCertifiedAccounts(userId),
+        shared: await getSharedAccounts(userId)
     };
     return accounts;
 }
@@ -332,6 +357,50 @@ const getAccountFromAccountId = async (account_id) => {
     }
 };
 
+const isOwnerOfAccount = async (accountId, userId) => {
+    const account = await prisma.users_accounts.findUnique({
+        where: { account_id: accountId },
+    });
+    return account.user_id === userId;
+};
+
+
+const addFavoriteAccount = async (accountId, userId) => {
+    if (await isOwnerOfAccount(accountId, userId)) {
+        // Si l'utilisateur est le propriétaire du compte, retourne null (ou tout autre valeur que vous jugerez appropriée)
+        return null;
+    }
+    try {
+        const updatedAccount = await prisma.users_accounts.update({
+            where: { account_id: accountId },
+            data: { favorite_count: { increment: 1 } }
+        });
+        return updatedAccount.favorite_count;
+    } catch (error) {
+        throw new Error(`Failed to add favorite: ${error}`);
+    }
+};
+
+
+const removeFavoriteAccount = async (accountId, userId) => {
+    try {
+        if (await isOwnerOfAccount(accountId, userId)) {
+            // Si l'utilisateur est le propriétaire du compte, retourne null (ou tout autre valeur que vous jugerez appropriée)
+            return null;
+        }
+        const updatedAccount = await prisma.users_accounts.update({
+            where: { account_id: accountId },
+            data: { favorite_count: { decrement: 1 } }
+        });
+        return updatedAccount.favorite_count;
+    } catch (error) {
+        throw new Error(`Failed to remove favorite: ${error}`);
+    }
+};
+
+
+
+
 const insertAccount = async (account) => {
     try {
         const user = await prisma.users_credentials.findUnique({
@@ -380,5 +449,8 @@ export const accountModel = {
     removeAccountsLikes,
     removeLikeFromUserAccount,
     getEntryAndExitDateByAccountId,
-    getCommunityAccounts
+    getCommunityAccounts,
+    addViewIfNotUserAccount,
+    addFavoriteAccount,
+    removeFavoriteAccount
 };
