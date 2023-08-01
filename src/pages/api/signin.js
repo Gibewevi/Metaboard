@@ -5,8 +5,10 @@ const { serialize } = require('cookie');
 export default async function handler(req, res) {
   const userAccount = req.body;
   const email = userAccount.email;
+console.log('userAccount : ', userAccount);
 
   const [isSignedIn, token] = await userController.signin(userAccount);
+
   if (isSignedIn) {
     const cookie = {
       httpOnly: false,

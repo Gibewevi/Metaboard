@@ -2,6 +2,7 @@ import { userController } from "@/server/controllers/userController";
 
 export default async function handler(req, res) {
   const account = req.body;
+  console.log('account : ', account);
     const response = await userController.insertUser(account);
 
     if (response.error) {
