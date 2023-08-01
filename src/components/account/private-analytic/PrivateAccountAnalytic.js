@@ -26,6 +26,7 @@ export default function PrivateAccountAnalytic({ headerTitle, analytic }) {
         });
 
         const updatedAnalyticData = await resAnalytic.json();
+        console.log('analytic : ', updatedAnalyticData);
         setAnalyticData(updatedAnalyticData);
     }
 
