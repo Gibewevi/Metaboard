@@ -43,15 +43,10 @@ const deleteFavoriteAccount = async(userId, accountId) => {
 
 const signin = async (userAccount) => {
     if (await userIsExist(userAccount.email)) {
-        console.log('userAccount.email existe');
-        console.log('----------------signin--------------------');
       try {
         const user_id = await getUserIdFromEmail(userAccount.email);
-        console.log('user_id : ', user_id);
         const passwordHash = await userModel.getHashPasswordByEmail(userAccount.email);
-        console.log('passwordHash : ', passwordHash);
         const passwordMatch = await bcrypt.compare(userAccount.password, passwordHash.trim());
-        console.log('passwordMatch : ', passwordMatch);
   
         if (passwordMatch) {
             console.log('isPasswordMatch');
@@ -63,9 +58,8 @@ const signin = async (userAccount) => {
               const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '15d' }); 
               console.log('token : ',token);
               return [true, token];
-              console.log('----------------signin--------------------');
         } else {
-            console.log('----------------signin--------------------');
+
         }
       } catch (error) {
         return [false, error.message];

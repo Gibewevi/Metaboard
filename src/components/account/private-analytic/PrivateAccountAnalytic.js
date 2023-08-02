@@ -14,7 +14,6 @@ export default function PrivateAccountAnalytic({ headerTitle, analytic }) {
     const [analyticData, setAnalyticData] = useState(analytic);
     const [orderFormOpen, setOrderFormOpen] = useState(false);
     const [orderLoading, setOrderLoading] = useState(false);
-
     const openNewOrderForm = () => {
         setOrderFormOpen(!orderFormOpen);
     };
@@ -26,7 +25,6 @@ export default function PrivateAccountAnalytic({ headerTitle, analytic }) {
         });
 
         const updatedAnalyticData = await resAnalytic.json();
-        console.log('analytic : ', updatedAnalyticData);
         setAnalyticData(updatedAnalyticData);
     }
 

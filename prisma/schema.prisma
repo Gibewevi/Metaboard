@@ -49,8 +49,8 @@ model accounts_orders {
   account        users_accounts  @relation(fields: [account_id], references: [account_id])
   asset          String    @db.VarChar(255)
   type           String    @db.VarChar(255)
-  open           Decimal   @db.Decimal(10, 2)
-  close          Decimal   @db.Decimal(10, 2)
+  open           Decimal   @db.Decimal(10, 4)
+  close          Decimal   @db.Decimal(10, 4)
   closed_date    DateTime?
   profit         Decimal   @db.Decimal(10, 2)
   stop_loss      Decimal   @db.Decimal(10, 2)
