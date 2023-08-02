@@ -45,7 +45,6 @@ const getOrdersByAccountId = async (account_id) => {
                 closed_date: 'asc',  // Trier par 'closed_date' en ordre croissant
             },
         });
-
         return orders;
     } catch (error) {
         console.error(error);
