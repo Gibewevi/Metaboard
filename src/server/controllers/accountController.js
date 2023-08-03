@@ -1,4 +1,8 @@
 import { accountModel } from "../models/accountModel";
+import { calculations } from "../utils/calculations";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
 
 const addFavoriteAccount = async(accountId, userId) => {
     await accountModel.addFavoriteAccount(accountId, userId);
@@ -57,8 +61,8 @@ const updateAccountBalanceByOrders = async (account, orders) => {
         account.profit_and_loss = account.current_balance - account.initial_balance;
         account.profit_and_loss_percent = (account.profit_and_loss / account.initial_balance) * 100;
         account.orders_number += 1;
-        account.losing_trades += isNegative(order.profit);
-        account.winning_trades += isPositive(order.profit);
+        account.losing_trades += calculations.isNegative(order.profit);
+        account.winning_trades += calculations.isPositive(order.profit);
         const accountUpdated = await accountModel.updateAccount(account);
     };
     const accountUpdated = await accountModel.updateAccount(account);
@@ -70,24 +74,11 @@ const updateAccountBalanceFromOrder = async (account, order) => {
     account.profit_and_loss = account.current_balance - account.initial_balance;
     account.profit_and_loss_percent = (account.profit_and_loss / account.initial_balance) * 100;
     account.orders_number += 1;
-    account.losing_trades += isNegative(order.profit);
-    account.winning_trades += isPositive(order.profit);
+    account.losing_trades += calculations.isNegative(order.profit);
+    account.winning_trades += calculations.isPositive(order.profit);
     const accountUpdated = await accountModel.updateAccount(account);
 };
 
-const isPositive = (number) => {
-    if (number > 0) {
-        return 1;
-    };
-    return 0;
-};
-
-const isNegative = (number) => {
-    if (number < 0) {
-        return 1;
-    };
-    return 0;
-};
 
 const getAccountsFromUserId = async (user_id) => {
     try {
@@ -139,6 +130,16 @@ const removeLikeFromUserAccount = async(accountId) => {
     return like;
 };
 
+
+const getAccountWithOrders = async(accountId) => {
+    const account = await accountModel.getAccountWithOrders(accountId);
+    return account;
+};
+
+const updateAccountStats = async(accountId, orderId) => {
+    return await accountModel.updateAccountStats(accountId, orderId);
+};
+
 export const accountController = {
     insertAccount,
     getAccountsFromUserId,
@@ -154,5 +155,7 @@ export const accountController = {
     removeAccountsLikes,
     addViewIfNotUserAccount,
     addFavoriteAccount,
-    removeFavoriteAccount
+    removeFavoriteAccount,
+    getAccountWithOrders,
+    updateAccountStats
 }

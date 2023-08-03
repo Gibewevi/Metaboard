@@ -2,39 +2,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-
-const setOrdersByOrders = async (orders) => {
-    try {
-        for (const order of orders) {
-            await prisma.accounts_orders.update({
-                where: {
-                    order_id: order.order_id
-                },
-                data: {
-                    account_id: order.account_id,
-                    asset: order.asset,
-                    type: order.type,
-                    open: order.open,
-                    close: order.close,
-                    closed_date: order.closed_date,
-                    profit: order.profit,
-                    stop_loss: order.stop_loss,
-                    risk: order.risk,
-                    risk_percent: order.risk_percent,
-                    risk_method: order.risk_method,
-                    profit_percent: order.profit_percent,
-                    risk_reward: order.risk_reward,
-                    picture: order.picture,
-                }
-            });
-        }
-        return orders;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-
 const getOrdersByAccountId = async (account_id) => {
     try {
         const orders = await prisma.accounts_orders.findMany({
@@ -53,21 +20,14 @@ const getOrdersByAccountId = async (account_id) => {
     }
 };
 
-
-const deleteOrder = async (orderId) => {
-    try {
-        // Supprimer l'ordre par son ID
-        const deletedOrder = await prisma.accounts_orders.delete({
-            where: {
-                order_id: orderId
-            }
-        });
-    } catch (error) {
-        console.error('Erreur lors de la suppression de l\'ordre:', error);
-    } finally {
-        // N'oubliez pas de fermer la connexion Prisma
-        await prisma.$disconnect();
-    }
+const deleteOrderById = async (orderId) => {
+    console.log('orderModel : deleteOrderById');
+    // Supprimer l'ordre par son ID
+    return prisma.accounts_orders.delete({
+        where: {
+            order_id: orderId
+        }
+    });
 };
 
 const insertOrderByAccountId = async (order) => {
@@ -99,6 +59,5 @@ const insertOrderByAccountId = async (order) => {
 export const orderModel = {
     insertOrderByAccountId,
     getOrdersByAccountId,
-    deleteOrder,
-    setOrdersByOrders
+    deleteOrderById,
 }

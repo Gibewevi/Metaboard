@@ -12,10 +12,13 @@ export default async function handler(req, res) {
     try {
         // account
         const account = await accountController.getAccountFromAccountId(account_id);
+
         //orders
         const orders = await orderController.getOrdersByAccountId(account_id);
+
         // profitLoss
         const profitLoss = orderController.calculProfitAndLoss(orders);
+
         // risksRewards 
         const riskRewards = getRisksRewardByOrders(orders);
 
