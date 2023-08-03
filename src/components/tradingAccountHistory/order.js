@@ -6,13 +6,17 @@ export default function Order(props) {
     const formattedDate = format(new Date(props.data.closed_date), 'dd-MM-yyyy');
     const [isPrivacy, SetIsPrivacy] = useState(props.isPrivacy);
     const [isOpen, setIsOpen] = useState(false);
+    const [loadingRemove, setLoadingRemove] = useState(false);
 
     const removeOrder = async () => {
+        setLoadingRemove(true);
         try {
             let updatedOrders = await orders.deleteOrderById(props.data);
             props.updateAnalyticAccount();
+            setLoadingRemove(false);
         } catch (error) {
             console.error(error);
+            setLoadingRemove(false);
         }
 
     };
@@ -22,7 +26,7 @@ export default function Order(props) {
     }
 
     const handleOrder = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(true);
     };
 
     return (
@@ -47,7 +51,11 @@ export default function Order(props) {
             {isPrivacy &&
                 <td className={`${isOpen ? 'w-[80px] visible' : 'w-0 invisible'} flex flex-row gap-x-4 overflow-hidden items-center justify-center absolute right-0 rounded-tl-md rounded-bl-md bg-white h-full transition-all duration-150 ease-in`}>
                     <div onClick={removeOrder} className="fill-[#00cfe8] hover:fill-red-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path d="M12 12h2v12h-2zm6 0h2v12h-2z" /><path d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" /></svg>
+                        {loadingRemove ?
+                         <div className="animate-spin w-5 h-5 border-2 border-white border-t-[#1A1D1F] rounded-full"></div> 
+                         :
+                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path d="M12 12h2v12h-2zm6 0h2v12h-2z" /><path d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z" /></svg>
+                         }
                     </div>
                     <div className="fill-[#00cfe8] hover:fill-red-400">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 32 32"><path d="M2 26h28v2H2zM25.4 9c.8-.8.8-2 0-2.8l-3.6-3.6c-.8-.8-2-.8-2.8 0l-15 15V24h6.4l15-15zm-5-5L24 7.6l-3 3L17.4 7l3-3zM6 22v-3.6l10-10l3.6 3.6l-10 10H6z" /></svg>
