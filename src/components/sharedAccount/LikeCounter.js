@@ -3,8 +3,19 @@ import accountService from "@/services/Account";
 import numeral from 'numeral';
 
 export default function LikeCounter({ sharedAccount, userId, accountId }) {
-    const [likes, setLikes] = useState([sharedAccount.likes + 1, sharedAccount.likes, sharedAccount.likes - 1]);
+
+    const initialLikes = () => {
+        const likes = [sharedAccount.likes + 1, sharedAccount.likes, sharedAccount.likes - 1];
+        if (isLikedByUser) {
+            const likes = [sharedAccount.likes, sharedAccount.likes - 1, sharedAccount.likes -2];
+            return likes;
+        };
+        return likes;
+    }
+
+    const [animate, setAnimate] = useState(false);
     const [isLikedByUser, setIsLikedByUser] = useState(sharedAccount.isLikedByUser);
+    const [likes, setLikes] = useState(initialLikes);
 
     function formatNumber(number) {
         if (number >= 1000) {
@@ -13,12 +24,12 @@ export default function LikeCounter({ sharedAccount, userId, accountId }) {
             return number;
         }
     }
-    
+
     const handleAddLike = async () => {
         const likes = await accountService.likeAccount(userId, accountId);
         if (Boolean(likes)) {
+            setAnimate(true);
             setIsLikedByUser(true);
-            // setLikes(likes);
         }
     };
 
@@ -26,26 +37,37 @@ export default function LikeCounter({ sharedAccount, userId, accountId }) {
         const likes = await accountService.unlikeAccount(userId, accountId);
         console.log('likes : ', likes);
         if (likes !== null && likes !== undefined) {
+            setAnimate(true);
             setIsLikedByUser(false);
-            // setLikes(likes);
         }
     }
 
     const ListLike = () => {
         return (
-            <div
-                className=' overflow-hidden w-[33px] h-[20px] relative'
-            >
-                <div  className={`like-container ${isLikedByUser ? 'translate-y-20' : 'translate-y-0'}`}>
-                {likes.map((like, key) => (
-                    <span
-                        className={`h-[20px] w-[20px]`}
-                        key={key}
-                    >
-                        {formatNumber(like)}
-                    </span>
-                ))}
-                </div>
+            <div className='overflow-hidden w-[33px] h-[40px] relative'>
+                {animate ?
+                    <div className={`like-container ${isLikedByUser ? 'translatey20' : 'translatey0'}`}>
+                        {likes.map((like, key) => (
+                            <span
+                                className={`h-[20px] w-[20px]`}
+                                key={key}
+                            >
+                                {formatNumber(like)}
+                            </span>
+                        ))}
+                    </div>
+                    :
+                    <div className={`like-container ${isLikedByUser ? 'translate-y-[0px]' : '-translate-y-[20px]'}`}>
+                        {likes.map((like, key) => (
+                            <span
+                                className={`h-[20px] w-[20px]`}
+                                key={key}
+                            >
+                                {formatNumber(like)}
+                            </span>
+                        ))}
+                    </div>
+                }
             </div>
         );
     };
