@@ -50,10 +50,10 @@ body {
   100% { transform: translateY(-20px); }
 }
 
-.translate-y-0 {
+.translatey0 {
   animation: slideUp 0.2s ease-in-out forwards;
 }
 
-.translate-y-20 {
+.translatey20 {
   animation: slideDown 0.2s ease-in-out forwards;
 }
