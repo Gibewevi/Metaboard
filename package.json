@@ -16,6 +16,7 @@
     "dotenv": "^16.1.4",
     "formik-yup": "^0.0.5",
     "jsonwebtoken": "^9.0.0",
+    "lightweight-charts": "^4.0.1",
     "next": "^13.3.1",
     "nookies": "^2.5.2",
     "numeral": "^2.0.6",
