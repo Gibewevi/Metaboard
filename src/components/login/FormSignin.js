@@ -32,11 +32,18 @@ function FormSignin(props) {
                 {props.touched.password && props.errors.password && <span className="text-red-500">{props.errors.password}</span>}
             </div>
             <button type="submit" onClick={props.handleSubmit} className="bg-[#00cfe8] h-[45px] rounded-sm text-lg font-semibold text-white hover:bg-white hover:text-[#00cfe8] transition-all duration-200 ease-in">Sign In</button>
-            <div className="flex flex-row gap-x-3 text-white">
-                <span>New on our platform?</span>
-                <Link href={'/signup'}>
-                    <span className="font-black text-[#00cfe8] cursor-pointer">Sign up</span>
-                </Link>
+            <div className="flex flex-col gap-y-1">
+                <div className="flex flex-row gap-x-3 text-white">
+                    <span>New on our platform?</span>
+                    <Link href={'/signup'}>
+                        <span className="font-black text-[#00cfe8] cursor-pointer">Sign up</span>
+                    </Link>
+                </div>
+                <div className="flex flex-row gap-x-1 items-center justify-end">
+                    <span className="text-sm font-extralight text-white">Using</span>
+                    <span className="font-black text-md text-white">Trading view</span>
+                    <span className="text-sm font-extralight text-white">charts</span>
+                </div>
             </div>
         </form>
     )

@@ -28,11 +28,6 @@ export default function SignIn() {
                     </span>
                 </div>
                 <FormSignin submit={signIn} />
-                <div className="flex flex-row gap-x-1 items-center">
-                    <span className="text-sm font-extralight text-white">Using</span>
-                    <span className="font-black text-md text-white">Trading view</span>
-                    <span className="text-sm font-extralight text-white">charts</span>
-                </div>
             </div>
         </div>
     );
