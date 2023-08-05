@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 export default function SignIn() {
     const router = useRouter();
 
-    const signIn = async(account) => {
-       const user = await login.signin(account);
-       if(user.valid){
-        router.push('/accounts');
-       };
+    const signIn = async (account) => {
+        const user = await login.signin(account);
+        if (user.valid) {
+            router.push('/accounts');
+        };
     };
 
     return (
@@ -28,6 +28,11 @@ export default function SignIn() {
                     </span>
                 </div>
                 <FormSignin submit={signIn} />
+                <div className="flex flex-row gap-x-1 items-center">
+                    <span className="text-sm font-extralight text-white">Using</span>
+                    <span className="font-black text-md text-white">Trading view</span>
+                    <span className="text-sm font-extralight text-white">charts</span>
+                </div>
             </div>
         </div>
     );
