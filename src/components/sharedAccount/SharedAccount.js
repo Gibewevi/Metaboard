@@ -6,10 +6,27 @@ import Favorite from "./Favorite";
 import Link from "next/link";
 
 export default function SharedAccount({ account, user_id, link }) {
+
+    const truncateStrategyName = (strategy) => {
+        // affiche 17 caracteres
+        let truncateStrategy = strategy;
+        const numberLetter = strategy.length;
+        if (numberLetter > 17) {
+            truncateStrategy = (strategy.substring(0, 19)).concat('..');
+            console.log('truncateStrategy : ', truncateStrategy);
+            return truncateStrategy;
+        };
+        console.log('truncateStrategy : ', truncateStrategy);
+        return truncateStrategy;
+    };
+
+
     const [sharedAccount, setSharedAccount] = useState(account);
     const [isCertified, setIsCertified] = useState(account.certified);
+    const [strategyName, setStrategyName] = useState(truncateStrategyName(sharedAccount.strategy));
     const accountId = sharedAccount.account_id;
     const userId = user_id;
+
 
     return (
         <div className="flex flex-col justify-around gap-y-4 bg-[#1A1D1F] rounded-2xl min-w-[290px] max-w-[290px] min-h-[300px] max-h-[300px] p-3 ">
@@ -39,7 +56,7 @@ export default function SharedAccount({ account, user_id, link }) {
 
             <div className="flex flex-row gap-x-3 justify-between">
                 <div className="flex flex-row gap-x-3">
-                    <span className="text-xl text-[#C7CCD5]">{sharedAccount.strategy}</span>
+                    <span className="text-lg text-[#C7CCD5]">{strategyName}</span>
                     <div className="flex flex-row justify-center items-center gap-x-2">
                         <div className="flex justify-center items-center border border-1 border-[#00cfe8] fill-[#00cfe8] rounded-full p-1 w-[23px] h-[23px]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.577 4.878a.75.75 0 0 1 .919-.53l4.78 1.281a.75.75 0 0 1 .531.919l-1.281 4.78a.75.75 0 0 1-1.449-.387l.81-3.022a19.407 19.407 0 0 0-5.594 5.203a.75.75 0 0 1-1.139.093L7 10.06l-4.72 4.72a.75.75 0 0 1-1.06-1.061l5.25-5.25a.75.75 0 0 1 1.06 0l3.074 3.073a20.923 20.923 0 0 1 5.545-4.931l-3.042-.815a.75.75 0 0 1-.53-.919Z" clip-rule="evenodd" /></svg>
