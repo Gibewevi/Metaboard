@@ -49,7 +49,6 @@ export default async function handler(req, res) {
 
                 // Conversion du timestamp en objet Date
                 const timestampDate = new Date(timestamp);
-
                 // Ajouter l'objet de données au tableau
                 data.push({
                     timestamp: timestampDate,
@@ -62,7 +61,7 @@ export default async function handler(req, res) {
                     timeframe: timeframe
                 });
             }
-
+                console.log(data);
             // Passer le tableau complet au contrôleur
             const result = await csvController.importCSVintoDataBase(data, currency, timeframe);
         });
