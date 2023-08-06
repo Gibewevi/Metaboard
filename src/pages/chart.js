@@ -1,5 +1,15 @@
 import Chart from "@/components/chart/lightweight/chart"
 export default function tradingView(){
+
+    const handleImportDataIntoDataBase = async() => {
+        const resCurrency = await fetch(`/api/import`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+
     const data = [
         { time: '2023-08-01', open: 50, high: 52, low: 48, close: 51 },
         { time: '2023-08-02', open: 51, high: 53, low: 49, close: 50 },
@@ -25,6 +35,7 @@ export default function tradingView(){
     
     return(
         <div className="relative max-w-7xl w-full h-[400px] mx-auto p-4 bg-[#1A1D1F]">
+            <button onClick={handleImportDataIntoDataBase} className="bg-slate-200 text-slate-800 p-2 rounded-lg">Load data</button>
             <Chart data={data} />
         </div>
     )
