@@ -68,3 +68,15 @@ model accounts_likes {
   user_id     Int
   @@unique([account_id, user_id])
 }
+
+model currency_assets {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime 
+  open      Decimal  @db.Decimal(10, 5) @map("Open")
+  high      Decimal  @db.Decimal(10, 5) @map("High")
+  low       Decimal  @db.Decimal(10, 5) @map("Low")
+  close     Decimal  @db.Decimal(10, 5) @map("Close")
+  volume    Int      @map("Volume")
+  currency  String
+  timeframe String
+}
