@@ -8,6 +8,8 @@ export default function tradingView(){
                 'Content-Type': 'application/json'
             }
         });
+        const mess = await resCurrency.json();
+        console.log(mess);
     };
 
     const data = [
