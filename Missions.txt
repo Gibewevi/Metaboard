@@ -1,3 +1,13 @@
+08/08/23
+    - refonte accounts overview style fx replay
+    - login chargement
+    - suppression load data sur le server vercel
+    - chart profit&loss additionné les trades pour n'afficher que la journée sur le graphique
+    - réduire la taille de Average RR (mettre 3 charts sur la longueur et mettre Date profit en long dessous)
+    - vérifier calcul profit (erreur)
+    - rajouter more accounts pour afficher tous les comptes dans accounts overviews
+    - rajouter like/comment/favoris/view sous le nom de la stratégy
+
 26/07/23
     - fix: la suppression de trade supprime pas le bon
 

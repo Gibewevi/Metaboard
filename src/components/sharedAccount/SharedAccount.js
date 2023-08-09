@@ -13,10 +13,8 @@ export default function SharedAccount({ account, user_id, link }) {
         const numberLetter = strategy.length;
         if (numberLetter > 17) {
             truncateStrategy = (strategy.substring(0, 19)).concat('..');
-            console.log('truncateStrategy : ', truncateStrategy);
             return truncateStrategy;
         };
-        console.log('truncateStrategy : ', truncateStrategy);
         return truncateStrategy;
     };
 

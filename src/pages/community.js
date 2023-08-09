@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SharedAccount from "@/components/sharedAccount/SharedAccount";
 import jwt from 'jsonwebtoken';
 import React from "react";
-import CommunityButton from "@/components/button/CommunityButton";
+import CommunityButton from "@/components/button/whiteButton";
 
 require('dotenv').config();
 

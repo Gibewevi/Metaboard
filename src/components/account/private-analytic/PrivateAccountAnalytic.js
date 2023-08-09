@@ -4,7 +4,7 @@ import ordersService from "@/services/Orders";
 import ProfitLossChart from "@/components/chart/ProfitLoss";
 import HeaderIndex from "@/components/accountOverview/HeaderIndex";
 import Layout from "@/containers/Layout";
-import NewOrder from "@/components/button/NewOrder";
+import NewOrder from "@/components/button/NewAnimate";
 import RiskRewardAverage from "@/components/chart/RiskRewardAverage";
 import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAccountHistory";
 import SocialHeader from "@/components/account/SocialHeader";
@@ -54,7 +54,7 @@ export default function PrivateAccountAnalytic({ headerTitle, analytic }) {
 
                     <div className="flex flex-row">
                         <HeaderIndex account_id={analyticData.account.account_id} />
-                        <NewOrder onClick={openNewOrderForm} />
+                        <NewOrder onClick={openNewOrderForm} title={'new order'}/>
                     </div>
                     <NewOrderForm submit={handleFormNewOrder} openNewOrderForm={openNewOrderForm} isOpen={orderFormOpen} account_id={analyticData.account.account_id} orderLoading={orderLoading} />
                     <div className=" flex flex-col w-full gap-y-6">
