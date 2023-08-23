@@ -8,8 +8,8 @@ datasource db {
 }
 
 model users_credentials {
-  user_id       Int           @id @default(autoincrement())
-  user_email    String        @unique
+  user_id       Int    @id @default(autoincrement())
+  user_email    String @unique
   user_password String
 }
 
@@ -18,65 +18,67 @@ model favorites_accounts {
   account_id Int
   user_id    Int
   account    users_accounts @relation(fields: [account_id], references: [account_id])
+
   @@unique([account_id, user_id])
 }
 
 model users_accounts {
-  account_id              Int       @id @default(autoincrement())
+  account_id              Int                  @id @default(autoincrement())
   user_id                 Int
   strategy                String
   devise                  String
-  initial_balance         Decimal   @db.Decimal(10, 2)
-  current_balance         Decimal   @db.Decimal(10, 2)
+  initial_balance         Decimal              @db.Decimal(10, 2)
+  current_balance         Decimal              @db.Decimal(10, 2)
   shared                  Boolean
-  certified               Boolean   @default(false)
-  profit_and_loss         Decimal   @default(0) @db.Decimal(10, 2)
-  profit_and_loss_percent Decimal   @default(0) @db.Decimal(10, 2)
-  winning_trades          Int       @default(0)
-  losing_trades           Int       @default(0)
-  orders_number           Int       @default(0)
-  likes                   Int       @default(0)
-  views                   Int       @default(0)
-  comments                Int       @default(0)
-  favorite_count          Int       @default(0)
+  profit_and_loss         Decimal              @default(0) @db.Decimal(10, 2)
+  profit_and_loss_percent Decimal              @default(0) @db.Decimal(10, 2)
+  winning_trades          Int                  @default(0)
+  losing_trades           Int                  @default(0)
+  orders_number           Int                  @default(0)
+  likes                   Int                  @default(0)
+  certified               Boolean              @default(false)
+  comments                Int                  @default(0)
+  views                   Int                  @default(0)
+  favorite_count          Int                  @default(0)
   orders                  accounts_orders[]
   favorites               favorites_accounts[]
 }
 
 model accounts_orders {
-  order_id       Int       @id @default(autoincrement())
+  order_id       Int            @id @default(autoincrement())
   account_id     Int
-  account        users_accounts  @relation(fields: [account_id], references: [account_id])
-  asset          String    @db.VarChar(255)
-  type           String    @db.VarChar(255)
-  open           Decimal   @db.Decimal(10, 4)
-  close          Decimal   @db.Decimal(10, 4)
+  asset          String         @db.VarChar(255)
+  type           String         @db.VarChar(255)
+  open           Decimal        @db.Decimal(10, 4)
+  close          Decimal        @db.Decimal(10, 4)
   closed_date    DateTime?
-  profit         Decimal   @db.Decimal(10, 2)
-  stop_loss      Decimal   @db.Decimal(10, 2)
-  risk           Decimal   @db.Decimal(10, 2)
-  risk_percent   Decimal   @db.Decimal(10, 2)
-  risk_method    String    @db.VarChar(255)
-  profit_percent Decimal   @db.Decimal(10, 2)
-  risk_reward    Decimal   @db.Decimal(10, 2)
+  profit         Decimal        @db.Decimal(10, 2)
+  stop_loss      Decimal        @db.Decimal(10, 2)
+  risk           Decimal        @db.Decimal(10, 2)
+  risk_percent   Decimal        @db.Decimal(10, 2)
+  risk_method    String         @db.VarChar(255)
+  profit_percent Decimal        @db.Decimal(10, 2)
+  risk_reward    Decimal        @db.Decimal(10, 2)
   picture        String?
+  account        users_accounts @relation(fields: [account_id], references: [account_id])
 }
 
 model accounts_likes {
-  id          Int            @id @default(autoincrement())
-  account_id  Int
-  user_id     Int
+  id         Int @id @default(autoincrement())
+  account_id Int
+  user_id    Int
+
   @@unique([account_id, user_id])
 }
 
 model currency_assets {
   id        Int      @id @default(autoincrement())
-  timestamp DateTime 
-  open      Decimal  @db.Decimal(10, 5) @map("Open")
-  high      Decimal  @db.Decimal(10, 5) @map("High")
-  low       Decimal  @db.Decimal(10, 5) @map("Low")
-  close     Decimal  @db.Decimal(10, 5) @map("Close")
-  volume    Int      @map("Volume")
   currency  String
   timeframe String
+  close     Decimal  @map("Close") @db.Decimal(10, 5)
+  high      Decimal  @map("High") @db.Decimal(10, 5)
+  low       Decimal  @map("Low") @db.Decimal(10, 5)
+  open      Decimal  @map("Open") @db.Decimal(10, 5)
+  volume    Int      @map("Volume")
+  timestamp DateTime
 }
