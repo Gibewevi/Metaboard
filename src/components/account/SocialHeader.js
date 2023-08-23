@@ -1,4 +1,5 @@
 import Link from "next/link";
+import numeral from "numeral";
 
 export default function SocialHeader({account, headerTitle}) {
 

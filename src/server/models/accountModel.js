@@ -1,5 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
-import { calculations } from '../utils/calculations';
+import { calculations } from '../utils/calculations.js';
 const prisma = new PrismaClient();
 
 const updateOrderStats = (order, current_balance, account) => {
