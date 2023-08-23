@@ -4,7 +4,7 @@ import ordersService from "@/services/Orders";
 import ProfitLossChart from "@/components/chart/ProfitLoss";
 import HeaderIndex from "@/components/accountOverview/HeaderIndex";
 import Layout from "@/containers/Layout";
-import NewOrder from "@/components/button/NewOrder";
+import NewOrder from "@/components/button/NewAnimate";
 import RiskRewardAverage from "@/components/chart/RiskRewardAverage";
 import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAccountHistory";
 import SocialHeader from "@/components/account/SocialHeader";

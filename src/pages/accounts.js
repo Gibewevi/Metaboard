@@ -4,6 +4,8 @@ import Account from "@/components/account/Account";
 import FavoriteAccount from "@/components/account/FavoriteAccounts";
 import { useState } from "react";
 import FormAccount from "@/components/account/FormAccount";
+import NewAccount from "@/components/button/NewAnimate";
+import MoreAccountsButton from "@/components/button/whiteButton";
 require('dotenv').config();
 
 
@@ -66,15 +68,14 @@ export default function Accounts({ auth, API_URL, accounts, favoriteAccounts }) 
       <div className="max-w-7xl mx-auto">
         <ContentHeader icon={'CarbonHomeBlue.svg'} title={'Accounts overview'} />
         <div className="flex flex-col gap-y-5 w-full p-4 relative">
-          <div onClick={AccountFormVisible} className="flex justify-center items-center w-full h-[90px] border border-1 border-[#35E2F7] transition-all ease-in duration-800 rounded-md hover:border-2 hover:scale-105">
-            <div className="flex flex-row items-center justify-center gap-x-2">
-              <img src={'CarbonAdd.svg'} className="w-[35px] z-10" />
-              <span className="font-bold text-2xl z-10 text-white">New account</span>
-            </div>
-          </div>
-          <FormAccount isVisible={newAccountIsVisible} submit={addAccountToDatabase} user={user} API_URL={API_URL} />
           <div className="flex flex-col gap-y-4">
-            <span className="text-xl text-slate-300">My accounts</span>
+            <div className="flex flex-row justify-between items-center">
+              <span className="text-xl text-slate-300">My accounts</span>
+              <div onClick={AccountFormVisible} className="">
+                <NewAccount title={'New account'} />
+              </div>
+            </div>
+            <FormAccount isVisible={newAccountIsVisible} submit={addAccountToDatabase} user={user} API_URL={API_URL} />
             <AccountsComponent />
           </div>
           <div className="flex flex-col gap-y-4">
