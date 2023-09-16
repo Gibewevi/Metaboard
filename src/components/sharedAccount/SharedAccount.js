@@ -21,15 +21,17 @@ export default function SharedAccount({ account, user_id, link }) {
 
     const [sharedAccount, setSharedAccount] = useState(account);
     const [isCertified, setIsCertified] = useState(account.certified);
+    
     const [strategyName, setStrategyName] = useState(truncateStrategyName(sharedAccount.strategy));
     const accountId = sharedAccount.account_id;
     const userId = user_id;
 
 
     return (
-        <div className="flex flex-col justify-around gap-y-4 bg-[#1A1D1F] rounded-2xl min-w-[290px] max-w-[290px] min-h-[300px] max-h-[300px] p-3 ">
+  
+        <div className="flex flex-col justify-around gap-y-4 bg-[#1A1D1F] rounded-2xl min-h-[300px] max-h-[300px] p-3 min-w-[290px]">
 
-            <div className="flex flex-row justify-between items-center mt-2">
+            <div className="flex flex-row justify-between items-center mt-2 ">
                 <div className="flex flex-row justify-center items-center gap-x-1 max-w-[100px] h-[30px] bg-[#282C2E] rounded-lg p-4 fill-[#00cfe8]">
                     {isCertified ?
                         <div className="flex flex-row items-center gap-x-1">

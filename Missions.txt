@@ -1,3 +1,8 @@
+23/08/2023
+    -- community
+        --> header bar research (chercher stratégy par chaine de caractère)
+        --> caroussel + selecteur (le plus populaire, nouveau)
+        --> ajouter systeme de notation avec des étoiles a mettre tout en bas de account sous gain/loss
 
 08/08/23
     - refonte accounts overview style fx replay
