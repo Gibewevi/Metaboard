@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 export default function SignIn() {
     const router = useRouter();
 
-    const signIn = async(account) => {
-       const user = await login.signin(account);
-       if(user.valid){
-        router.push('/accounts');
-       };
+    const signIn = async (account) => {
+        const user = await login.signin(account);
+        if (user.valid) {
+            router.push('/accounts');
+        };
     };
 
     return (

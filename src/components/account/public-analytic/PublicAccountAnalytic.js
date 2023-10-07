@@ -4,13 +4,13 @@ import ordersService from "@/services/Orders";
 import ProfitLossChart from "@/components/chart/ProfitLoss";
 import HeaderIndex from "@/components/accountOverview/HeaderIndex";
 import Layout from "@/containers/Layout";
-import NewOrder from "@/components/button/NewOrder";
+import NewOrder from "@/components/button/NewAnimate";
 import RiskRewardAverage from "@/components/chart/RiskRewardAverage";
 import TradingAccountHistory from "@/components/tradingAccountHistory/TradingAccountHistory";
 import SocialHeader from "@/components/account/SocialHeader";
 import DateProfits from "@/components/chart/dateProfits";
 
-export default function PublicAccountAnalytic({ analytic }) {
+export default function PublicAccountAnalytic({ headerTitle, analytic }) {
 
     const [dateProfits, setDateProfits] = useState(analytic.dateProfits.perWeek);
     const [account, setAccount] = useState(analytic.account);
@@ -23,7 +23,7 @@ export default function PublicAccountAnalytic({ analytic }) {
             <Layout>
                 <div className="flex flex-col gap-y-5">
 
-                    <SocialHeader strategy={account.strategy} />
+                    <SocialHeader account={account} headerTitle={headerTitle} />
 
                     <div className="flex flex-row">
                         <HeaderIndex account_id={account.account_id} />

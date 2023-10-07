@@ -2,8 +2,8 @@ import { useState } from 'react';
 import SharedAccount from "@/components/sharedAccount/SharedAccount";
 import jwt from 'jsonwebtoken';
 import React from "react";
-import CommunityButton from "@/components/button/CommunityButton";
-
+import AccountCarousel from '@/components/carousel/AccountCarousel';
+import CommunityButton from "@/components/button/whiteButton";
 require('dotenv').config();
 
 export default function Community({ accounts, userId }) {
@@ -12,7 +12,6 @@ export default function Community({ accounts, userId }) {
 
   const ListSharedAccounts = () => {
     return sharedAccounts.map((account, key) => {
-      console.log(account)
       if (key < 4) {
         return (<SharedAccount account={account} key={key} user_id={userId} link={`/community/collaborative-accounts/${account.account_id}`} />)
       }
@@ -43,9 +42,12 @@ export default function Community({ accounts, userId }) {
             <span className='text-md text-[#D2D6DB]'>Explore Certified Trading Accounts: absolute transparency to progress effectively. Learn from the best, refine your strategy, and trade with confidence. The reliability of results is our commitment.</span>
           </div>
           <CommunityButton link={'/community/certified-accounts'} />
-          <div className='grid grid-cols-4 gap-y-4 gap-x-3 items-center justify-items-center'>
+
+          <AccountCarousel accounts={certifiedAccount} userId={userId} url={'/community/certified-accounts/'}/>
+
+          {/* <div className='grid grid-cols-4 gap-y-4 gap-x-3 items-center justify-items-center'>
             <ListCertifiedAccounts />
-          </div>
+          </div> */}
 
         </div>
 
@@ -58,9 +60,10 @@ export default function Community({ accounts, userId }) {
             <span className='text-md text-[#D2D6DB]'>Dive into the world of Shared Trading Accounts: learn together, share your strategies, and experiment in a dynamic environment. Progress and collaboration, at the heart of our concept.</span>
           </div>
           <CommunityButton link={'/community/collaborative-accounts'} />
-          <div className='grid grid-cols-4 gap-y-6 gap-x-8 items-center justify-items-center'>
+          <AccountCarousel accounts={sharedAccounts} userId={userId} url={'`/community/collaborative-accounts/'}/>
+          {/* <div className='grid grid-cols-4 gap-y-6 gap-x-8 items-center justify-items-center'>
             <ListSharedAccounts />
-          </div>
+          </div> */}
         </div>
 
       </div>
@@ -76,7 +79,6 @@ export async function getServerSideProps(context) {
 
   const API_URL = process.env.API_URL;
   // récupérer les favoris de l'utilisateur
-
 
   // récupérer les comptes partagés
   const resAccountsShared = await fetch(`${API_URL}/api/accounts/shared?userId=${userId}`, {

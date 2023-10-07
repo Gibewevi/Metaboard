@@ -12,18 +12,27 @@ export default async function handler(req, res) {
     try {
         // account
         const account = await accountController.getAccountFromAccountId(account_id);
+
         //orders
         const orders = await orderController.getOrdersByAccountId(account_id);
+
         // profitLoss
         const profitLoss = orderController.calculProfitAndLoss(orders);
+
         // risksRewards 
         const riskRewards = getRisksRewardByOrders(orders);
 
-        const ordersProfitsWithDateObject = statisticController.convertDatesToObjects(orders);
-        
-        const profitsPerWeek = statisticController.calculProfitsPerWeek(ordersProfitsWithDateObject);
-        const profitsPerMonth = statisticController.calculProfitsPerMonth(ordersProfitsWithDateObject);
-        const profitsPerYear = statisticController.calculProfitsPerYear(ordersProfitsWithDateObject);
+        let ordersProfitsWithDateObject = [];
+        let profitsPerWeek = [];
+        let profitsPerMonth = [];
+        let profitsPerYear = [];
+
+        if (orders.length !== 0) {
+            ordersProfitsWithDateObject = statisticController.convertDatesToObjects(orders);
+            profitsPerWeek = statisticController.calculProfitsPerWeek(ordersProfitsWithDateObject);
+            profitsPerMonth = statisticController.calculProfitsPerMonth(ordersProfitsWithDateObject);
+            profitsPerYear = statisticController.calculProfitsPerYear(ordersProfitsWithDateObject);
+        }
 
         const analytic = {
             orders : orders,
@@ -33,11 +42,10 @@ export default async function handler(req, res) {
             dateProfits : {
                 perWeek : profitsPerWeek,
                 perMonth : profitsPerMonth,
-                perYear : profitsPerYear,
-                
+                perYear : profitsPerYear,  
             }
-        };
-        
+        };  
+
         res.status(200).json(analytic);
     } catch (err) {
         res.status(500).json({ message: 'Erreur du serveur', error: err.toString() });

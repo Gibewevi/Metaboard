@@ -1,6 +1,89 @@
 const { PrismaClient } = require('@prisma/client');
-const format = require('date-fns/format');
+import { calculations } from '../utils/calculations.js';
 const prisma = new PrismaClient();
+
+const updateOrderStats = (order, current_balance, account) => {
+    let risk = calculations.calculateRiskAmount(order, account);
+    let orderSize = calculations.calculateOrderSize(order, risk);
+    let profitLoss = calculations.calculateTradeProfitLoss(order, orderSize);
+    let profitLossPercentage = calculations.convertProfitLossToPercentage(profitLoss, current_balance);
+
+    // Mettre à jour les statistiques de l'ordre
+    order.risk = risk;
+    order.profit = profitLoss;
+    order.profit_percent = parseFloat(profitLossPercentage);
+
+    // Mettre à jour le solde courant du compte
+    current_balance = parseFloat((parseFloat(current_balance) + order.profit).toFixed(2));
+    account.current_balance = current_balance;
+    account.losing_trades += calculations.isNegative(order.profit);
+    account.winning_trades += calculations.isPositive(order.profit);
+
+    return order;
+};
+
+const updateAccountStats = async (accountId, orderId) => {
+    return prisma.$transaction(async prisma => {
+        // Supprime l'ordre spécifique
+        await prisma.accounts_orders.delete({
+            where: { order_id: orderId }
+        });
+
+        // Récupère le compte et tous les ordres liés à ce compte
+        const account = await prisma.users_accounts.findUnique({
+            where: { account_id: accountId },
+            include: { orders: true }
+        });
+
+        // Réinitialise le solde courant du compte à son solde initial
+        let current_balance = account.initial_balance;
+        account.current_balance = current_balance;
+        account.losing_trades = 0;
+        account.winning_trades = 0;
+
+        // Parcourez tous les ordres et mettez à jour les statistiques de chaque ordre
+        const ordersToUpdate = account.orders.map(order => {
+            return updateOrderStats(order, current_balance, account);
+        });
+
+        // Mettre à jour tous les ordres dans la base de données
+        const updatedOrders = await Promise.all(ordersToUpdate.map(order =>
+            prisma.accounts_orders.update({
+                where: { order_id: order.order_id },
+                data: { risk: order.risk, profit: order.profit, profit_percent: order.profit_percent }
+            })
+        ));
+
+        account.profit_and_loss = account.current_balance - account.initial_balance;
+        account.profit_and_loss_percent = (account.profit_and_loss / account.initial_balance) * 100;
+
+        // Mettre à jour les statistiques du compte dans la base de données
+        const updatedAccount = await prisma.users_accounts.update({
+            where: { account_id: accountId },
+            data: {
+                current_balance: account.current_balance,
+                profit_and_loss: account.profit_and_loss,
+                profit_and_loss_percent: account.profit_and_loss_percent,
+                orders_number: updatedOrders.length,
+                losing_trades : account.losing_trades,
+                winning_trades: account.winning_trades
+            }
+        });
+        updatedAccount.orders = updatedOrders;
+        return updatedAccount;
+    });
+};
+
+
+
+async function getAccountWithOrders(accountId) {
+    const account = await prisma.users_accounts.findUnique({
+        where: { account_id: accountId },
+        include: { orders: true }
+    });
+
+    return account;
+}
 
 const getEntryAndExitDateByAccountId = async (accountId) => {
     try {
@@ -62,6 +145,31 @@ const removeLikeFromUserAccount = async (accountId) => {
     }
 };
 
+const addViewIfNotUserAccount = async (accountId, userId) => {
+    try {
+        // Récupérer le compte
+        const account = await prisma.users_accounts.findUnique({
+            where: { account_id: accountId },
+        });
+
+        // Vérifier si le userId n'est pas celui du accountId
+        if (account && account.user_id !== userId) {
+            // Ajouter un view
+            const updatedAccount = await prisma.users_accounts.update({
+                where: { account_id: accountId },
+                data: { views: { increment: 1 } },
+            });
+
+            return updatedAccount.views;
+        } else {
+            return account.views;
+        }
+    } catch (error) {
+        throw new Error(`Failed to add view: ${error}`);
+    }
+};
+
+
 const addAccountsLikes = async (userId, accountId) => {
     try {
         await prisma.accounts_likes.create({
@@ -111,10 +219,10 @@ const getFavoriteAccountByUserId = async (userId) => {
     }
 };
 
-const getCommunityAccounts = async(userId)=>{
+const getCommunityAccounts = async (userId) => {
     const accounts = {
-        certified : await getSharedCertifiedAccounts(userId),
-        shared : await getSharedAccounts(userId)
+        certified: await getSharedCertifiedAccounts(userId),
+        shared: await getSharedAccounts(userId)
     };
     return accounts;
 }
@@ -332,6 +440,50 @@ const getAccountFromAccountId = async (account_id) => {
     }
 };
 
+const isOwnerOfAccount = async (accountId, userId) => {
+    const account = await prisma.users_accounts.findUnique({
+        where: { account_id: accountId },
+    });
+    return account.user_id === userId;
+};
+
+
+const addFavoriteAccount = async (accountId, userId) => {
+    if (await isOwnerOfAccount(accountId, userId)) {
+        // Si l'utilisateur est le propriétaire du compte, retourne null (ou tout autre valeur que vous jugerez appropriée)
+        return null;
+    }
+    try {
+        const updatedAccount = await prisma.users_accounts.update({
+            where: { account_id: accountId },
+            data: { favorite_count: { increment: 1 } }
+        });
+        return updatedAccount.favorite_count;
+    } catch (error) {
+        throw new Error(`Failed to add favorite: ${error}`);
+    }
+};
+
+
+const removeFavoriteAccount = async (accountId, userId) => {
+    try {
+        if (await isOwnerOfAccount(accountId, userId)) {
+            // Si l'utilisateur est le propriétaire du compte, retourne null (ou tout autre valeur que vous jugerez appropriée)
+            return null;
+        }
+        const updatedAccount = await prisma.users_accounts.update({
+            where: { account_id: accountId },
+            data: { favorite_count: { decrement: 1 } }
+        });
+        return updatedAccount.favorite_count;
+    } catch (error) {
+        throw new Error(`Failed to remove favorite: ${error}`);
+    }
+};
+
+
+
+
 const insertAccount = async (account) => {
     try {
         const user = await prisma.users_credentials.findUnique({
@@ -380,5 +532,10 @@ export const accountModel = {
     removeAccountsLikes,
     removeLikeFromUserAccount,
     getEntryAndExitDateByAccountId,
-    getCommunityAccounts
+    getCommunityAccounts,
+    addViewIfNotUserAccount,
+    addFavoriteAccount,
+    removeFavoriteAccount,
+    getAccountWithOrders,
+    updateAccountStats
 };

@@ -4,7 +4,6 @@ import Chart from 'chart.js/auto';
 const DateProfits = (props) => {
     const chartContainer = useRef(null);
     const [dateProfits, setDateProfits] = useState(props.dateProfits);
-    console.log('date : ', dateProfits);
 
     const getBorderColor = (profits) => {
         return profits.map(profit => profit < 0 ? 'rgba(213, 215, 216, 1)' : 'rgba(75,192,192,1)');

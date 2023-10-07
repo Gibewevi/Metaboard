@@ -46,17 +46,20 @@ const signin = async (userAccount) => {
       try {
         const user_id = await getUserIdFromEmail(userAccount.email);
         const passwordHash = await userModel.getHashPasswordByEmail(userAccount.email);
-        const passwordMatch = await bcryptCompare(userAccount.password, passwordHash.trim());
+        const passwordMatch = await bcrypt.compare(userAccount.password, passwordHash.trim());
   
         if (passwordMatch) {
+            console.log('isPasswordMatch');
             const payload = {
                 user_id : user_id,
                 email: userAccount.email,
               };
+              console.log('payload : ',payload);
               const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '15d' }); 
+              console.log('token : ',token);
               return [true, token];
         } else {
-      
+
         }
       } catch (error) {
         return [false, error.message];

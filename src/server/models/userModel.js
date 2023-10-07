@@ -117,17 +117,13 @@ const getHashPasswordByEmail = async (email) => {
 };
 
 const insertUser = async (account) => {
+    console.log('account modele : ', account);
     try {
         const newUser = await prisma.$transaction([
             prisma.users_credentials.create({
                 data: {
                     user_email: account.email,
                     user_password: account.password,
-                },
-            }),
-            prisma.users_profile.create({
-                data: {
-                    user_id: account.id,
                 },
             }),
         ]);
