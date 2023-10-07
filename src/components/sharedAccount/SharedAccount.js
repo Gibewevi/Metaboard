@@ -18,14 +18,15 @@ export default function SharedAccount({ account, user_id, link }) {
         return truncateStrategy;
     };
 
-
     const [sharedAccount, setSharedAccount] = useState(account);
     const [isCertified, setIsCertified] = useState(account.certified);
-    
     const [strategyName, setStrategyName] = useState(truncateStrategyName(sharedAccount.strategy));
     const accountId = sharedAccount.account_id;
     const userId = user_id;
-
+    console.log('-------------------------------');
+console.log('account : ', account);
+console.log('link : ', link);
+console.log('-------------------------------');
 
     return (
   

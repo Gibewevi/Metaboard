@@ -10,23 +10,6 @@ export default function Community({ accounts, userId }) {
   const [sharedAccounts, setSharedAccounts] = useState(accounts.shared);
   const [certifiedAccount, setCertifiedAccount] = useState(accounts.certified)
 
-  const ListSharedAccounts = () => {
-    return sharedAccounts.map((account, key) => {
-      if (key < 4) {
-        return (<SharedAccount account={account} key={key} user_id={userId} link={`/community/collaborative-accounts/${account.account_id}`} />)
-      }
-    });
-  }
-
-  const ListCertifiedAccounts = () => {
-    return certifiedAccount.map((account, key) => {
-      if (key < 4) {
-        return (<SharedAccount account={account} key={key} user_id={userId} link={`/community/certified-accounts/${account.account_id}`} />)
-      }
-    });
-  }
-
-
   return (
     <div className="max-w-7xl mx-auto">
       <div className='flex flex-col gap-x-4'>
@@ -43,11 +26,7 @@ export default function Community({ accounts, userId }) {
           </div>
           <CommunityButton link={'/community/certified-accounts'} />
 
-          <AccountCarousel accounts={certifiedAccount} userId={userId} url={'/community/certified-accounts/'}/>
-
-          {/* <div className='grid grid-cols-4 gap-y-4 gap-x-3 items-center justify-items-center'>
-            <ListCertifiedAccounts />
-          </div> */}
+          <AccountCarousel accounts={certifiedAccount} userId={userId} url={'/community/certified-accounts/'} />
 
         </div>
 
@@ -60,10 +39,8 @@ export default function Community({ accounts, userId }) {
             <span className='text-md text-[#D2D6DB]'>Dive into the world of Shared Trading Accounts: learn together, share your strategies, and experiment in a dynamic environment. Progress and collaboration, at the heart of our concept.</span>
           </div>
           <CommunityButton link={'/community/collaborative-accounts'} />
-          <AccountCarousel accounts={sharedAccounts} userId={userId} url={'`/community/collaborative-accounts/'}/>
-          {/* <div className='grid grid-cols-4 gap-y-6 gap-x-8 items-center justify-items-center'>
-            <ListSharedAccounts />
-          </div> */}
+          <AccountCarousel accounts={sharedAccounts} userId={userId} url={'/community/collaborative-accounts/'} />
+
         </div>
 
       </div>
