@@ -2,14 +2,14 @@ import Chart from "@/components/chart/lightweight/chart"
 export default function tradingView(){
 
     const handleImportDataIntoDataBase = async() => {
-        const resCurrency = await fetch(`/api/import`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const mess = await resCurrency.json();
-        console.log(mess);
+        // const resCurrency = await fetch(`/api/import`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+        // const mess = await resCurrency.json();
+        // console.log(mess);
     };
 
     const data = [
